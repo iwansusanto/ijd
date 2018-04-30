@@ -27,6 +27,13 @@ class m180426_032627_dosen extends Migration
            'user_updated'   => $this->integer(), 
            'update_time'   => $this->dateTime()->notNull(), 
         ]);
+        
+         $this->createIndex(
+            'nip-unique-dosen',
+            'dosen',
+            'nip',
+            true
+        );
     }
 
     /**
