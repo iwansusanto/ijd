@@ -3,8 +3,8 @@
 namespace backend\controllers;
 
 use Yii;
-use app\models\Dosen;
-use app\models\DosenSearch;
+use app\models\Fakultas;
+use app\models\FakultasSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -12,9 +12,9 @@ use yii\base\DynamicModel;
 use yii\web\UploadedFile;
 
 /**
- * DosenController implements the CRUD actions for Dosen model.
+ * FakultasController implements the CRUD actions for Fakultas model.
  */
-class DosenController extends Controller
+class FakultasController extends Controller
 {
     /**
      * @inheritdoc
@@ -32,32 +32,22 @@ class DosenController extends Controller
     }
 
     /**
-     * Lists all Dosen models.
+     * Lists all Fakultas models.
      * @return mixed
      */
     public function actionIndex()
     {
-        $searchModel = new DosenSearch();
+        $searchModel = new FakultasSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
-//        $field = [
-//            'fileImport'    =>  'File Import'
-//        ];
-//        
-//        $modelImport = DynamicModel::validateData($field, [
-//            [['fileImport'], 'required'],
-//            [['fileImport'], 'file', 'extensions'   =>  'xls, xlsx', 'maxSize'  =>  1024*1024],
-//        ]);
-        
         return $this->render('index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
-//            'modelImport'   => $modelImport
         ]);
     }
 
     /**
-     * Displays a single Dosen model.
+     * Displays a single Fakultas model.
      * @param integer $id
      * @return mixed
      * @throws NotFoundHttpException if the model cannot be found
@@ -70,13 +60,13 @@ class DosenController extends Controller
     }
 
     /**
-     * Creates a new Dosen model.
+     * Creates a new Fakultas model.
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
     public function actionCreate()
     {
-        $model = new Dosen();
+        $model = new Fakultas();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id]);
@@ -88,7 +78,7 @@ class DosenController extends Controller
     }
 
     /**
-     * Updates an existing Dosen model.
+     * Updates an existing Fakultas model.
      * If update is successful, the browser will be redirected to the 'view' page.
      * @param integer $id
      * @return mixed
@@ -108,7 +98,7 @@ class DosenController extends Controller
     }
 
     /**
-     * Deletes an existing Dosen model.
+     * Deletes an existing Fakultas model.
      * If deletion is successful, the browser will be redirected to the 'index' page.
      * @param integer $id
      * @return mixed
@@ -122,15 +112,15 @@ class DosenController extends Controller
     }
 
     /**
-     * Finds the Dosen model based on its primary key value.
+     * Finds the Fakultas model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
      * @param integer $id
-     * @return Dosen the loaded model
+     * @return Fakultas the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
     protected function findModel($id)
     {
-        if (($model = Dosen::findOne($id)) !== null) {
+        if (($model = Fakultas::findOne($id)) !== null) {
             return $model;
         }
 
@@ -161,9 +151,9 @@ class DosenController extends Controller
                 $connection = Yii::$app->db;
                 
                 while (!empty($sheetData[$baseRow]['B'])) {
-                    $model = new Dosen();
-                    $model->nip = (string)$sheetData[$baseRow]['C'];
+                    $model = new Fakultas();
                     $model->nama = (string)$sheetData[$baseRow]['B'];
+                    $model->keterangan = (string)$sheetData[$baseRow]['C'];
                     
                     if($model->validate()){
                         $transaction = $connection->beginTransaction();
