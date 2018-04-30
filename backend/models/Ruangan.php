@@ -5,23 +5,23 @@ namespace app\models;
 use Yii;
 
 /**
- * This is the model class for table "dosen".
+ * This is the model class for table "ruangan".
  *
  * @property int $id
- * @property string $nip
  * @property string $nama
+ * @property int $kapasitas
  * @property int $user_created
  * @property int $user_updated
  * @property string $update_time
  */
-class Dosen extends \yii\db\ActiveRecord
+class Ruangan extends \yii\db\ActiveRecord
 {
     /**
      * @inheritdoc
      */
     public static function tableName()
     {
-        return 'dosen';
+        return 'ruangan';
     }
 
     /**
@@ -30,12 +30,10 @@ class Dosen extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['nip', 'nama'], 'required'],
-            ['nip', 'unique'],
-            [['user_created', 'user_updated'], 'integer'],
+            [['nama'], 'required'],
+            [['kapasitas', 'user_created', 'user_updated'], 'integer'],
             [['update_time'], 'safe'],
-            [['nip'], 'string', 'max' => 50],
-            [['nama'], 'string', 'max' => 200],
+            [['nama'], 'string', 'max' => 100],
         ];
     }
 
@@ -46,8 +44,8 @@ class Dosen extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
-            'nip' => 'Nip',
             'nama' => 'Nama',
+            'kapasitas' => 'Kapasitas',
             'user_created' => 'User Created',
             'user_updated' => 'User Updated',
             'update_time' => 'Update Time',

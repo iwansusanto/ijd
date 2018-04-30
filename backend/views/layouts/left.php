@@ -40,6 +40,7 @@
                         'url' => '#',
                         'items' => [
                             ['label' => 'Dosen', 'icon' => 'user', 'url' => ['/dosen'],],
+                            ['label' => 'Ruangan', 'icon' => 'building', 'url' => ['/ruangan'],],
                         ],
                     ],
 //                    [
