@@ -4,19 +4,19 @@ use yii\helpers\Html;
 use yii\grid\GridView;
 
 /* @var $this yii\web\View */
-/* @var $searchModel app\models\FakultasSearch */
+/* @var $searchModel app\models\KelasSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = 'Fakultas';
+$this->title = 'Kelas';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="fakultas-index">
+<div class="kelas-index">
 
     <h1><?= Html::encode($this->title) ?></h1>
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
     <p>
-        <?= Html::a('Create Fakultas', ['create'], ['class' => 'btn btn-success']) ?>
+        <?= Html::a('Create Kelas', ['create'], ['class' => 'btn btn-success']) ?>
         <?= Html::a('Import Excell', ['import'], ['class' => 'btn btn-danger']) ?>
     </p>
 
