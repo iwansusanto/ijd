@@ -3,9 +3,9 @@
 use yii\db\Migration;
 
 /**
- * Class m180502_011916_kelas
+ * Class m180503_024141_dosen_kelas
  */
-class m180502_011916_kelas extends Migration
+class m180503_024141_dosen_kelas extends Migration
 {
     /**
      * {@inheritdoc}
@@ -18,19 +18,34 @@ class m180502_011916_kelas extends Migration
             $tableOptions = 'CHARACTER SET utf8 COLLATE utf8_unicode_ci ENGINE=InnoDB';
         }
         
-        $this->createTable('{{%kelas}}', [
+        $this->createTable('{{%dosen_kelas}}', [
            'id' => $this->primaryKey(),
-           'nama'   => $this->string(100)->notNull()->unique(),
-           'keterangan'   => $this->text(), 
+           'dosen_id'   => $this->integer()->notNull(),
+           'kelas_id'   => $this->integer()->notNull(), 
+           'tahun_ajaran_id'   => $this->integer()->notNull(), 
            'user_created'   => $this->integer()->notNull(), 
            'user_updated'   => $this->integer(), 
            'update_time'   => $this->dateTime()->notNull(), 
         ]);
         
-        $this->createIndex(
-            'nama-index-kelas',
-            'kelas',
-            'nama',
+         $this->createIndex(
+            'dosen-index-dosen_kelas',
+            'dosen_kelas',
+            'dosen_id',
+            true
+        );
+         
+         $this->createIndex(
+            'kelas-index-dosen_kelas',
+            'dosen_kelas',
+            'kelas_id',
+            true
+        );
+         
+         $this->createIndex(
+            'tahun_ajaran-index-dosen_kelas',
+            'dosen_kelas',
+            'tahun_ajaran_id',
             true
         );
     }
@@ -40,7 +55,7 @@ class m180502_011916_kelas extends Migration
      */
     public function safeDown()
     {
-        echo "m180502_011916_kelas cannot be reverted.\n";
+        echo "m180503_024141_dosen_kelas cannot be reverted.\n";
 
         return false;
     }
@@ -54,7 +69,7 @@ class m180502_011916_kelas extends Migration
 
     public function down()
     {
-        echo "m180502_011916_kelas cannot be reverted.\n";
+        echo "m180503_024141_dosen_kelas cannot be reverted.\n";
 
         return false;
     }

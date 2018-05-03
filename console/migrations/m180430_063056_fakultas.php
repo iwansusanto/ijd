@@ -20,7 +20,7 @@ class m180430_063056_fakultas extends Migration
         
         $this->createTable('{{%fakultas}}', [
            'id' => $this->primaryKey(),
-           'nama'   => $this->string(100)->notNull(),
+           'nama'   => $this->string(100)->notNull()->unique(),
            'keterangan'   => $this->text(), 
            'user_created'   => $this->integer()->notNull(), 
            'user_updated'   => $this->integer(), 
@@ -28,7 +28,7 @@ class m180430_063056_fakultas extends Migration
         ]);
         
         $this->createIndex(
-            'nip-unique-fakultas',
+            'nama-index-fakultas',
             'fakultas',
             'nama',
             true

@@ -21,7 +21,7 @@ class m180426_032627_dosen extends Migration
         
         $this->createTable('{{%dosen}}', [
            'id' => $this->primaryKey(),
-           'nip'   => $this->string(50)->notNull(),
+           'nip'   => $this->string(50)->notNull()->unique(),
            'nama'   => $this->string(200)->notNull(), 
            'user_created'   => $this->integer()->notNull(), 
            'user_updated'   => $this->integer(), 
@@ -29,7 +29,7 @@ class m180426_032627_dosen extends Migration
         ]);
         
          $this->createIndex(
-            'nip-unique-dosen',
+            'nip-index-dosen',
             'dosen',
             'nip',
             true

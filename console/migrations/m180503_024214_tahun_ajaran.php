@@ -3,9 +3,9 @@
 use yii\db\Migration;
 
 /**
- * Class m180502_011916_kelas
+ * Class m180503_024214_tahun_ajaran
  */
-class m180502_011916_kelas extends Migration
+class m180503_024214_tahun_ajaran extends Migration
 {
     /**
      * {@inheritdoc}
@@ -18,21 +18,16 @@ class m180502_011916_kelas extends Migration
             $tableOptions = 'CHARACTER SET utf8 COLLATE utf8_unicode_ci ENGINE=InnoDB';
         }
         
-        $this->createTable('{{%kelas}}', [
+        $this->createTable('{{%tahun_ajaran}}', [
            'id' => $this->primaryKey(),
-           'nama'   => $this->string(100)->notNull()->unique(),
-           'keterangan'   => $this->text(), 
+           'periode_awal'   => $this->date()->notNull(),
+           'periode_akhir'   => $this->date()->notNull(), 
+           'periode'   => $this->string(50), 
+           'status'   => $this->smallInteger(1)->defaultValue(0), 
            'user_created'   => $this->integer()->notNull(), 
            'user_updated'   => $this->integer(), 
            'update_time'   => $this->dateTime()->notNull(), 
         ]);
-        
-        $this->createIndex(
-            'nama-index-kelas',
-            'kelas',
-            'nama',
-            true
-        );
     }
 
     /**
@@ -40,7 +35,7 @@ class m180502_011916_kelas extends Migration
      */
     public function safeDown()
     {
-        echo "m180502_011916_kelas cannot be reverted.\n";
+        echo "m180503_024214_tahun_ajaran cannot be reverted.\n";
 
         return false;
     }
@@ -54,7 +49,7 @@ class m180502_011916_kelas extends Migration
 
     public function down()
     {
-        echo "m180502_011916_kelas cannot be reverted.\n";
+        echo "m180503_024214_tahun_ajaran cannot be reverted.\n";
 
         return false;
     }
