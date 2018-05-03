@@ -43,6 +43,7 @@
                             ['label' => 'Ruangan', 'icon' => 'building', 'url' => ['/ruangan'],],
                             ['label' => 'Fakultas', 'icon' => 'graduation-cap', 'url' => ['/fakultas'],],
                             ['label' => 'Kelas', 'icon' => 'window-maximize', 'url' => ['/kelas'],],
+                            ['label' => 'Module', 'icon' => 'file-text', 'url' => ['/module'],],
                         ],
                     ],
 //                    [
