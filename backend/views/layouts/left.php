@@ -36,15 +36,27 @@
                     ['label' => 'Login', 'url' => ['site/login'], 'visible' => Yii::$app->user->isGuest],
                     [
                         'label' => 'Master',
-                        'icon' => 'window-restore',
+                        'icon' => 'database',
                         'url' => '#',
                         'items' => [
+                            ['label' => 'Tahun Ajaran', 'icon' => 'hourglass-3', 'url' => ['/tahunajaran'],],
                             ['label' => 'Dosen', 'icon' => 'user', 'url' => ['/dosen'],],
                             ['label' => 'Ruangan', 'icon' => 'building', 'url' => ['/ruangan'],],
                             ['label' => 'Fakultas', 'icon' => 'graduation-cap', 'url' => ['/fakultas'],],
                             ['label' => 'Kelas', 'icon' => 'window-maximize', 'url' => ['/kelas'],],
                             ['label' => 'Module', 'icon' => 'file-text', 'url' => ['/module'],],
                             ['label' => 'Peran', 'icon' => 'blind', 'url' => ['/peran'],],
+                        ],
+                    ],
+                    [
+                        'label' => 'Transaction',
+                        'icon' => 'window-restore',
+                        'url' => '#',
+                        'items' => [
+                            ['label' => 'Dosen dan Kelas', 'icon' => 'sitemap', 'url' => ['/dosenkelas'],],
+                            ['label' => 'Module dan Kelas', 'icon' => 'cubes', 'url' => ['/modulekelas'],],
+                            ['label' => 'Hitung Peran', 'icon' => 'calculator', 'url' => ['/peranhitung'],],
+                            ['label' => 'Hitung Imbal Jasa', 'icon' => 'th', 'url' => ['/hitungimbaljasa'],],
                         ],
                     ],
 //                    [
