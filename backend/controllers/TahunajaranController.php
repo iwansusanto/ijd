@@ -119,8 +119,15 @@ class TahunajaranController extends Controller
      */
     public function actionDelete($id)
     {
-        $this->findModel($id)->delete();
-
+        if($this->findModel($id)->delete()){
+            $model = TahunAjaran::find()->where('status = ' . TahunAjaran::STATUS_ACTIVE)->all();
+            if (empty($model)) { // if empty result
+                $update = TahunAjaran::find()->where('status = ' . TahunAjaran::STATUS_NOT_ACTIVE)->orderBy(['periode' => SORT_DESC])->one();
+                $update->status = TahunAjaran::STATUS_ACTIVE;
+                $update->update();
+            };
+        };
+        
         return $this->redirect(['index']);
     }
 

@@ -22,7 +22,7 @@ class m180503_024214_tahun_ajaran extends Migration
            'id' => $this->primaryKey(),
            'periode_awal'   => $this->date()->notNull(),
            'periode_akhir'   => $this->date()->notNull(), 
-           'periode'   => $this->string(50), 
+           'periode'   => $this->string(50)->unique(), 
            'status'   => $this->smallInteger(1)->defaultValue(0), 
            'user_created'   => $this->integer()->notNull(), 
            'user_updated'   => $this->integer(), 

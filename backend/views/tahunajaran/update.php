@@ -5,7 +5,7 @@ use yii\helpers\Html;
 /* @var $this yii\web\View */
 /* @var $model app\models\TahunAjaran */
 
-$this->title = 'Update Tahun Ajaran: {nameAttribute}';
+$this->title = 'Update Tahun Ajaran: '.$model->periode;
 $this->params['breadcrumbs'][] = ['label' => 'Tahun Ajarans', 'url' => ['index']];
 $this->params['breadcrumbs'][] = ['label' => $model->id, 'url' => ['view', 'id' => $model->id]];
 $this->params['breadcrumbs'][] = 'Update';

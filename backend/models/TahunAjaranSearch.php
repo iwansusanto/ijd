@@ -47,6 +47,9 @@ class TahunAjaranSearch extends TahunAjaran
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
+            'sort'=> [
+                'defaultOrder' => [
+                    'periode'=>SORT_DESC]]
         ]);
 
         $this->load($params);

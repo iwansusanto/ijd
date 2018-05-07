@@ -21,6 +21,9 @@ class TahunAjaran extends \yii\db\ActiveRecord
     /**
      * @inheritdoc
      */
+    const STATUS_ACTIVE = 1;
+    const STATUS_NOT_ACTIVE = 0;
+    
     public static function tableName()
     {
         return 'tahun_ajaran';
@@ -36,6 +39,7 @@ class TahunAjaran extends \yii\db\ActiveRecord
             [['periode_awal', 'periode_akhir', 'update_time'], 'safe'],
             [['status', 'user_created', 'user_updated'], 'integer'],
             [['periode'], 'string', 'max' => 50],
+            [['periode'], 'unique'],
         ];
     }
 
@@ -66,6 +70,11 @@ class TahunAjaran extends \yii\db\ActiveRecord
                 $this->user_updated = Yii::$app->user->id;
                 $this->update_time = date('Y-m-d H:i:s');
             };
+            
+            if($this->status == self::STATUS_ACTIVE){
+                self::updateAll(['status' => self::STATUS_NOT_ACTIVE], 'status = '.self::STATUS_ACTIVE);
+            };
+            
             return true;
         };
         
