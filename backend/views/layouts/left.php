@@ -53,7 +53,7 @@
                         'icon' => 'window-restore',
                         'url' => '#',
                         'items' => [
-                            ['label' => 'Dosen dan Kelas', 'icon' => 'sitemap', 'url' => ['/dosenkelas'],],
+                            ['label' => 'Dosen dan Fakultas', 'icon' => 'sitemap', 'url' => ['/dosenfakultas'],],
                             ['label' => 'Module dan Kelas', 'icon' => 'cubes', 'url' => ['/modulekelas'],],
                             ['label' => 'Hitung Peran', 'icon' => 'calculator', 'url' => ['/peranhitung'],],
                             ['label' => 'Hitung Imbal Jasa', 'icon' => 'th', 'url' => ['/hitungimbaljasa'],],

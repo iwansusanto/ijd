@@ -25,7 +25,8 @@
         "nex/yii2-datepicker": "*",
         "kartik-v/yii2-widget-switchinput": "*",
         "kartik-v/yii2-widget-datepicker": "@dev",
-        "kartik-v/yii2-field-range": "*"
+        "kartik-v/yii2-field-range": "*",
+        "kartik-v/yii2-widget-select2": "@dev"
     },
     "require-dev": {
         "yiisoft/yii2-debug": "~2.0.0",
