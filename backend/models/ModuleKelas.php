@@ -5,28 +5,28 @@ namespace app\models;
 use Yii;
 
 /**
- * This is the model class for table "dosen_fakultas".
+ * This is the model class for table "module_kelas".
  *
  * @property int $id
- * @property int $dosen_id
- * @property int $fakultas_id
+ * @property int $module_id
+ * @property int $kelas_id
  * @property int $tahun_ajaran_id
  * @property int $user_created
  * @property int $user_updated
  * @property string $update_time
  *
  * @property TahunAjaran $tahunAjaran
- * @property Dosen $dosen
- * @property Fakultas $fakultas
+ * @property Kelas $kelas
+ * @property Module $module
  */
-class DosenFakultas extends \yii\db\ActiveRecord
+class ModuleKelas extends \yii\db\ActiveRecord
 {
     /**
      * {@inheritdoc}
      */
     public static function tableName()
     {
-        return 'dosen_fakultas';
+        return 'module_kelas';
     }
 
     /**
@@ -35,13 +35,14 @@ class DosenFakultas extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['dosen_id', 'fakultas_id', 'tahun_ajaran_id'], 'required'],
-            [['dosen_id', 'fakultas_id', 'tahun_ajaran_id', 'user_created', 'user_updated'], 'integer'],
+            [['module_id', 'kelas_id', 'tahun_ajaran_id'], 'required'],
+            [['module_id', 'tahun_ajaran_id', 'user_created', 'user_updated'], 'integer'],
+            [['kelas_id'], 'unique', 'message' => 'Kelas has already been taken'],
             [['update_time'], 'safe'],
             [['tahun_ajaran_id'], 'exist', 'skipOnError' => true, 'targetClass' => TahunAjaran::className(), 'targetAttribute' => ['tahun_ajaran_id' => 'id']],
-            [['dosen_id'], 'exist', 'skipOnError' => true, 'targetClass' => Dosen::className(), 'targetAttribute' => ['dosen_id' => 'id']],
-            [['fakultas_id'], 'exist', 'skipOnError' => true, 'targetClass' => Fakultas::className(), 'targetAttribute' => ['fakultas_id' => 'id']],
-            ['dosen_id', 'unique', 'targetAttribute' => ['dosen_id', 'fakultas_id', 'tahun_ajaran_id'], 'comboNotUnique' => 'Dosen already exist']
+            [['kelas_id'], 'exist', 'skipOnError' => true, 'targetClass' => Kelas::className(), 'targetAttribute' => ['kelas_id' => 'id']],
+            [['module_id'], 'exist', 'skipOnError' => true, 'targetClass' => Module::className(), 'targetAttribute' => ['module_id' => 'id']],
+            ['kelas_id', 'unique', 'targetAttribute' => ['kelas_id', 'module_id', 'tahun_ajaran_id'], 'comboNotUnique' => 'Kelas already exist']
         ];
     }
 
@@ -52,8 +53,8 @@ class DosenFakultas extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
-            'dosen_id' => 'Dosen',
-            'fakultas_id' => 'Fakultas',
+            'module_id' => 'Module',
+            'kelas_id' => 'Kelas',
             'tahun_ajaran_id' => 'Tahun Ajaran',
             'user_created' => 'User Created',
             'user_updated' => 'User Updated',
@@ -72,17 +73,17 @@ class DosenFakultas extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getDosen()
+    public function getKelas()
     {
-        return $this->hasOne(Dosen::className(), ['id' => 'dosen_id']);
+        return $this->hasOne(Kelas::className(), ['id' => 'kelas_id']);
     }
 
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getFakultas()
+    public function getModule()
     {
-        return $this->hasOne(Fakultas::className(), ['id' => 'fakultas_id']);
+        return $this->hasOne(Module::className(), ['id' => 'module_id']);
     }
     
     public function beforeSave($insert) {

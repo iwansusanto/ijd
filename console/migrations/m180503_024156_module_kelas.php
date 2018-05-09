@@ -28,25 +28,31 @@ class m180503_024156_module_kelas extends Migration
            'update_time'   => $this->dateTime()->notNull(), 
         ]);
         
-         $this->createIndex(
-            'module-index-module_kelas',
+        $this->addForeignKey(
+            'fk-module_kelas-module_id',
             'module_kelas',
             'module_id',
-            true
+            'module',
+            'id',
+            'CASCADE'
         );
-         
-         $this->createIndex(
-            'kelas-index-module_kelas',
+        
+        $this->addForeignKey(
+            'fk-module_kelas-kelas_id',
             'module_kelas',
             'kelas_id',
-            true
+            'kelas',
+            'id',
+            'CASCADE'
         );
-         
-         $this->createIndex(
-            'tahun_ajaran-index-module_kelas',
+        
+        $this->addForeignKey(
+            'fk-module_kelas-tahun_ajaran_id',
             'module_kelas',
             'tahun_ajaran_id',
-            true
+            'tahun_ajaran',
+            'id',
+            'CASCADE'
         );
     }
 
