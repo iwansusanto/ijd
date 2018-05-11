@@ -26,7 +26,9 @@
         "kartik-v/yii2-widget-switchinput": "*",
         "kartik-v/yii2-widget-datepicker": "@dev",
         "kartik-v/yii2-field-range": "*",
-        "kartik-v/yii2-widget-select2": "@dev"
+        "kartik-v/yii2-widget-select2": "@dev",
+        "kartik-v/yii2-number": "*",
+        "kartik-v/yii2-widget-touchspin": "*"
     },
     "require-dev": {
         "yiisoft/yii2-debug": "~2.0.0",

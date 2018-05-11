@@ -26,4 +26,30 @@ class IsComponent extends Component {
         
         
     }
+    
+    public function bulan($index = null){
+        
+        $bulan = [
+                1   =>  'Jan',
+                2   =>  'Feb',
+                3   =>  'Mar',
+                4   =>  'April',
+                5   =>  'May',
+                6   =>  'Jun',
+                7   =>  'Jul',
+                8   =>  'August',
+                9   =>  'Sept',
+                10   =>  'Oct',
+                11   =>  'Nov',
+                12   =>  'Dec',
+            ];
+        
+        if(!is_null($index)){
+            $bulan = $bulan[$index];
+        }
+        
+        
+        return $bulan;
+        
+    }
 }

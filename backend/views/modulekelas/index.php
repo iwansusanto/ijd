@@ -41,6 +41,15 @@ $this->params['breadcrumbs'][] = $this->title;
 
 //            'id',
             [
+                'attribute' => 'tahun_ajaran_id',
+                'value' => 'tahunAjaran.periode',
+                'filter' => Select2::widget([
+                                'model' =>  $searchModel,
+                                'attribute'      =>  'tahun_ajaran_id',
+                                'data'      =>  ArrayHelper::map(TahunAjaran::find()->asArray()->all(), 'id', 'periode'),
+                                'options'   =>  ['placeholder'  =>  'Select Tahun Ajaran'],
+                                'pluginOptions' =>  ['allowClear'    =>  true]])],
+            [
                 'attribute' => 'module_id',
                 'value' => 'module.nama',
                 'filter' => Select2::widget([
@@ -57,15 +66,6 @@ $this->params['breadcrumbs'][] = $this->title;
                                 'attribute'      =>  'kelas_id',
                                 'data'      =>  ArrayHelper::map(Kelas::find()->asArray()->all(), 'id', 'nama'),
                                 'options'   =>  ['placeholder'  =>  'Select Kelas'],
-                                'pluginOptions' =>  ['allowClear'    =>  true]])],
-            [
-                'attribute' => 'tahun_ajaran_id',
-                'value' => 'tahunAjaran.periode',
-                'filter' => Select2::widget([
-                                'model' =>  $searchModel,
-                                'attribute'      =>  'tahun_ajaran_id',
-                                'data'      =>  ArrayHelper::map(TahunAjaran::find()->asArray()->all(), 'id', 'periode'),
-                                'options'   =>  ['placeholder'  =>  'Select Tahun Ajaran'],
                                 'pluginOptions' =>  ['allowClear'    =>  true]])],
 //            'user_created',
             //'user_updated',

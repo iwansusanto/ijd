@@ -27,7 +27,8 @@ class m180503_033029_peran_hitung extends Migration
            'tahun'   => $this->smallInteger(4)->notNull(), 
            'jumlah_sks'   => $this->smallInteger(3)->notNull(), 
            'jumlah_menit_hitung'   => $this->smallInteger()->notNull()->defaultValue(60)->comment('per jam(dalam satuan menit)'), 
-           'nilai_menit_hitung'   => $this->integer()->notNull()->comment('nilai imbal jasa'), 
+           'honor_menit_hitung'   => $this->integer()->notNull()->comment('nilai imbal jasa'), 
+           'transport_hitung'   => $this->integer()->comment('transport imbal jasa'), 
            'jumlah_menit_per_sks'   => $this->smallInteger(3)->notNull()->defaultValue(50), 
            'volume_menit_pertemuan'   => $this->smallInteger(3)->notNull()->defaultValue(120), 
            'keterangan'   => $this->text(), 
@@ -36,25 +37,32 @@ class m180503_033029_peran_hitung extends Migration
            'update_time'   => $this->dateTime()->notNull(), 
         ]);
         
-         $this->createIndex(
-            'peran-index-peran_hitung',
+        $this->addForeignKey(
+            'fk-peran_hitung-peran_id',
             'peran_hitung',
             'peran_id',
-            true
+            'peran',
+            'id',
+            'CASCADE'
         );
-         
-         $this->createIndex(
-            'module-index-peran_hitung',
+        
+        
+        $this->addForeignKey(
+            'fk-peran_hitung-module_id',
             'peran_hitung',
             'module_id',
-            true
+            'module',
+            'id',
+            'CASCADE'
         );
-         
-         $this->createIndex(
-            'tahun_ajaran-index-peran_hitung',
+        
+        $this->addForeignKey(
+            'fk-peran_hitung-tahun_ajaran_id',
             'peran_hitung',
             'tahun_ajaran_id',
-            true
+            'tahun_ajaran',
+            'id',
+            'CASCADE'
         );
     }
 

@@ -88,7 +88,14 @@ return [
             'rules' => [
             ],
         ],
-        
+        'formatter' => [
+              'class' => 'app\components\isFormatter',
+//            'class' => 'yii\i18n\formatter',
+//            'thousandSeparator' => '.',
+//            'decimalSeparator' => ',',
+//            'currencyCode' => 'Rp. ',
+            
+        ],
     ],
     'params' => $params,
 ];

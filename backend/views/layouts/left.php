@@ -30,7 +30,9 @@
             [
                 'options' => ['class' => 'sidebar-menu tree', 'data-widget'=> 'tree'],
                 'items' => [
-                    ['label' => 'Menu', 'options' => ['class' => 'header']],
+//                    ['label' => 'Menu', 'options' => ['class' => 'header']],
+                    ['label' => 'Tahun Ajaran '.Yii::$app->is->tahunAjaran()->periode, 
+                     'options' => ['class' => 'header']],
                     ['label' => 'Gii', 'icon' => 'file-code-o', 'url' => ['/gii']],
                     ['label' => 'Debug', 'icon' => 'dashboard', 'url' => ['/debug']],
                     ['label' => 'Login', 'url' => ['site/login'], 'visible' => Yii::$app->user->isGuest],
@@ -56,7 +58,7 @@
                             ['label' => 'Dosen dan Fakultas', 'icon' => 'sitemap', 'url' => ['/dosenfakultas'],],
                             ['label' => 'Module dan Kelas', 'icon' => 'cubes', 'url' => ['/modulekelas'],],
                             ['label' => 'Hitung Peran', 'icon' => 'calculator', 'url' => ['/peranhitung'],],
-                            ['label' => 'Hitung Imbal Jasa', 'icon' => 'th', 'url' => ['/hitungimbaljasa'],],
+                            ['label' => 'Hitung Imbal Jasa', 'icon' => 'th', 'url' => ['/imbaljasa'],],
                         ],
                     ],
 //                    [
