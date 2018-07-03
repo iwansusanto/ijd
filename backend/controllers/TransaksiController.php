@@ -179,13 +179,24 @@ class TransaksiController extends Controller
             if(Yii::$app->request->isGet){
                 $module_id = Yii::$app->request->get('module_id');
                 
-                $result = ImbalJasa::find()
-                    ->select('id, nip')
-                    ->where([
-                        'module_id' =>  $module_id
-                    ])
-                    ->orderBy('id DESC')
-                    ->all();
+                $query = (new \yii\db\Query())
+                    ->select(['ij.id', 'DATE_FORMAT(ij.tgl_kegiatan, "%d %b %Y") AS tgl_kegiatan', 'ij.nip', 'ij.nama_dosen as dosen_fakultas_id',
+                                'ij.nama_fakultas', 'IfNull(ij.nama_dosen_digantikan, "-") AS dosen_fakultas_id_digantikan',
+                                new \yii\db\Expression('CASE '
+                                                        . 'WHEN ij.nama_fakultas_digantikan IS NULL THEN "-" '
+                                                        . 'WHEN ij.nama_fakultas_digantikan = "" THEN "-" '
+                                                        . 'ELSE ij.nama_fakultas_digantikan '
+                                                        . 'END AS nama_fakultas_digantikan'),
+                                'ij.nama_kelas as kelas_id', 'ij.nama_ruangan as ruangan_id', 
+                                new \yii\db\Expression('TIME_FORMAT(ij.jam_mulai,  "%H:%i") as jam_mulai'), 
+                                new \yii\db\Expression('TIME_FORMAT(ij.jam_selesai,  "%H:%i") as jam_selesai'), 
+                                'ij.nama_peran as peran_id', 'ij.jumlah_jam_rumus', 'ij.transport', 'ij.honor', 'ij.keterangan'])
+                    ->from('imbal_jasa ij')
+                    ->where('ij.module_id=:module_id', [':module_id' => $module_id])
+                    ->orderBy('ij.id DESC')
+                    ->createCommand();
+                
+                $result = $query->queryAll();
             }
         }
         
