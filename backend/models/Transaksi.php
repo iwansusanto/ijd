@@ -10,6 +10,7 @@ use Yii;
  * @property int $id
  * @property string $no_transaksi Ym/IJD/xxx
  * @property string $tgl_transaksi
+ * @property int $tahun_ajaran_id
  * @property string $bulan_tahun
  * @property string $keterangan
  * @property int $user_created
@@ -37,7 +38,7 @@ class Transaksi extends \yii\db\ActiveRecord
             [['bulan_tahun'], 'required'],
             [['tgl_transaksi', 'bulan_tahun', 'update_time'], 'safe'],
             [['keterangan'], 'string'],
-            [['user_created', 'user_updated'], 'integer'],
+            [['tahun_ajaran_id', 'user_created', 'user_updated'], 'integer'],
             [['no_transaksi'], 'string', 'max' => 15],
             [['no_transaksi'], 'unique'],
 //            [['bulan_tahun'], 'unique'],
@@ -54,6 +55,7 @@ class Transaksi extends \yii\db\ActiveRecord
             'id' => 'ID',
             'no_transaksi' => 'No Transaksi',
             'tgl_transaksi' => 'Tgl Transaksi',
+            'tahun_ajaran_id' => 'Tahun Ajaran',
             'bulan_tahun' => 'Bulan Tahun',
             'keterangan' => 'Keterangan',
             'user_created' => 'User Created',
@@ -114,6 +116,8 @@ class Transaksi extends \yii\db\ActiveRecord
             };
             
             $this->bulan_tahun = date('Y-m-d', strtotime($this->bulan_tahun));   
+            $this->tahun_ajaran_id = Yii::$app->is->tahunAjaran()->id;  
+            
             return true;
         };
         

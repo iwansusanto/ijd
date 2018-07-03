@@ -182,17 +182,19 @@ class TransaksiController extends Controller
                 $transaksi_id = Yii::$app->request->get('transaksi_id');
                 
                 $query = (new \yii\db\Query())
-                    ->select(['ij.id', 'DATE_FORMAT(ij.tgl_kegiatan, "%d %b %Y") AS tgl_kegiatan', 'ij.nip', 'ij.nama_dosen as dosen_fakultas_id',
-                                'ij.nama_fakultas', 'IfNull(ij.nama_dosen_digantikan, "-") AS dosen_fakultas_id_digantikan',
+                    ->select(['ij.id', 'ij.module_id', 'ij.peran_hitung_id', 'DATE_FORMAT(ij.tgl_kegiatan, "%d %b %Y") AS tgl_kegiatan', 
+                                'ij.nip', 'ij.nama_dosen as dosen_fakultas_id_show', 'ij.dosen_fakultas_id', 'ij.nip_digantikan',
+                                'ij.nama_fakultas', 'IfNull(ij.nama_dosen_digantikan, "-") AS dosen_fakultas_id_digantikan_show',
+                                'ij.dosen_fakultas_id_digantikan', 'ij.nama_kelas as kelas_id_show', 'ij.kelas_id', 
                                 new \yii\db\Expression('CASE '
                                                         . 'WHEN ij.nama_fakultas_digantikan IS NULL THEN "-" '
                                                         . 'WHEN ij.nama_fakultas_digantikan = "" THEN "-" '
                                                         . 'ELSE ij.nama_fakultas_digantikan '
                                                         . 'END AS nama_fakultas_digantikan'),
-                                'ij.nama_kelas as kelas_id', 'ij.nama_ruangan as ruangan_id', 
+                                'ij.nama_ruangan as ruangan_id_show', 'ij.ruangan_id', 
                                 new \yii\db\Expression('TIME_FORMAT(ij.jam_mulai,  "%H:%i") as jam_mulai'), 
                                 new \yii\db\Expression('TIME_FORMAT(ij.jam_selesai,  "%H:%i") as jam_selesai'), 
-                                'ij.nama_peran as peran_id', 'ij.jumlah_jam_rumus', 'ij.transport', 'ij.honor', 'ij.keterangan'])
+                                'ij.nama_peran as peran_id_show', 'ij.peran_id', 'ij.jumlah_jam_rumus', 'ij.transport', 'ij.honor', 'ij.keterangan'])
                     ->from('imbal_jasa ij')
                     ->where('ij.module_id=:module_id AND ij.transaksi_id=:transaksi_id', 
                                 [':module_id' => $module_id, ':transaksi_id' => $transaksi_id])
@@ -325,25 +327,43 @@ class TransaksiController extends Controller
             
             if ($model->load(Yii::$app->request->post())) {
                 
-//                $model->peran_hitung_id = 2;
-                
-                if($model->save()){
-                    $result = [
-                        'success'   =>  true,
-                        'message'   =>  'Insert Data Success'
-                    ];
+                if(!empty($model->id)){
+                    // update data
+                    $model = ImbalJasa::findOne($model->id);
+                    if ($model->load(Yii::$app->request->post())) {
+                        if($model->save()){
+                            $result = [
+                                'success'   =>  true,
+                                'message'   =>  'Update Data Success'
+                            ];
+                        } else {
+                            Yii::$app->response->statusCode = 400;
+                            $result = [
+                                'success'   =>  false,
+                                'message'   =>  $model->errors
+                            ];
+
+                        }
+                    }
                 } else {
-                    Yii::$app->response->statusCode = 400;
-                    $result = [
-                        'success'   =>  false,
-                        'message'   =>  $model->errors
-                    ];
-                    
+                    // new data
+                    if($model->save()){
+                        $result = [
+                            'success'   =>  true,
+                            'message'   =>  'Insert Data Success'
+                        ];
+                    } else {
+                        Yii::$app->response->statusCode = 400;
+                        $result = [
+                            'success'   =>  false,
+                            'message'   =>  $model->errors
+                        ];
+
+                    }
                 }
+                
             }
         };
-//        $data = Yii::$app->request->post('ImbalJasa');
-//        echo '<pre>';        print_r($data);
         
         return $result;
     }

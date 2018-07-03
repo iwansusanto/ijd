@@ -5,10 +5,12 @@
  */
 
 var editIndex = undefined;
+var clickCell = undefined;
 
 var imbaljasa = {
     form: function(moduleid, editIndex){
-        var nip = $('#dg'+moduleid).datagrid('getEditor', {index:editIndex, field:'nip'}),
+        var id = $('#dg'+moduleid).datagrid('getEditor', {index:editIndex, field:'id'}),
+            nip = $('#dg'+moduleid).datagrid('getEditor', {index:editIndex, field:'nip'}),
             transaksi_id = $('#dg'+moduleid).datagrid('getEditor', {index:editIndex, field:'transaksi_id'}),    
             dosen_fakultas_id = $('#dg'+moduleid).datagrid('getEditor', {index:editIndex, field:'dosen_fakultas_id'}),
             nama_fakultas = $('#dg'+moduleid).datagrid('getEditor', {index:editIndex, field:'nama_fakultas'}),
@@ -31,6 +33,7 @@ var imbaljasa = {
         var datas = []; 
         
             datas = {
+                        'id':$.trim($(id.target)[id.type]('getValue')),
                         'nip':$.trim($(nip.target)[nip.type]('getValue')),
                         'transaksi_id':$(transaksi_id.target)[transaksi_id.type]('getValue'),
                         'dosen_fakultas_id':$.trim($(dosen_fakultas_id.target)[dosen_fakultas_id.type]('getValue')),
@@ -60,6 +63,7 @@ var imbaljasa = {
                     $("#btn-add").prop("disabled", false);
                     $("#btn-cancel").prop("disabled", true);
                     $("#btn-save").prop("disabled", true);
+                    $("#btn-delete").prop("disabled", true);
                 },
                 error: function(result){
                     var errors = result.responseJSON.message;
@@ -81,9 +85,9 @@ var imbaljasa = {
         if (editIndex == undefined){return true}
         
         if ($('#dg' + moduleid).datagrid('validateRow', editIndex)) {
-            $('#tt').tooltip({
-                content: 'This is the tooltip message.'
-            });
+//            $('#tt').tooltip({
+//                content: 'This is the tooltip message.'
+//            });
             var ed_transaksi_id = $('#dg'+moduleid).datagrid('getEditor', {index: editIndex, field: 'transaksi_id'});
             $(ed_transaksi_id.target).textbox('setValue', imbaljasa.urlparam('id'));
             
@@ -91,36 +95,53 @@ var imbaljasa = {
                 imbaljasa.form(moduleid, editIndex); 
                 
                 $('#dg' + moduleid).datagrid('endEdit', editIndex);
-                editIndex = undefined;
+                setTimeout(function(){
+                    editIndex = undefined;
+                },0);
+                
                 return true;
         } else {
             return false;
         }
     },
     onClickCell: function(index, field){
+        var moduleid = $('#tt').tabs('getSelected')[0].dataset.moduleid;
+        
         if (editIndex != index){
-                if (imbaljasa.endEditing(moduleid)){
-                    $('#dg'+moduleid).datagrid('selectRow', index)
-                            .datagrid('beginEdit', index);
-                    var ed = $('#dg'+moduleid).datagrid('getEditor', {index:index,field:field});
-                    if (ed){
-                        ($(ed.target).data('textbox') ? $(ed.target).textbox('textbox') : $(ed.target)).focus();
-                    }
-                    editIndex = index;
-                } else {
-                    setTimeout(function(){
-                        $('#dg'+moduleid).datagrid('selectRow', editIndex);
-                    },0);
-                }
+            if (imbaljasa.endEditing(moduleid)){
+                $('#dg'+moduleid).datagrid('selectRow', index)
+                        .datagrid('beginEdit', index);
+                var ed = $('#dg'+moduleid).datagrid('getEditor', {index:index,field:field}),
+                    ed_kelas_id_show = $('#dg'+moduleid).datagrid('getEditor', {index: index, field: 'kelas_id_show'}),
+                    url = _baseUrl+'/transaksi/jsonlihatkelas?module_id='+moduleid;
+                
+                if (ed){
+                    ($(ed.target).data('textbox') ? $(ed.target).textbox('textbox') : $(ed.target)).focus();
+                };    
+
+                $(ed_kelas_id_show.target).combobox('reload',url);
+                
+                editIndex = index;
+            } else {
+                setTimeout(function(){
+                    $('#dg'+moduleid).datagrid('selectRow', editIndex);
+                },0);
             }
+        };
+        
+        $("#btn-add").prop("disabled", true);
+        $("#btn-cancel").prop("disabled", false);
+        $("#btn-save").prop("disabled", false);
+        $("#btn-delete").prop("disabled", false);
     },
     onEndEdit: function (index, row) {
-        var ed = $(this).datagrid('getEditor', {
-            index: index,
-            field: 'nip'
-        });
-        row.nip = $(ed.target).combobox('getText');
-        $(this).datagrid('reload');
+        var moduleid = $('#tt').tabs('getSelected')[0].dataset.moduleid;
+//        var ed = $(this).datagrid('getEditor', {
+//            index: index,
+//            field: 'nip'
+//        });
+//        row.nip = $(ed.target).combobox('getText');
+        $('#dg'+moduleid).datagrid('reload');
         console.log('end to reload grid');
     },
     append: function (moduleid) {
@@ -128,7 +149,7 @@ var imbaljasa = {
         if (imbaljasa.endEditing(moduleid)) {
             
             var ed_module_id,
-                ed_kelas_id,
+                ed_kelas_id_show,
                 ed_tgl_kegiatan,
                 bulan_tahun = new Date($("#bulan_tahun").val()),
                 bulan = bulan_tahun.getMonth(),
@@ -141,11 +162,11 @@ var imbaljasa = {
                     .datagrid('beginEdit', editIndex);
             
             ed_module_id = $('#dg'+moduleid).datagrid('getEditor', {index: editIndex, field: 'module_id'});
-            ed_kelas_id = $('#dg'+moduleid).datagrid('getEditor', {index: editIndex, field: 'kelas_id'});            
+            ed_kelas_id_show = $('#dg'+moduleid).datagrid('getEditor', {index: editIndex, field: 'kelas_id_show'});            
             ed_tgl_kegiatan = $('#dg'+moduleid).datagrid('getEditor', {index: editIndex, field: 'tgl_kegiatan'});            
             
             $(ed_module_id.target).textbox('setValue', moduleid);
-            $(ed_kelas_id.target).combobox('reload',url);
+            $(ed_kelas_id_show.target).combobox('reload',url);
             
             $(ed_tgl_kegiatan.target).datebox().datebox('calendar').calendar({
                 validator: function (date) {
@@ -244,6 +265,18 @@ var dg = {
     columnsFrozen: function(moduleid){
         return [[
                     {
+                        field:'id',
+                        title:'ID',
+                        width:150,
+                        hidden: true,
+                        editor:{
+                            type:'textbox',
+                            options:{
+                                readonly:true
+                            }
+                        }
+                    },
+                    {
                         field:'transaksi_id',
                         title:'Transaksi',
                         width:150,
@@ -267,7 +300,7 @@ var dg = {
                         }
                     },
                     {
-                        field:'dosen_fakultas_id',
+                        field:'dosen_fakultas_id_show',
                         title:'Nama',
                         width:200,
                         formatter: function (value, row) {
@@ -284,10 +317,24 @@ var dg = {
                                 onSelect: function(selected){
                                     var ed_nip = $('#dg'+moduleid).datagrid('getEditor', {index: editIndex, field: 'nip'});
                                     var ed_nama_fakultas = $('#dg'+moduleid).datagrid('getEditor', {index: editIndex, field: 'nama_fakultas'});
+                                    var ed_dosen_fakultas_id = $('#dg'+moduleid).datagrid('getEditor', {index: editIndex, field: 'dosen_fakultas_id'});
                                     
                                     $(ed_nip.target).textbox('setValue', selected.nip);
                                     $(ed_nama_fakultas.target).textbox('setValue', selected.fakultas);
+                                    $(ed_dosen_fakultas_id.target).textbox('setValue', selected.id);
                                 }
+                            }
+                        }
+                    },
+                    {
+                        field:'dosen_fakultas_id',
+                        title:'Dosen Fakultas ID',
+                        width:150,
+                        hidden: true,
+                        editor:{
+                            type:'textbox',
+                            options:{
+                                readonly:true
                             }
                         }
                     },
@@ -295,6 +342,7 @@ var dg = {
                         field: 'nama_fakultas', 
                         title:'Induk Fakultas',
                         width: 100,
+                        align: 'center',
                         editor: {
                             type: 'textbox',
                             options: {
@@ -316,7 +364,7 @@ var dg = {
                         }
                     },
                     {
-                        field:'dosen_fakultas_id_digantikan',
+                        field:'dosen_fakultas_id_digantikan_show',
                         title:'Nama Dosen Yang Digantikan',
                         width: 200,
                         editor: {
@@ -329,16 +377,31 @@ var dg = {
                                 onSelect: function(selected){
                                     var ed_nip_digantikan = $('#dg'+moduleid).datagrid('getEditor', {index: editIndex, field: 'nip_digantikan'});
                                     var ed_nama_fakultas_digantikan = $('#dg'+moduleid).datagrid('getEditor', {index: editIndex, field: 'nama_fakultas_digantikan'});
+                                    var ed_dosen_fakultas_id_digantikan = $('#dg'+moduleid).datagrid('getEditor', {index: editIndex, field: 'dosen_fakultas_id_digantikan'});
                                     
                                     $(ed_nip_digantikan.target).textbox('setValue', selected.nip);
                                     $(ed_nama_fakultas_digantikan.target).textbox('setValue', selected.fakultas);
+                                    $(ed_dosen_fakultas_id_digantikan.target).textbox('setValue', selected.id);
                                 }
                             }}
+                    },
+                    {
+                        field:'dosen_fakultas_id_digantikan',
+                        title:'Dosen Fakultas ID Digantikan',
+                        width:150,
+                        hidden: true,
+                        editor:{
+                            type:'textbox',
+                            options:{
+                                readonly:true
+                            }
+                        }
                     },
                     {
                         field:'nama_fakultas_digantikan',
                         title:'Fakultas Yang Digantikan',
                         width: 180,
+                        align: 'center',
                         editor: {
                             type: 'textbox',
                             options: {
@@ -373,7 +436,7 @@ var dg = {
                             }}
                     },
                     {
-                        field: 'ruangan_id', 
+                        field: 'ruangan_id_show', 
                         title:'Ruang',
                         width: 120,
                         editor: {
@@ -383,11 +446,28 @@ var dg = {
                                 textField: 'nama',
                                 method: 'get',
                                 url:_baseUrl+'/transaksi/jsonruang',
-                                required: true
+                                required: true,
+                                onSelect: function(selected){
+                                    var ed_ruangan_id = $('#dg'+moduleid).datagrid('getEditor', {index: editIndex, field: 'ruangan_id'});
+                                    
+                                    $(ed_ruangan_id.target).textbox('setValue', selected.id);
+                                }
                             }}
                     },
                     {
-                        field:'kelas_id',
+                        field:'ruangan_id',
+                        title:'Ruangan ID',
+                        width:150,
+                        hidden: true,
+                        editor:{
+                            type:'textbox',
+                            options:{
+                                readonly:true
+                            }
+                        }
+                    },
+                    {
+                        field:'kelas_id_show',
                         title:'Nama Kelas',
                         width: 80,
                         editor: {
@@ -396,8 +476,25 @@ var dg = {
                                 valueField: 'kelas_id',
                                 textField: 'kelas',
                                 method: 'get',
-                                required: true
+                                required: true,
+                                onSelect: function(selected){
+                                    var ed_kelas_id = $('#dg'+moduleid).datagrid('getEditor', {index: editIndex, field: 'kelas_id'});
+                                    
+                                    $(ed_kelas_id.target).textbox('setValue', selected.kelas_id);
+                                }
                             }}
+                    },
+                    {
+                        field:'kelas_id',
+                        title:'Kelas ID',
+                        width:150,
+                        hidden: true,
+                        editor:{
+                            type:'textbox',
+                            options:{
+                                readonly:true
+                            }
+                        }
                     },
                     {
                         field:'jam_mulai',
@@ -460,7 +557,7 @@ var dg = {
                             }}
                     },
                     {
-                        field:'peran_id',
+                        field:'peran_id_show',
                         title:'Peran',
                         width:150,
                         editor: {
@@ -479,11 +576,25 @@ var dg = {
                                         ed_jumlah_jam_rumus = $('#dg'+moduleid).datagrid('getEditor', {index: editIndex, field: 'jumlah_jam_rumus'}),
                                         ed_transport = $('#dg'+moduleid).datagrid('getEditor', {index: editIndex, field: 'transport'}),
                                         ed_honor = $('#dg'+moduleid).datagrid('getEditor', {index: editIndex, field: 'honor'}),
-                                        ed_peran_hitung_id = $('#dg'+moduleid).datagrid('getEditor', {index: editIndex, field: 'peran_hitung_id'});
+                                        ed_peran_hitung_id = $('#dg'+moduleid).datagrid('getEditor', {index: editIndex, field: 'peran_hitung_id'}),
+                                        ed_peran_id = $('#dg'+moduleid).datagrid('getEditor', {index: editIndex, field: 'peran_id'});
                                 
+                                    $(ed_peran_id.target).textbox('setValue', selected.peran_id);
                                     imbaljasa.hitungimbaljasa(ed_peran_id, ed_module_id, ed_peran_hitung_id, ed_jumlah_jam_rumus, ed_transport, ed_honor, peran_id);
                                 }
                             }}
+                    },
+                    {
+                        field:'peran_id',
+                        title:'Peran ID',
+                        width:150,
+                        hidden: true,
+                        editor:{
+                            type:'textbox',
+                            options:{
+                                readonly:true
+                            }
+                        }
                     },
                     {
                         field:'jumlah_jam_rumus',
@@ -568,6 +679,7 @@ var dg = {
             $("#btn-add").prop("disabled", true);
             $("#btn-save").prop("disabled", false);
             $("#btn-cancel").prop("disabled", false);
+            $("#btn-delete").prop("disabled", true);
         });
         
         $("#btn-save").unbind('click');
@@ -581,11 +693,16 @@ var dg = {
             $("#btn-add").prop("disabled", false);
             $("#btn-cancel").prop("disabled", true);
             $("#btn-save").prop("disabled", true);
+            $("#btn-delete").prop("disabled", true);
         });
         
         $("#btn-delete").unbind('click');
         $("#btn-delete").on('click', function(){
             imbaljasa.removeit(moduleid);
+            $("#btn-add").prop("disabled", false);
+            $("#btn-cancel").prop("disabled", true);
+            $("#btn-save").prop("disabled", true);
+            $("#btn-delete").prop("disabled", true);
         });
     }
 };

@@ -18,7 +18,7 @@ class TransaksiSearch extends Transaksi
     public function rules()
     {
         return [
-            [['id', 'user_created', 'user_updated'], 'integer'],
+            [['id', 'tahun_ajaran_id', 'user_created', 'user_updated'], 'integer'],
             [['no_transaksi', 'tgl_transaksi', 'bulan_tahun', 'keterangan', 'update_time'], 'safe'],
         ];
     }
@@ -61,6 +61,7 @@ class TransaksiSearch extends Transaksi
         $query->andFilterWhere([
             'id' => $this->id,
             'tgl_transaksi' => $this->tgl_transaksi,
+            'tahun_ajaran_id' => $this->tahun_ajaran_id,
 //            'bulan_tahun' => $this->bulan_tahun,
             'user_created' => $this->user_created,
             'user_updated' => $this->user_updated,

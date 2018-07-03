@@ -64,7 +64,7 @@ class ImbalJasa extends \yii\db\ActiveRecord
     {
         return [
             [['tgl_kegiatan', 'dosen_fakultas_id', 'transaksi_id', 'nip', 'module_id', 'kelas_id', 'ruangan_id', 'jam_mulai', 'jam_selesai', 'peran_hitung_id', 'peran_id', 'jumlah_jam_rumus'], 'required'],
-            [['tgl_kegiatan', 'jam_mulai', 'jam_selesai', 'update_time', 'bulan', 'tahun'], 'safe'],
+            [['tgl_kegiatan', 'jam_mulai', 'jam_selesai', 'update_time', 'bulan', 'tahun', 'id'], 'safe'],
             [['dosen_fakultas_id', 'transaksi_id', 'dosen_fakultas_id_digantikan', 'module_id', 'kelas_id', 'ruangan_id', 'peran_hitung_id', 'peran_id', 'jumlah_jam_rumus', 'user_created', 'user_updated'], 'integer'],
             [['transport', 'honor'], 'number'],
             [['keterangan'], 'string'],
