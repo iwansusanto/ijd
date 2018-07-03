@@ -5,7 +5,7 @@
         <!-- Sidebar user panel -->
         <div class="user-panel">
             <div class="pull-left image">
-                <img src="/img/avatar04.png" class="img-circle" alt="User Image"/>
+                <img src="/img/avatar5.png" class="img-circle" alt="User Image"/>
             </div>
             <div class="pull-left info">
                 <p><?= Yii::$app->user->username ?></p>
@@ -58,7 +58,7 @@
                             ['label' => 'Dosen dan Fakultas', 'icon' => 'sitemap', 'url' => ['/dosenfakultas'],],
                             ['label' => 'Module dan Kelas', 'icon' => 'cubes', 'url' => ['/modulekelas'],],
                             ['label' => 'Hitung Peran', 'icon' => 'calculator', 'url' => ['/peranhitung'],],
-                            ['label' => 'Hitung Imbal Jasa', 'icon' => 'th', 'url' => ['/imbaljasa'],],
+                            ['label' => 'Hitung Imbal Jasa', 'icon' => 'th', 'url' => ['/transaksi'], 'active' => Yii::$app->controller->id == 'transaksi'],
                         ],
                     ],
 //                    [

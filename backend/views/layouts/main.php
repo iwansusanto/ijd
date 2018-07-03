@@ -1,6 +1,8 @@
 <?php
 
 use yii\helpers\Html;
+use yii\web\View;
+use yii\helpers\Url;
 
 /* @var $this \yii\web\View */
 /* @var $content string */
@@ -38,6 +40,13 @@ if (Yii::$app->controller->action->id === 'login') {
         <?= Html::csrfMetaTags() ?>
         <title><?= Html::encode($this->title) ?></title>
         <?php $this->head() ?>
+        <?php 
+            $this->registerJs(
+                "var _baseUrl = '".Url::base()."';",
+                View::POS_HEAD,
+                'my-global'
+            );
+        ?>
     </head>
     <body class="<?= \dmstr\helpers\AdminLteHelper::skinClass() ?>">
     <?php $this->beginBody() ?>

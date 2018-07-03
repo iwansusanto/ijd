@@ -56,12 +56,6 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'keterangan')->textarea(['rows' => 6]) ?>
 
-    <?= $form->field($model, 'user_created')->textInput() ?>
-
-    <?= $form->field($model, 'user_updated')->textInput() ?>
-
-    <?= $form->field($model, 'update_time')->textInput() ?>
-
     <div class="form-group">
         <?= Html::submitButton('Save', ['class' => 'btn btn-success']) ?>
     </div>

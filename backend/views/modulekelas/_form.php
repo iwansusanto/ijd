@@ -16,7 +16,11 @@ use kartik\select2\Select2;
 <div class="module-kelas-form">
 
     <?php $form = ActiveForm::begin(); ?>
-
+    
+    <?= $form->field($model, 'tahun_ajaran_id')
+                ->dropDownList(ArrayHelper::map(TahunAjaran::find()->asArray()->all(), 'id', 'periode'),
+                        ['value' =>  Yii::$app->is->tahunajaran()->id]) ?>
+    
     <?= $form->field($model, 'module_id')
                 ->widget(Select2::className(), [
                             'data'      =>  ArrayHelper::map(Module::find()->asArray()->all(), 'id', 'nama'),
@@ -39,9 +43,6 @@ use kartik\select2\Select2;
                                 'allowClear'    =>  true
                             ]]) ?>
     
-    <?= $form->field($model, 'tahun_ajaran_id')
-                ->dropDownList(ArrayHelper::map(TahunAjaran::find()->asArray()->all(), 'id', 'periode'),
-                        ['value' =>  Yii::$app->is->tahunajaran()->id]) ?>
     
 
     <div class="form-group">

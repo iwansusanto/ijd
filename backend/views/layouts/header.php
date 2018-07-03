@@ -33,7 +33,7 @@ use yii\helpers\Html;
                                 <li><!-- start message -->
                                     <a href="#">
                                         <div class="pull-left">
-                                            <img src="/img/avatar04.png" class="img-circle"
+                                            <img src="/img/avatar5.png" class="img-circle"
                                                  alt="User Image"/>
                                         </div>
                                         <h4>
@@ -229,13 +229,13 @@ use yii\helpers\Html;
 
                 <li class="dropdown user user-menu">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                        <img src="/img/avatar04.png" class="user-image" alt="User Image"/>
+                        <img src="/img/avatar5.png" class="user-image" alt="User Image"/>
                         <span class="hidden-xs"><?= Yii::$app->user->username ?></span>
                     </a>
                     <ul class="dropdown-menu">
                         <!-- User image -->
                         <li class="user-header">
-                            <img src="/img/avatar04.png" class="img-circle"
+                            <img src="/img/avatar5.png" class="img-circle"
                                  alt="User Image"/>
 
                             <p>

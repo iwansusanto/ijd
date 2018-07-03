@@ -18,8 +18,8 @@ class ImbalJasaSearch extends ImbalJasa
     public function rules()
     {
         return [
-            [['id', 'dosen_fakultas_id', 'nip', 'dosen_fakultas_id_pengganti', 'nip_pengganti', 'module_kelas_id', 'module_id', 'kelas_id', 'ruangan_id', 'peran_hitung_id', 'peran_id', 'user_created', 'user_updated'], 'integer'],
-            [['tgl_kegiatan', 'nama_dosen', 'nama_fakultas', 'nama_dosen_pengganti', 'nama_fakultas_pengganti', 'nama_module', 'nama_kelas', 'nama_ruangan', 'jam_mulai', 'jam_selesai', 'nama_peran', 'keterangan', 'update_time'], 'safe'],
+            [['id', 'dosen_fakultas_id', 'nip', 'dosen_fakultas_id_digantikan', 'nip_digantikan', 'module_id', 'kelas_id', 'ruangan_id', 'peran_hitung_id', 'peran_id', 'user_created', 'user_updated'], 'integer'],
+            [['tgl_kegiatan', 'nama_dosen', 'nama_fakultas', 'nama_dosen_digantikan', 'nama_fakultas_digantikan', 'nama_module', 'nama_kelas', 'nama_ruangan', 'jam_mulai', 'jam_selesai', 'nama_peran', 'keterangan', 'update_time'], 'safe'],
         ];
     }
 
@@ -63,9 +63,8 @@ class ImbalJasaSearch extends ImbalJasa
             'tgl_kegiatan' => $this->tgl_kegiatan,
             'dosen_fakultas_id' => $this->dosen_fakultas_id,
             'nip' => $this->nip,
-            'dosen_fakultas_id_pengganti' => $this->dosen_fakultas_id_pengganti,
-            'nip_pengganti' => $this->nip_pengganti,
-            'module_kelas_id' => $this->module_kelas_id,
+            'dosen_fakultas_id_digantikan' => $this->dosen_fakultas_id_digantikan,
+            'nip_digantikan' => $this->nip_digantikan,
             'module_id' => $this->module_id,
             'kelas_id' => $this->kelas_id,
             'ruangan_id' => $this->ruangan_id,
@@ -80,8 +79,8 @@ class ImbalJasaSearch extends ImbalJasa
 
         $query->andFilterWhere(['like', 'nama_dosen', $this->nama_dosen])
             ->andFilterWhere(['like', 'nama_fakultas', $this->nama_fakultas])
-            ->andFilterWhere(['like', 'nama_dosen_pengganti', $this->nama_dosen_pengganti])
-            ->andFilterWhere(['like', 'nama_fakultas_pengganti', $this->nama_fakultas_pengganti])
+            ->andFilterWhere(['like', 'nama_dosen_digantikan', $this->nama_dosen_digantikan])
+            ->andFilterWhere(['like', 'nama_fakultas_digantikan', $this->nama_fakultas_digantikan])
             ->andFilterWhere(['like', 'nama_module', $this->nama_module])
             ->andFilterWhere(['like', 'nama_kelas', $this->nama_kelas])
             ->andFilterWhere(['like', 'nama_ruangan', $this->nama_ruangan])

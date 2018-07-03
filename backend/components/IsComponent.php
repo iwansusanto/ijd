@@ -52,4 +52,18 @@ class IsComponent extends Component {
         return $bulan;
         
     }
+    
+    public function bulanhitung(){
+        $session = \Yii::$app->session;
+        
+        if ($session->has('bulan_tahun'))
+            return date('m', strtotime($session->get('bulan_tahun')));
+    }
+    
+    public function tahunhitung(){
+        $session = \Yii::$app->session;
+        
+        if ($session->has('bulan_tahun'))
+            return date('Y', strtotime($session->get('bulan_tahun')));
+    }
 }

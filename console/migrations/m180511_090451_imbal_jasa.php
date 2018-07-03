@@ -22,14 +22,14 @@ class m180511_090451_imbal_jasa extends Migration
            'id' => $this->primaryKey(),
            'tgl_kegiatan'   => $this->dateTime()->notNull(),
            'dosen_fakultas_id'   => $this->integer()->notNull(),
-           'nip'   => $this->integer()->notNull(),
+           'transaksi_id'   => $this->integer()->notNull(),
+           'nip'   => $this->string(30)->notNull(),
            'nama_dosen'   => $this->string(200), 
            'nama_fakultas'   => $this->string(100), 
-           'dosen_fakultas_id_pengganti'   => $this->integer()->notNull(), 
-           'nip_pengganti'   => $this->integer()->notNull(), 
-           'nama_dosen_pengganti'   => $this->string(200), 
-           'nama_fakultas_pengganti'   => $this->string(100), 
-           'module_kelas_id'   => $this->integer()->notNull(), 
+           'dosen_fakultas_id_digantikan'   => $this->integer(), 
+           'nip_digantikan'   => $this->string(30), 
+           'nama_dosen_digantikan'   => $this->string(200), 
+           'nama_fakultas_digantikan'   => $this->string(100), 
            'module_id'   => $this->integer()->notNull(), 
            'nama_module'   => $this->string(200), 
            'kelas_id'   => $this->integer()->notNull(), 
@@ -41,38 +41,14 @@ class m180511_090451_imbal_jasa extends Migration
            'peran_hitung_id'   => $this->integer()->notNull(), 
            'peran_id'   => $this->integer()->notNull(), 
            'nama_peran'   => $this->string(100), 
+           'jumlah_jam_rumus'   => $this->integer()->notNull(), 
+           'transport'   => $this->float(), 
+           'honor'   => $this->float(), 
            'keterangan'   => $this->text(), 
            'user_created'   => $this->integer()->notNull(), 
            'user_updated'   => $this->integer(), 
            'update_time'   => $this->dateTime()->notNull(), 
         ]);
-        
-        $this->addForeignKey(
-            'fk-imbal_jasa-dosen_fakultas_id',
-            'imbal_jasa',
-            'dosen_fakultas_id',
-            'fakultas',
-            'id',
-            'CASCADE'
-        );
-        
-        $this->addForeignKey(
-            'fk-imbal_jasa-dosen_fakultas_id_pengganti',
-            'imbal_jasa',
-            'dosen_fakultas_id_pengganti',
-            'fakultas',
-            'id',
-            'CASCADE'
-        );
-        
-        $this->addForeignKey(
-            'fk-imbal_jasa-module_kelas_id',
-            'imbal_jasa',
-            'module_kelas_id',
-            'module_kelas',
-            'id',
-            'CASCADE'
-        );
         
         $this->addForeignKey(
             'fk-imbal_jasa-module_id',
@@ -115,6 +91,15 @@ class m180511_090451_imbal_jasa extends Migration
             'imbal_jasa',
             'peran_id',
             'peran',
+            'id',
+            'CASCADE'
+        );
+        
+        $this->addForeignKey(
+            'fk-imbal_jasa-transaksi_id',
+            'imbal_jasa',
+            'transaksi_id',
+            'transaksi',
             'id',
             'CASCADE'
         );

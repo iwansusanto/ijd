@@ -10,14 +10,14 @@ use Yii;
  * @property int $id
  * @property string $tgl_kegiatan
  * @property int $dosen_fakultas_id
- * @property int $nip
+ * @property int $transaksi_id
+ * @property string $nip
  * @property string $nama_dosen
  * @property string $nama_fakultas
- * @property int $dosen_fakultas_id_pengganti
- * @property int $nip_pengganti
- * @property string $nama_dosen_pengganti
- * @property string $nama_fakultas_pengganti
- * @property int $module_kelas_id
+ * @property int $dosen_fakultas_id_digantikan
+ * @property string $nip_digantikan
+ * @property string $nama_dosen_digantikan
+ * @property string $nama_fakultas_digantikan
  * @property int $module_id
  * @property string $nama_module
  * @property int $kelas_id
@@ -29,18 +29,19 @@ use Yii;
  * @property int $peran_hitung_id
  * @property int $peran_id
  * @property string $nama_peran
+ * @property int $jumlah_jam_rumus
+ * @property double $transport
+ * @property double $honor
  * @property string $keterangan
  * @property int $user_created
  * @property int $user_updated
  * @property string $update_time
  *
- * @property Peran $peran
- * @property Fakultas $dosenFakultas
- * @property Fakultas $dosenFakultasIdPengganti
+ * @property Transaksi $transaksi
  * @property Kelas $kelas
  * @property Module $module
- * @property ModuleKelas $moduleKelas
  * @property PeranHitung $peranHitung
+ * @property Peran $peran
  * @property Ruangan $ruangan
  */
 class ImbalJasa extends \yii\db\ActiveRecord
@@ -59,20 +60,21 @@ class ImbalJasa extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['tgl_kegiatan', 'dosen_fakultas_id', 'nip', 'dosen_fakultas_id_pengganti', 'nip_pengganti', 'module_kelas_id', 'module_id', 'kelas_id', 'ruangan_id', 'jam_mulai', 'jam_selesai', 'peran_hitung_id', 'peran_id'], 'required'],
+            [['tgl_kegiatan', 'dosen_fakultas_id', 'transaksi_id', 'nip', 'module_id', 'kelas_id', 'ruangan_id', 'jam_mulai', 'jam_selesai', 'peran_hitung_id', 'peran_id', 'jumlah_jam_rumus'], 'required'],
             [['tgl_kegiatan', 'jam_mulai', 'jam_selesai', 'update_time'], 'safe'],
-            [['dosen_fakultas_id', 'nip', 'dosen_fakultas_id_pengganti', 'nip_pengganti', 'module_kelas_id', 'module_id', 'kelas_id', 'ruangan_id', 'peran_hitung_id', 'peran_id', 'user_created', 'user_updated'], 'integer'],
+            [['dosen_fakultas_id', 'transaksi_id', 'dosen_fakultas_id_digantikan', 'module_id', 'kelas_id', 'ruangan_id', 'peran_hitung_id', 'peran_id', 'jumlah_jam_rumus', 'user_created', 'user_updated'], 'integer'],
+            [['transport', 'honor'], 'number'],
             [['keterangan'], 'string'],
-            [['nama_dosen', 'nama_dosen_pengganti', 'nama_module'], 'string', 'max' => 200],
-            [['nama_fakultas', 'nama_fakultas_pengganti', 'nama_kelas', 'nama_ruangan', 'nama_peran'], 'string', 'max' => 100],
-            [['peran_id'], 'exist', 'skipOnError' => true, 'targetClass' => Peran::className(), 'targetAttribute' => ['peran_id' => 'id']],
-            [['dosen_fakultas_id'], 'exist', 'skipOnError' => true, 'targetClass' => Fakultas::className(), 'targetAttribute' => ['dosen_fakultas_id' => 'id']],
-            [['dosen_fakultas_id_pengganti'], 'exist', 'skipOnError' => true, 'targetClass' => Fakultas::className(), 'targetAttribute' => ['dosen_fakultas_id_pengganti' => 'id']],
+            [['nip', 'nip_digantikan'], 'string', 'max' => 30],
+            [['nama_dosen', 'nama_dosen_digantikan', 'nama_module'], 'string', 'max' => 200],
+            [['nama_fakultas', 'nama_fakultas_digantikan', 'nama_kelas', 'nama_ruangan', 'nama_peran'], 'string', 'max' => 100],
+            [['transaksi_id'], 'exist', 'skipOnError' => true, 'targetClass' => Transaksi::className(), 'targetAttribute' => ['transaksi_id' => 'id']],
             [['kelas_id'], 'exist', 'skipOnError' => true, 'targetClass' => Kelas::className(), 'targetAttribute' => ['kelas_id' => 'id']],
             [['module_id'], 'exist', 'skipOnError' => true, 'targetClass' => Module::className(), 'targetAttribute' => ['module_id' => 'id']],
-            [['module_kelas_id'], 'exist', 'skipOnError' => true, 'targetClass' => ModuleKelas::className(), 'targetAttribute' => ['module_kelas_id' => 'id']],
             [['peran_hitung_id'], 'exist', 'skipOnError' => true, 'targetClass' => PeranHitung::className(), 'targetAttribute' => ['peran_hitung_id' => 'id']],
+            [['peran_id'], 'exist', 'skipOnError' => true, 'targetClass' => Peran::className(), 'targetAttribute' => ['peran_id' => 'id']],
             [['ruangan_id'], 'exist', 'skipOnError' => true, 'targetClass' => Ruangan::className(), 'targetAttribute' => ['ruangan_id' => 'id']],
+            ['dosen_fakultas_id_digantikan', 'unique', 'targetAttribute' => 'dosen_fakultas_id']
         ];
     }
 
@@ -85,14 +87,14 @@ class ImbalJasa extends \yii\db\ActiveRecord
             'id' => 'ID',
             'tgl_kegiatan' => 'Tgl Kegiatan',
             'dosen_fakultas_id' => 'Dosen Fakultas',
+            'transaksi_id' => 'Transaksi',
             'nip' => 'Nip',
             'nama_dosen' => 'Nama Dosen',
             'nama_fakultas' => 'Nama Fakultas',
-            'dosen_fakultas_id_pengganti' => 'Dosen Fakultas Pengganti',
-            'nip_pengganti' => 'Nip Pengganti',
-            'nama_dosen_pengganti' => 'Nama Dosen Pengganti',
-            'nama_fakultas_pengganti' => 'Nama Fakultas Pengganti',
-            'module_kelas_id' => 'Module Kelas',
+            'dosen_fakultas_id_digantikan' => 'Dosen Fakultas Digantikan',
+            'nip_digantikan' => 'Nip Digantikan',
+            'nama_dosen_digantikan' => 'Nama Dosen Digantikan',
+            'nama_fakultas_digantikan' => 'Nama Fakultas Digantikan',
             'module_id' => 'Module',
             'nama_module' => 'Nama Module',
             'kelas_id' => 'Kelas',
@@ -104,6 +106,9 @@ class ImbalJasa extends \yii\db\ActiveRecord
             'peran_hitung_id' => 'Peran Hitung',
             'peran_id' => 'Peran',
             'nama_peran' => 'Nama Peran',
+            'jumlah_jam_rumus' => 'Jumlah Jam Rumus',
+            'transport' => 'Transport',
+            'honor' => 'Honor',
             'keterangan' => 'Keterangan',
             'user_created' => 'User Created',
             'user_updated' => 'User Updated',
@@ -114,25 +119,9 @@ class ImbalJasa extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getPeran()
+    public function getTransaksi()
     {
-        return $this->hasOne(Peran::className(), ['id' => 'peran_id']);
-    }
-
-    /**
-     * @return \yii\db\ActiveQuery
-     */
-    public function getDosenFakultas()
-    {
-        return $this->hasOne(Fakultas::className(), ['id' => 'dosen_fakultas_id']);
-    }
-
-    /**
-     * @return \yii\db\ActiveQuery
-     */
-    public function getDosenFakultasIdPengganti()
-    {
-        return $this->hasOne(Fakultas::className(), ['id' => 'dosen_fakultas_id_pengganti']);
+        return $this->hasOne(Transaksi::className(), ['id' => 'transaksi_id']);
     }
 
     /**
@@ -154,17 +143,17 @@ class ImbalJasa extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getModuleKelas()
+    public function getPeranHitung()
     {
-        return $this->hasOne(ModuleKelas::className(), ['id' => 'module_kelas_id']);
+        return $this->hasOne(PeranHitung::className(), ['id' => 'peran_hitung_id']);
     }
 
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getPeranHitung()
+    public function getPeran()
     {
-        return $this->hasOne(PeranHitung::className(), ['id' => 'peran_hitung_id']);
+        return $this->hasOne(Peran::className(), ['id' => 'peran_id']);
     }
 
     /**
@@ -185,9 +174,23 @@ class ImbalJasa extends \yii\db\ActiveRecord
                 $this->user_updated = Yii::$app->user->id;
                 $this->update_time = date('Y-m-d H:i:s');
             };
+            
+            $this->tgl_kegiatan = date('Y-m-d H:i:s', strtotime($this->tgl_kegiatan));
+            $this->nama_dosen = DosenFakultas::findOne($this->dosen_fakultas_id)->dosen->nama;
+            $this->nama_module = Module::findOne($this->module_id)->nama;
+            $this->nama_kelas = Kelas::findOne($this->kelas_id)->nama;
+            $this->nama_ruangan = Ruangan::findOne($this->ruangan_id)->nama;
+            $this->nama_peran = Peran::findOne($this->peran_id)->nama;
+            
+            if(!empty($this->dosen_fakultas_id_digantikan)){
+                $this->nama_dosen_digantikan = DosenFakultas::findOne($this->dosen_fakultas_id_digantikan)->dosen->nama;
+            };
+            
+            
             return true;
         };
         
         return false;
     }
+    
 }

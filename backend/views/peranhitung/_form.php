@@ -28,6 +28,7 @@ use kartik\touchspin\TouchSpin;
             
             <?= $form->field($model, 'bulan')->widget(DatePicker::classname(), [
                     'options' => ['placeholder' => 'Select Month'],
+                    'readonly'  =>  true,
                     'pluginOptions' => [
                         'viewMode' => 'months',
                         'minViewMode' => 'months',
