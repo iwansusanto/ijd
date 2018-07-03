@@ -74,7 +74,7 @@ class ImbalJasa extends \yii\db\ActiveRecord
             [['peran_hitung_id'], 'exist', 'skipOnError' => true, 'targetClass' => PeranHitung::className(), 'targetAttribute' => ['peran_hitung_id' => 'id']],
             [['peran_id'], 'exist', 'skipOnError' => true, 'targetClass' => Peran::className(), 'targetAttribute' => ['peran_id' => 'id']],
             [['ruangan_id'], 'exist', 'skipOnError' => true, 'targetClass' => Ruangan::className(), 'targetAttribute' => ['ruangan_id' => 'id']],
-            ['dosen_fakultas_id_digantikan', 'unique', 'targetAttribute' => 'dosen_fakultas_id']
+            ['dosen_fakultas_id_digantikan', 'uniquedosenDigantikan']
         ];
     }
 
@@ -114,6 +114,11 @@ class ImbalJasa extends \yii\db\ActiveRecord
             'user_updated' => 'User Updated',
             'update_time' => 'Update Time',
         ];
+    }
+    
+    public function uniquedosenDigantikan($attribute,$params){
+        if($this->$attribute == $this->dosen_fakultas_id)
+            $this->addError($attribute, 'Silahkan Tentukan Dosen Pengganti Yang Lain');
     }
 
     /**
