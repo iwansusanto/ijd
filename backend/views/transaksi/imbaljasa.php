@@ -35,9 +35,13 @@ $session = Yii::$app->session;
 
     <h1><?= Html::encode($this->title) ?></h1>
     
-    <?= Html::textInput('bulan_tahun', $session['bulan_tahun'], [
+    <?= Html::hiddenInput('bulan_tahun', $session['bulan_tahun'], [
                             'class' => 'form-control',
                             'id'    =>  'bulan_tahun']); ?>
+    
+    <?= Html::hiddenInput('transaksi_id', $model->id, [
+                            'class' => 'form-control',
+                            'id'    =>  'transaksi_id']); ?>
     
     <div id="tt" class="easyui-tabs" style="height:auto;">
         <?php foreach ($module as $i=>$modul): ?>
@@ -56,10 +60,10 @@ $session = Yii::$app->session;
     </div>
     
     <div id="tb" style="height:auto">
-        <a href="javascript:void(0)" class="btn btn-primary" id="btn-add"><i class="fa fa-plus"></i>&nbsp;Tambah Baris</a>
-        <a href="javascript:void(0)" class="btn btn-success" id="btn-save"><i class="fa fa-save"></i>&nbsp;Simpan</a>
-        <a href="javascript:void(0)" class="btn btn-warning" id="btn-cancel"><i class="fa fa-mail-reply"></i>&nbsp;Batal</a>
-        <a href="javascript:void(0)" class="btn btn-mini btn-danger" id="btn-delete"><i class="fa fa-remove"></i>&nbsp;Hapus Baris</a>
+        <button href="javascript:void(0)" class="btn btn-primary" id="btn-add"><i class="fa fa-plus"></i>&nbsp;Tambah Baris</button>
+        <button href="javascript:void(0)" class="btn btn-success" id="btn-save" disabled="disabled"><i class="fa fa-save"></i>&nbsp;Simpan</button>
+        <button href="javascript:void(0)" class="btn btn-warning" id="btn-cancel" disabled="disabled"><i class="fa fa-mail-reply"></i>&nbsp;Batal</button>
+        <button href="javascript:void(0)" class="btn btn-mini btn-danger" id="btn-delete" disabled="disabled"><i class="fa fa-remove"></i>&nbsp;Hapus Baris</button>
     </div>
 </div>
 

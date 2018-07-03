@@ -14,6 +14,7 @@ use yii\web\Response;
 use app\models\Kelas;
 use app\models\Ruangan;
 use app\models\Peran;
+use app\models\PeranHitung;
 
 /**
  * TRansaksiController implements the CRUD actions for Transaksi model.
@@ -178,6 +179,7 @@ class TransaksiController extends Controller
         if(Yii::$app->request->isAjax){
             if(Yii::$app->request->isGet){
                 $module_id = Yii::$app->request->get('module_id');
+                $transaksi_id = Yii::$app->request->get('transaksi_id');
                 
                 $query = (new \yii\db\Query())
                     ->select(['ij.id', 'DATE_FORMAT(ij.tgl_kegiatan, "%d %b %Y") AS tgl_kegiatan', 'ij.nip', 'ij.nama_dosen as dosen_fakultas_id',
@@ -192,7 +194,8 @@ class TransaksiController extends Controller
                                 new \yii\db\Expression('TIME_FORMAT(ij.jam_selesai,  "%H:%i") as jam_selesai'), 
                                 'ij.nama_peran as peran_id', 'ij.jumlah_jam_rumus', 'ij.transport', 'ij.honor', 'ij.keterangan'])
                     ->from('imbal_jasa ij')
-                    ->where('ij.module_id=:module_id', [':module_id' => $module_id])
+                    ->where('ij.module_id=:module_id AND ij.transaksi_id=:transaksi_id', 
+                                [':module_id' => $module_id, ':transaksi_id' => $transaksi_id])
                     ->orderBy('ij.id DESC')
                     ->createCommand();
                 
@@ -356,15 +359,48 @@ class TransaksiController extends Controller
             
             if ($model->load(Yii::$app->request->post())) {
                 
-                $result = [
+                $transport = 0;
+                $honor = 0;
+                
+                $module_id = $model->module_id;
+                $peran_id = $model->peran_id;
+                $jumlah_jam_rumus = $model->jumlah_jam_rumus;
+                $tahun_ajaran_id = Yii::$app->is->tahunAjaran()->id;
+                $bulan = $model->bulan;
+                $tahun = $model->tahun;
+                
+                $peranHitung = PeranHitung::find()
+                                    ->where('module_id=:module_id AND peran_id=:peran_id AND tahun_ajaran_id=:tahun_ajaran_id '
+                                            . ' AND bulan=:bulan AND tahun=:tahun', 
+                                                [':module_id'   =>  $module_id,
+                                                 ':peran_id'    =>  $peran_id,
+                                                 ':tahun_ajaran_id' =>  $tahun_ajaran_id,
+                                                 ':bulan'    =>  $bulan,
+                                                 ':tahun'    =>  $tahun])
+                                    ->one();
+                if(empty($peranHitung)){
+                    $result = [
+                        'success'   =>  false,
+                        'datas'  =>  [$bulan, $tahun]
+                    ];
+                } else {
+                    
+                    $transport = ($peranHitung->transport_hitung == null) ? 0 : $peranHitung->transport_hitung;
+                    $jumlah_jam_rumus = $jumlah_jam_rumus * 60;
+                    
+                    if($jumlah_jam_rumus >= $peranHitung->volume_menit_pertemuan){
+                        $honor = ($jumlah_jam_rumus/$peranHitung->jumlah_menit_hitung) * $peranHitung->honor_menit_hitung;
+                    };
+                    
+                    $result = [
                         'success'   =>  true,
                         'datas'  =>  [
-                            'transport'   =>  10000,
-                            'honor'   =>  5000,
-                            'peran_hitung_id'   =>  12,
+                            'transport'   => $transport,
+                            'honor'   =>  $honor,
+                            'peran_hitung_id'   =>  $peranHitung->id,
                         ]
                     ];
-                
+                };
             };
             
         };

@@ -193,14 +193,18 @@ var imbaljasa = {
 
         $(ed_jumlah_jam_rumus.target).textbox('setValue', jumlah_jam_rumus / 60);
     },
-    hitungimbaljasa: function(ed_peran_id, ed_module_id, ed_peran_hitung_id, ed_jumlah_jam_rumus, ed_transport, ed_honor){
+    hitungimbaljasa: function(ed_peran_id, ed_module_id, ed_peran_hitung_id, ed_jumlah_jam_rumus, ed_transport, ed_honor, peran_id){
         
-        
+        var bulan_tahun = new Date($("#bulan_tahun").val()),
+            bulan = bulan_tahun.getMonth(),
+            tahun = bulan_tahun.getFullYear();    
         
         var datas = {
-            peran_id: $(ed_peran_id.target).combobox('getValue'),
+            peran_id: peran_id,
             module_id: $(ed_module_id.target).textbox('getValue'),
             jumlah_jam_rumus: $(ed_jumlah_jam_rumus.target).textbox('getValue'),
+            bulan: bulan+1,
+            tahun: tahun
         };
         
         $.ajax({
@@ -211,7 +215,7 @@ var imbaljasa = {
                     var res = data.datas;
                     console.log(res);
                     $(ed_peran_hitung_id.target).textbox('setValue', res.peran_hitung_id);
-                    $(ed_transport.target).textbox('setValue', res.peran_hitung_id);
+                    $(ed_transport.target).textbox('setValue', res.transport);
                     $(ed_honor.target).textbox('setValue', res.honor);
                     
                 },
@@ -355,28 +359,6 @@ var dg = {
                             }
                         }
                     },
-//                    {
-//                        field: 'module_id', 
-//                        title:'Modul',
-//                        width: 200,
-//                        editor: {
-//                            type: 'combobox',
-//                            options: {
-//                                valueField: 'module_id',
-//                                textField: 'module',
-//                                method: 'get',
-//                                url:_baseUrl+'/transaksi/jsonmodule',
-//                                required: true,
-//                                onLoadSuccess: function(){
-//                                    var ed_module_id = $('#dg'+moduleid).datagrid('getEditor', {index: editIndex, field: 'module_id'});
-//                                    var ed_kelas_id = $('#dg'+moduleid).datagrid('getEditor', {index: editIndex, field: 'kelas_id'});
-//                                    var url = _baseUrl+'/transaksi/jsonlihatkelas?module_id='+moduleid;
-//                                    
-//                                    $(ed_kelas_id.target).combobox('reload',url);
-//                                    $(ed_module_id.target).combobox('setValue',moduleid);
-//                                }
-//                            }}
-//                    },
                     {
                         field:'kelas_id',
                         title:'Nama Kelas',
@@ -487,15 +469,16 @@ var dg = {
                                 url:_baseUrl+'/transaksi/jsonperan',
                                 required: true,
                                 onSelect: function(selected){
-                                    
+                                   
                                     var ed_peran_id = $('#dg'+moduleid).datagrid('getEditor', {index: editIndex, field: 'peran_id'}),
+                                        peran_id = selected.peran_id,
                                         ed_module_id = $('#dg'+moduleid).datagrid('getEditor', {index: editIndex, field: 'module_id'}),
                                         ed_jumlah_jam_rumus = $('#dg'+moduleid).datagrid('getEditor', {index: editIndex, field: 'jumlah_jam_rumus'}),
                                         ed_transport = $('#dg'+moduleid).datagrid('getEditor', {index: editIndex, field: 'transport'}),
                                         ed_honor = $('#dg'+moduleid).datagrid('getEditor', {index: editIndex, field: 'honor'}),
                                         ed_peran_hitung_id = $('#dg'+moduleid).datagrid('getEditor', {index: editIndex, field: 'peran_hitung_id'});
                                 
-                                    imbaljasa.hitungimbaljasa(ed_peran_id, ed_module_id, ed_peran_hitung_id, ed_jumlah_jam_rumus, ed_transport, ed_honor);
+                                    imbaljasa.hitungimbaljasa(ed_peran_id, ed_module_id, ed_peran_hitung_id, ed_jumlah_jam_rumus, ed_transport, ed_honor, peran_id);
                                 }
                             }}
                     },
@@ -558,8 +541,10 @@ var dg = {
             ]];
     },
     init: function(moduleid){
+        
+        var transaksi_id = $("#transaksi_id").val();
         $("#dg"+moduleid).datagrid({
-            url: _baseUrl+'/transaksi/jsonimbaljasa?module_id='+moduleid,
+            url: _baseUrl+'/transaksi/jsonimbaljasa?module_id='+moduleid+'&transaksi_id='+transaksi_id,
             iconCls: 'fa fa-th',
             toolbar: '#tb',
             onClickCell: imbaljasa.onClickCell,
