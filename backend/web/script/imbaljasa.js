@@ -57,6 +57,9 @@ var imbaljasa = {
                 data: { ImbalJasa: datas },
                 success: function(data){
                     console.log(data);
+                    $("#btn-add").prop("disabled", false);
+                    $("#btn-cancel").prop("disabled", true);
+                    $("#btn-save").prop("disabled", true);
                 },
                 error: function(result){
                     var errors = result.responseJSON.message;
@@ -121,7 +124,7 @@ var imbaljasa = {
         console.log('end to reload grid');
     },
     append: function (moduleid) {
-            
+        console.log('append : '+moduleid);    
         if (imbaljasa.endEditing(moduleid)) {
             
             var ed_module_id,
@@ -360,15 +363,12 @@ var dg = {
                         }
                     },
                     {
-                        field:'kelas_id',
-                        title:'Nama Kelas',
-                        width: 80,
+                        field:'tgl_kegiatan',
+                        title:'Tgl Kegiatan',
+                        width:120,
                         editor: {
-                            type: 'combobox',
+                            type: 'datebox',
                             options: {
-                                valueField: 'kelas_id',
-                                textField: 'kelas',
-                                method: 'get',
                                 required: true
                             }}
                     },
@@ -387,12 +387,15 @@ var dg = {
                             }}
                     },
                     {
-                        field:'tgl_kegiatan',
-                        title:'Tgl Kegiatan',
-                        width:120,
+                        field:'kelas_id',
+                        title:'Nama Kelas',
+                        width: 80,
                         editor: {
-                            type: 'datebox',
+                            type: 'combobox',
                             options: {
+                                valueField: 'kelas_id',
+                                textField: 'kelas',
+                                method: 'get',
                                 required: true
                             }}
                     },
@@ -486,6 +489,7 @@ var dg = {
                         field:'jumlah_jam_rumus',
                         title:'Jumlah Jam Rumus',
                         width:150,
+                        hidden: true,
                         editor: {
                             type: 'textbox',
                             options: {
@@ -558,16 +562,28 @@ var dg = {
             }
         });
         
-
+        $("#btn-add").unbind('click');
         $("#btn-add").on('click', function(){
             imbaljasa.append(moduleid);
+            $("#btn-add").prop("disabled", true);
+            $("#btn-save").prop("disabled", false);
+            $("#btn-cancel").prop("disabled", false);
         });
+        
+        $("#btn-save").unbind('click');
         $("#btn-save").on('click', function(){
             imbaljasa.accept(moduleid);
         });
+        
+        $("#btn-cancel").unbind('click');
         $("#btn-cancel").on('click', function(){
             imbaljasa.reject(moduleid);
+            $("#btn-add").prop("disabled", false);
+            $("#btn-cancel").prop("disabled", true);
+            $("#btn-save").prop("disabled", true);
         });
+        
+        $("#btn-delete").unbind('click');
         $("#btn-delete").on('click', function(){
             imbaljasa.removeit(moduleid);
         });
@@ -581,7 +597,8 @@ var tabs = {
             onSelect: function (title, index) {
                 var selected = $(this).tabs('getSelected');
                 var moduleid = selected[0].dataset.moduleid;
-                console.log(moduleid);
+                dg.init(moduleid);
+//                console.log(moduleid);
             }
         });
     }
