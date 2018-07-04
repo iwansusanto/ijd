@@ -131,12 +131,12 @@ class TransaksiController extends Controller
      * @return mixed
      * @throws NotFoundHttpException if the model cannot be found
      */
-    public function actionDelete($id)
-    {
-        $this->findModel($id)->delete();
-
-        return $this->redirect(['index']);
-    }
+//    public function actionDelete($id)
+//    {
+//        $this->findModel($id)->delete();
+//
+//        return $this->redirect(['index']);
+//    }
 
     /**
      * Finds the Transaksi model based on its primary key value.
@@ -176,7 +176,7 @@ class TransaksiController extends Controller
         Yii::$app->response->format = Response::FORMAT_JSON;
         
         $result = [];
-        if(Yii::$app->request->isAjax){
+//        if(Yii::$app->request->isAjax){
             if(Yii::$app->request->isGet){
                 $module_id = Yii::$app->request->get('module_id');
                 $transaksi_id = Yii::$app->request->get('transaksi_id');
@@ -201,9 +201,30 @@ class TransaksiController extends Controller
                     ->orderBy('ij.id DESC')
                     ->createCommand();
                 
-                $result = $query->queryAll();
+                $results = $query->queryAll();
+  
+                $honor = 0;
+                $transport = 0;
+                if(!empty($results)){
+                    foreach ($results as $i=>$res):
+                        $honor+=$res['honor'];
+                        $transport+=$res['transport'];
+                    endforeach;
+                };
+                
+                $result = [
+                    'total' =>  count($query->queryAll()),
+                    'rows'  =>  $query->queryAll(),
+                    'footer'    =>  [
+                        [
+                            'dosen_fakultas_id_show'   =>  'Total',
+                            'honor'   =>  $honor,
+                            'transport'   =>  $transport,
+                        ]
+                    ]
+                ];
             }
-        }
+//        }
         
         
         return $result;
@@ -360,6 +381,49 @@ class TransaksiController extends Controller
                         ];
 
                     }
+                }
+                
+            }
+        };
+        
+        return $result;
+    }
+    
+    public function actionDelete(){
+        
+        Yii::$app->response->format = Response::FORMAT_JSON;
+        $result = [];
+        
+        $model = new ImbalJasa();
+        
+        if(Yii::$app->request->isAjax){
+            
+            if ($model->load(Yii::$app->request->post())) {
+                
+                if(!empty($model->id)){
+                    // update data
+                    $model = ImbalJasa::findOne($model->id);
+                    if ($model->load(Yii::$app->request->post())) {
+                        if($model->delete()){
+                            $result = [
+                                'success'   =>  true,
+                                'message'   =>  'Delete Data Success'
+                            ];
+                        } else {
+                            Yii::$app->response->statusCode = 400;
+                            $result = [
+                                'success'   =>  false,
+                                'message'   =>  $model->errors
+                            ];
+
+                        }
+                    }
+                } else {
+                    Yii::$app->response->statusCode = 400;
+                    $result = [
+                        'success'   =>  false,
+                        'message'   =>  $model->errors
+                    ];
                 }
                 
             }

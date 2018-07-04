@@ -180,11 +180,39 @@ var imbaljasa = {
     },
     removeit: function (moduleid) {
         if (editIndex == undefined) {
-            return
+            return;
         }
-        $('#dg'+moduleid).datagrid('cancelEdit', editIndex)
-                .datagrid('deleteRow', editIndex);
-        editIndex = undefined;
+        
+                    
+        var datas = [],
+            id = $('#dg'+moduleid).datagrid('getEditor', {index:editIndex, field:'id'});
+    
+            datas = {'id':$.trim($(id.target)[id.type]('getValue'))}; 
+        
+        
+        $.ajax({
+                type: "POST",
+                url: _baseUrl+"/transaksi/delete",
+                data: { ImbalJasa: datas },
+                success: function(data){
+                    console.log(data);
+                    imbaljasa.showMessage('Sukses', data.message);
+                    
+                    $('#dg'+moduleid).datagrid('cancelEdit', editIndex)
+                            .datagrid('deleteRow', editIndex);
+                    editIndex = undefined;
+                    
+                    $("#btn-add").prop("disabled", false);
+                    $("#btn-cancel").prop("disabled", true);
+                    $("#btn-save").prop("disabled", true);
+                    $("#btn-delete").prop("disabled", true);
+                },
+                error: function(result){
+                    var errors = result.responseJSON.message;
+                    console.log(errors);
+                }
+            });
+        
     },
     accept: function (moduleid) {
         if (imbaljasa.endEditing(moduleid)) {
@@ -193,7 +221,7 @@ var imbaljasa = {
         };
         
     },
-    reject: function (moduleid) {
+    reject: function (moduleid) {        
         $('#dg'+moduleid).datagrid('rejectChanges');
         editIndex = undefined;
     },
@@ -258,7 +286,29 @@ var imbaljasa = {
         else{
            return decodeURI(results[1]) || 0;
         }
-    }
+    },
+    showMessage: function(title, content){
+        $.messager.show({
+            title: title,
+            msg: content,
+            timeout: 5000,
+            showType: 'slide'
+        });
+    },
+    addCommas: function(nStr){
+        nStr += '';
+        x = nStr.split('.');
+        x1 = x[0];
+        x2 = x.length > 1 ? '.' + x[1] : '';
+        var rgx = /(\d+)(\d{3})/;
+        while (rgx.test(x1)) {
+            x1 = x1.replace(rgx, '$1' + '.' + '$2');
+        }
+        return x1 + x2;
+    },
+    formatDecimal: function(num){
+        return this.addCommas(parseInt(num));																	
+      }
 };
 
 var dg = {
@@ -612,6 +662,9 @@ var dg = {
                         field: 'transport',
                         title:'Transport',
                         width: 80,
+                        formatter:function(value,rowData,rowIndex){
+                                return imbaljasa.formatDecimal(value);
+                        },
                         editor: {
                             type: 'textbox',
                             options: {
@@ -623,6 +676,9 @@ var dg = {
                         field: 'honor', 
                         title:'Honor Diterima',
                         width: 150,
+                        formatter:function(value,rowData,rowIndex){
+                                return imbaljasa.formatDecimal(value);
+                        },
                         editor: {
                             type: 'textbox',
                             options: {
@@ -666,6 +722,7 @@ var dg = {
             onEndEdit: imbaljasa.onEndEdit,
             method: 'get',
             singleSelect: true,
+            showFooter: true,
             frozenColumns: dg.columnsFrozen(moduleid),
             columns: dg.columns(moduleid),
             onLoadSuccess: function(){
@@ -696,13 +753,27 @@ var dg = {
             $("#btn-delete").prop("disabled", true);
         });
         
-        $("#btn-delete").unbind('click');
-        $("#btn-delete").on('click', function(){
-            imbaljasa.removeit(moduleid);
-            $("#btn-add").prop("disabled", false);
-            $("#btn-cancel").prop("disabled", true);
-            $("#btn-save").prop("disabled", true);
-            $("#btn-delete").prop("disabled", true);
+//        $("#btn-delete").unbind('click');
+//        $("#btn-delete").on('click', function(){
+////            imbaljasa.removeit(moduleid);
+//            $("#btn-add").prop("disabled", false);
+//            $("#btn-cancel").prop("disabled", true);
+//            $("#btn-save").prop("disabled", true);
+//            $("#btn-delete").prop("disabled", true);
+//        });
+        
+        // bootstrap_confirm_delete has been use unbind click
+        $("#btn-delete").bootstrap_confirm_delete({
+            heading: 'Delete',
+            message: 'Anda yakin akan menghapus data ini?',
+            btn_ok_label:       'Ya',
+            btn_cancel_label:   'Batal',
+            delete_callback:    function() { imbaljasa.removeit(moduleid); },
+            cancel_callback:    function() { 
+                setTimeout(function(){
+                    $("#btn-cancel").trigger("click");
+                },0);
+            }
         });
     }
 };

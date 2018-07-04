@@ -63,7 +63,7 @@ $session = Yii::$app->session;
         <button href="javascript:void(0)" class="btn btn-primary" id="btn-add"><i class="fa fa-plus"></i>&nbsp;Tambah Baris</button>
         <button href="javascript:void(0)" class="btn btn-success" id="btn-save" disabled="disabled"><i class="fa fa-save"></i>&nbsp;Simpan</button>
         <button href="javascript:void(0)" class="btn btn-warning" id="btn-cancel" disabled="disabled"><i class="fa fa-mail-reply"></i>&nbsp;Batal</button>
-        <button href="javascript:void(0)" class="btn btn-mini btn-danger" id="btn-delete" disabled="disabled"><i class="fa fa-remove"></i>&nbsp;Hapus Baris</button>
+        <button href="javascript:void(0)" class="btn btn-mini btn-danger delete-row" id="btn-delete" disabled="disabled"><i class="fa fa-remove"></i>&nbsp;Hapus Baris</button>
     </div>
 </div>
 
@@ -85,6 +85,11 @@ $this->registerJs(
     "$('#tt').tabs({tabPosition:'bottom'});",
     View::POS_END,
     'my-tab'
+);
+
+$this->registerJsFile(
+    '@web/script/bootstrap-confirm-delete.js',
+    ['depends' => [\yii\web\JqueryAsset::className()]]
 );
 
 $this->registerJsFile(
