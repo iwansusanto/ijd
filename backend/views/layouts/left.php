@@ -61,6 +61,14 @@
                             ['label' => 'Hitung Imbal Jasa', 'icon' => 'th', 'url' => ['/transaksi'], 'active' => Yii::$app->controller->id == 'transaksi'],
                         ],
                     ],
+                    [
+                        'label' => 'Report',
+                        'icon' => 'file-text-o',
+                        'url' => '#',
+                        'items' => [
+                            ['label' => 'Gabung', 'icon' => 'file-text', 'url' => ['/report/gabung'], 'active' => Yii::$app->controller->id == 'report'],
+                        ],
+                    ],
 //                    [
 //                        'label' => 'Master',
 //                        'icon' => 'window-restore',
