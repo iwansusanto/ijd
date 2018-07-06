@@ -155,7 +155,7 @@ var dg = {
                 end_date.calendar({
                         validator: function(date){
                             
-                            var d1 = new Date(selected_date.getFullYear(), selected_date.getMonth(), 1);
+                            var d1 = new Date(selected_date.getFullYear(), selected_date.getMonth(), selected_date.getDate());
                             var d2 = new Date(selected_date.getFullYear(), selected_date.getMonth()+1, 0);
                             return d1<=date && date<=d2;
                         }

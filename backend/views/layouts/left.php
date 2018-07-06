@@ -66,7 +66,8 @@
                         'icon' => 'file-text-o',
                         'url' => '#',
                         'items' => [
-                            ['label' => 'Gabung', 'icon' => 'file-text', 'url' => ['/report/gabung'], 'active' => Yii::$app->controller->id == 'report'],
+                            ['label' => 'Gabung', 'icon' => 'file-text', 'url' => ['/report/gabung'], 'active' => (Yii::$app->controller->id == 'report' && Yii::$app->controller->action->id == 'gabung')],
+                            ['label' => 'Pivot Dosen', 'icon' => 'files-o', 'url' => ['/report/pivotdosen'], 'active' => (Yii::$app->controller->id == 'report' && Yii::$app->controller->action->id == 'pivotdosen')],
                         ],
                     ],
 //                    [
