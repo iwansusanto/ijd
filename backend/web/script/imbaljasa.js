@@ -723,6 +723,8 @@ var dg = {
             method: 'get',
             singleSelect: true,
             showFooter: true,
+            pagination: false,
+            pageList: 50,
             frozenColumns: dg.columnsFrozen(moduleid),
             columns: dg.columns(moduleid),
             onLoadSuccess: function(){

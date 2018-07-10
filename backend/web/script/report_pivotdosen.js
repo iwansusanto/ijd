@@ -40,21 +40,63 @@ var dg = {
         $("#dg_report").pivotgrid({
             url:url_grid,
             method:'get',
-//            toolbar: '#tb',
+            showFooter: true,    
             pivot:{
                 rows:['nama_dosen','nama_module','nama_peran','nama_ruangan','nama_kelas'],
                 columns:['tgl_kegiatan'],
                 values:[
-                        {field:'honor',op:'sum'},
-                        {field:'transport',op:'sum'}
+                        {field:'honor',op:'sum', 'title': 'Honor', formatter: function (value, row) {
+                            return report.formatDecimal(value);
+                        }},
+                        {field:'transport',op:'sum', 'title': 'Transport', formatter: function (value, row) {
+                            return report.formatDecimal(value);
+                        }}
                     ]
             },
             forzenColumnTitle:'<span style="font-weight:bold">Pivot Grid</span>',
             valuePrecision:0,
             valueStyler:function(value,row,index){
-                if (/Discount$/.test(this.field) && value>100 && value<500){
-                    return 'background:#D8FFD8'
+                if (/Total_honor$/.test(this.field) && value>0){
+                    return 'background:#D8FFD8';
                 }
+            },
+            onLoadSuccess: function (row, data) {
+                for (i = 0; i < $('#dg_report').treegrid('getData').length; i++) {
+                    $('#dg_report').treegrid('collapseAll', i);
+                };
+//                console.log($('#dg_report').pivotgrid('getData'));
+//                $('#dg_report').pivotgrid('reloadFooter', [
+//                    {name: 'Total', honor: '10.000'}
+//                ]);
+            },
+            onExpand: function (row){
+//                console.log(row.children);
+                for (i = 0; i < row.children.length; i++) {
+                    var total_honor = Object.keys(row.children[i]._rows).reduce(function(sum, key){
+                        var total = 0;
+                        if(row.children[i]._rows[key].id != 'nip'){
+                            total = sum + parseInt(row.children[i]._rows[key].honor);
+                        };
+                        return total;
+                    }, 0);
+                    
+                    var total_transport = Object.keys(row.children[i]._rows).reduce(function(sum, key){
+                        var total = 0;
+                        if(row.children[i]._rows[key].id != 'nip'){
+                            total = sum + parseInt(row.children[i]._rows[key].transport);
+                        };
+                        return total;
+                    }, 0);
+                    
+                    $('#dg_report').treegrid('update',{
+                            id: row.children[i]._id_field,
+                            row: {
+                                    name: 'honor',
+                                    Total_honor: total_honor,
+                                    Total_transport: total_transport
+                            }
+                        });
+                };
             }
         });
     },
@@ -62,7 +104,7 @@ var dg = {
         
         var start_date,	end_date, url_grid;	
         
-        url_grid = _baseUrl+'/report/jsonreportpivotdosen?start_date=05/01/2018&end_date=05/31/2018';
+        url_grid = _baseUrl+'/report/jsonreportpivotdosen';
         
         dg.load(url_grid);
         

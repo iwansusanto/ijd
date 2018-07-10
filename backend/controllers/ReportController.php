@@ -130,13 +130,17 @@ class ReportController extends Controller
         
         Yii::$app->response->format = Response::FORMAT_JSON;
         
-        $result = [];
-        if(Yii::$app->request->isAjax){
+        $results = [];
+        $resultsMerge = [];
+//        $vivotHonorSum = [];
+//        $vivotTransportSum = [];
+        $vivotSum = [];
+//        if(Yii::$app->request->isAjax){
             if(Yii::$app->request->isGet){
                 $start_date = Yii::$app->request->get('start_date');
                 $end_date = Yii::$app->request->get('end_date');
                 
-//                if(!empty($start_date) && !empty($end_date)){
+                if(!empty($start_date) && !empty($end_date)){
                     
                     $start_date = date('Y-m-d', strtotime($start_date));
                     $end_date = date('Y-m-d', strtotime($end_date));
@@ -149,7 +153,7 @@ class ReportController extends Controller
                                                                     . 'WHEN ij.nama_fakultas_digantikan = "" THEN "-" '
                                                                     . 'ELSE ij.nama_fakultas_digantikan '
                                                                     . 'END AS nama_fakultas_digantikan'),
-                                            'ij.nama_module', 'ij.nama_kelas', 'ij.nama_ruangan', 
+                                            'ij.nama_module', 'ij.module_id', 'ij.nama_kelas', 'ij.nama_ruangan', 
                                             'DATE_FORMAT(ij.tgl_kegiatan, "%d %b %Y") AS tgl_kegiatan',
                                             new \yii\db\Expression('TIME_FORMAT(ij.jam_mulai,  "%H:%i") as jam_mulai'),
                                             new \yii\db\Expression('TIME_FORMAT(ij.jam_selesai,  "%H:%i") as jam_selesai'),
@@ -161,11 +165,53 @@ class ReportController extends Controller
                                 ->createCommand();
 
                             $results = $query->queryAll();
-//                };
+                            
+                            $honor = 0;
+                            $transport = 0;
+                            
+                            if(!empty($results)){
+                                foreach ($results as $i=>$res):
+                                    $honor+=$res['honor'];
+                                    $transport+=$res['transport'];
+                                endforeach;
+                            };
+                            
+                            foreach ($results as $el) {
+                                if (!array_key_exists($el['nip'], $vivotSum)) {
+                                    $vivotSum[$el['nip']] = array(
+                                        'id' => 'nip',
+                                        'nip' => $el['nip'],
+                                        'nama_dosen' => $el['nama_dosen'],
+                                        'nama_fakultas' => $el['nama_fakultas'],
+                                        'nama_dosen_digantikan' => $el['nama_dosen_digantikan'],
+                                        'nama_fakultas_digantikan' => $el['nama_fakultas_digantikan'],
+                                        'nama_module' => $el['nama_module'],
+                                        'module_id' => $el['module_id'],
+                                        'nama_kelas' => $el['nama_kelas'],
+                                        'nama_ruangan' => $el['nama_ruangan'],
+                                        'tgl_kegiatan' => 'Total',
+                                        'jam_mulai' => $el['jam_mulai'],
+                                        'jam_selesai' => $el['jam_selesai'],
+                                        'nama_peran' => $el['nama_peran'],
+                                        'jumlah_jam_rumus' => $el['jumlah_jam_rumus'],
+                                        'honor' =>  $el['honor'],
+                                        'transport' =>  $el['transport'],
+                                        'keterangan' => $el['keterangan']
+                                    );
+                                } else {
+                                    $vivotSum[$el['nip']]['honor'] = $vivotSum[$el['nip']]['honor'] + $el['honor']; 
+                                    $vivotSum[$el['nip']]['transport'] = $vivotSum[$el['nip']]['transport'] + $el['transport']; 
+                                    $vivotSum[$el['nip']]['jumlah_jam_rumus'] = $vivotSum[$el['nip']]['jumlah_jam_rumus'] + $el['jumlah_jam_rumus']; 
+                                }
+                            }
+                            
+                            $results = array_merge($vivotSum, $results);
+
+                };
                 
                 $result = $results;
             }
-        }
+//        }
         
         return $result;
     }
