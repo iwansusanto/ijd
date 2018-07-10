@@ -42,7 +42,7 @@ var dg = {
             method:'get',
             showFooter: true,    
             pivot:{
-                rows:['nama_fakultas','nama_dosen','nama_module','nama_peran','nama_ruangan'],
+                rows:['nama_fakultas','nama_dosen','nama_module','nama_peran'],
                 columns:['tgl_kegiatan'],
                 values:[
                         {field:'honor',op:'sum', 'title': 'Honor', formatter: function (value, row) {
@@ -53,7 +53,7 @@ var dg = {
                         }}
                     ]
             },
-            forzenColumnTitle:'<span style="font-weight:bold">Pivot Grid</span>',
+            forzenColumnTitle:'<span style="font-weight:bold">Nama Fakultas</span>',
             valuePrecision:0,
             valueStyler:function(value,row,index){
                 if (/Total_honor$/.test(this.field) && value>0){
