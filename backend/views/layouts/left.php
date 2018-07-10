@@ -68,6 +68,8 @@
                         'items' => [
                             ['label' => 'Gabung', 'icon' => 'file-text', 'url' => ['/report/gabung'], 'active' => (Yii::$app->controller->id == 'report' && Yii::$app->controller->action->id == 'gabung')],
                             ['label' => 'Pivot Dosen', 'icon' => 'files-o', 'url' => ['/report/pivotdosen'], 'active' => (Yii::$app->controller->id == 'report' && Yii::$app->controller->action->id == 'pivotdosen')],
+                            ['label' => 'Pivot Fakultas', 'icon' => 'file-powerpoint-o', 'url' => ['/report/pivotfakultas'], 'active' => (Yii::$app->controller->id == 'report' && Yii::$app->controller->action->id == 'pivotfakultas')],
+                            ['label' => 'Pivot Module', 'icon' => 'file-o', 'url' => ['/report/pivotmodule'], 'active' => (Yii::$app->controller->id == 'report' && Yii::$app->controller->action->id == 'pivotmodule')],
                         ],
                     ],
 //                    [

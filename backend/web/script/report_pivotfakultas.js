@@ -42,7 +42,7 @@ var dg = {
             method:'get',
             showFooter: true,    
             pivot:{
-                rows:['nama_dosen','nama_module','nama_peran','nama_kelas','nama_ruangan'],
+                rows:['nama_fakultas','nama_dosen','nama_module','nama_peran','nama_ruangan'],
                 columns:['tgl_kegiatan'],
                 values:[
                         {field:'honor',op:'sum', 'title': 'Honor', formatter: function (value, row) {
@@ -104,7 +104,7 @@ var dg = {
         
         var start_date,	end_date, url_grid;	
         
-        url_grid = _baseUrl+'/report/jsonreportpivotdosen';
+        url_grid = _baseUrl+'/report/jsonreportpivotfakultas';
         
         dg.load(url_grid);
         
@@ -130,7 +130,7 @@ var dg = {
             start_date = $('#start_date').datebox('getValue');
             end_date = $('#end_date').datebox('getValue');
             
-            url_grid = _baseUrl+'/report/jsonreportpivotdosen?start_date='+start_date+'&end_date='+end_date;
+            url_grid = _baseUrl+'/report/jsonreportpivotfakultas?start_date='+start_date+'&end_date='+end_date;
             
             dg.load(url_grid);
         });
