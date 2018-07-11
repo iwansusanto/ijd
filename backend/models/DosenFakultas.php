@@ -24,6 +24,7 @@ class DosenFakultas extends \yii\db\ActiveRecord
     /**
      * {@inheritdoc}
      */
+    public $checked;
     public static function tableName()
     {
         return 'dosen_fakultas';
@@ -37,7 +38,7 @@ class DosenFakultas extends \yii\db\ActiveRecord
         return [
             [['dosen_id', 'fakultas_id', 'tahun_ajaran_id'], 'required'],
             [['dosen_id', 'fakultas_id', 'tahun_ajaran_id', 'user_created', 'user_updated'], 'integer'],
-            [['update_time'], 'safe'],
+            [['update_time', 'checked'], 'safe'],
             [['tahun_ajaran_id'], 'exist', 'skipOnError' => true, 'targetClass' => TahunAjaran::className(), 'targetAttribute' => ['tahun_ajaran_id' => 'id']],
             [['dosen_id'], 'exist', 'skipOnError' => true, 'targetClass' => Dosen::className(), 'targetAttribute' => ['dosen_id' => 'id']],
             [['fakultas_id'], 'exist', 'skipOnError' => true, 'targetClass' => Fakultas::className(), 'targetAttribute' => ['fakultas_id' => 'id']],

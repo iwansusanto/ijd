@@ -36,7 +36,7 @@ class TahunAjaran extends \yii\db\ActiveRecord
     {
         return [
             [['periode_awal', 'periode_akhir'], 'required'],
-            [['periode_awal', 'periode_akhir', 'update_time'], 'safe'],
+            [['periode_awal', 'periode_akhir', 'update_time', 'id'], 'safe'],
             [['status', 'user_created', 'user_updated'], 'integer'],
             [['periode'], 'string', 'max' => 50],
             [['periode'], 'unique'],

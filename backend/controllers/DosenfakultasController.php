@@ -4,10 +4,15 @@ namespace backend\controllers;
 
 use Yii;
 use app\models\Dosenfakultas;
+use app\models\TahunAjaran;
+use app\models\Dosen;
+use app\models\Fakultas;
 use app\models\DosenfakultasSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use yii\helpers\Url;
+use yii\web\Response;
 
 /**
  * DosenfakultasController implements the CRUD actions for Dosenfakultas model.
@@ -76,6 +81,30 @@ class DosenfakultasController extends Controller
             'model' => $model,
         ]);
     }
+    
+    public function actionCreatetemplate(){
+        
+        $session = Yii::$app->session;
+        
+        $tahunAjaran = TahunAjaran::findOne($session->get('template_tahun_ajaran_id'));
+        
+        
+        $model = \app\models\DosenFakultas::find()
+                    ->where('tahun_ajaran_id=:tahun_ajaran_id',[
+                        ':tahun_ajaran_id'  =>  $tahunAjaran->id
+                    ])
+                    ->all();
+        
+        $dosen = Dosen::find()->asArray()->all();
+        $fakultas = Fakultas::find()->asArray()->all();
+        
+        return $this->render('createtemplate', [
+            'model' => $model,
+            'dosen' =>  $dosen,
+            'fakultas' =>  $fakultas,
+            'tahunAjaran'  =>  $tahunAjaran
+        ]);
+    }
 
     /**
      * Updates an existing Dosenfakultas model.
@@ -125,5 +154,52 @@ class DosenfakultasController extends Controller
         }
 
         throw new NotFoundHttpException('The requested page does not exist.');
+    }
+    
+    public function actionSessiontemplate(){
+        
+        Yii::$app->response->format = Response::FORMAT_JSON;
+        $result = [];
+        
+        $model = new TahunAjaran();
+        
+        if(Yii::$app->request->isAjax){
+            
+            if ($model->load(Yii::$app->request->post())) {
+                $session = Yii::$app->session;
+                
+                if(!empty($model->id)){
+                    $session['template_tahun_ajaran_id'] = $model->id;
+                    
+                    $result = [
+                                'success'   =>  true,
+                                'url_redirect'   => Url::to(['dosenfakultas/createtemplate'])
+                            ];
+                    
+                } else {
+                    Yii::$app->response->statusCode = 400;
+                    $result = [
+                        'success'   =>  false,
+                        'url_redirect'   =>  false
+                    ];
+                }
+                
+            }
+        };
+        
+        return $result;
+    }
+    
+    public function actionAdddosenrow(){
+        
+        $count = Yii::$app->request->post('count');
+        $dosen = Dosen::find()->asArray()->all();
+        $fakultas = Fakultas::find()->asArray()->all();
+        
+        return $this->renderAjax('ajax_adddosenrow', [
+            'dosen' => $dosen,
+            'fakultas' =>  $fakultas,
+            'count'    =>  $count
+        ]);
     }
 }

@@ -15,7 +15,7 @@ use Yii;
  * @property int $user_updated
  * @property string $update_time
  */
-class DosenFakultas extends \yii\db\ActiveRecord
+class DosenFakultas_old extends \yii\db\ActiveRecord
 {
     /**
      * {@inheritdoc}
