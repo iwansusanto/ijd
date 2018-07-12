@@ -72,7 +72,8 @@ class DosenfakultasController extends Controller
     public function actionCreate()
     {
         $model = new Dosenfakultas();
-
+        $model->scenario = \app\models\DosenFakultas::SCENARIOCREATE;
+        
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id]);
         }
@@ -87,16 +88,46 @@ class DosenfakultasController extends Controller
         $session = Yii::$app->session;
         
         $tahunAjaran = TahunAjaran::findOne($session->get('template_tahun_ajaran_id'));
+        $dosen = Dosen::find()->asArray()->all();
+        $fakultas = Fakultas::find()->asArray()->all();
         
+        if(Yii::$app->request->isAjax){
+            $count = count(Yii::$app->request->post('DosenFakultas', []));
+            
+            for($i = 0; $i < $count; $i++):
+                $model[] = new \app\models\DosenFakultas(['scenario'    =>  'scenariomultiple']);
+            endfor;
+            
+            if(\yii\base\Model::loadMultiple($model, Yii::$app->request->post())) {
+            
+                if(\yii\base\Model::validateMultiple($model)){
+                    Yii::$app->response->format = Response::FORMAT_JSON;
+                    foreach ($model as $row) {
+                        $row->tahun_ajaran_id = Yii::$app->is->tahunAjaran()->id;
+                        $row->save(false);
+                    };
+                    
+                    return [
+                        'success'   =>  true,
+                        'url_redirect'  =>  Url::to(['dosenfakultas/index'])
+                    ];
+                    
+                } else {
+                    Yii::$app->response->statusCode = 400;
+                    Yii::$app->response->format = Response::FORMAT_JSON;
+                    return \yii\widgets\ActiveForm::validateMultiple($model);
+                };
+                
+//            Yii::$app->end();
+//            https://www.yiiframework.com/doc/guide/2.0/en/input-tabular-input#updating-a-fixed-set-of-records
+            }
+        }
         
         $model = \app\models\DosenFakultas::find()
                     ->where('tahun_ajaran_id=:tahun_ajaran_id',[
                         ':tahun_ajaran_id'  =>  $tahunAjaran->id
                     ])
                     ->all();
-        
-        $dosen = Dosen::find()->asArray()->all();
-        $fakultas = Fakultas::find()->asArray()->all();
         
         return $this->render('createtemplate', [
             'model' => $model,
@@ -116,6 +147,7 @@ class DosenfakultasController extends Controller
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
+        $model->scenario = \app\models\DosenFakultas::SCENARIOUPDATE;
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id]);

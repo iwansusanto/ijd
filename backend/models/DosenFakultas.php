@@ -24,7 +24,12 @@ class DosenFakultas extends \yii\db\ActiveRecord
     /**
      * {@inheritdoc}
      */
+    const SCENARIOMULTIPLE = 'scenariomultiple';
+    const SCENARIOCREATE = 'scenariocreate';
+    const SCENARIOUPDATE = 'scenarioupdate';
+    
     public $checked;
+    
     public static function tableName()
     {
         return 'dosen_fakultas';
@@ -36,7 +41,11 @@ class DosenFakultas extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['dosen_id', 'fakultas_id', 'tahun_ajaran_id'], 'required'],
+            [['dosen_id', 'fakultas_id'], 'required', 'on' => self::SCENARIOMULTIPLE],
+            [['dosen_id', 'fakultas_id', 'tahun_ajaran_id'], 'required', 'on' => self::SCENARIOCREATE],
+            [['dosen_id', 'fakultas_id', 'tahun_ajaran_id'], 'required', 'on' => self::SCENARIOUPDATE],
+//            [['dosen_id', 'fakultas_id', 'tahun_ajaran_id'], 'required'],
+            
             [['dosen_id', 'fakultas_id', 'tahun_ajaran_id', 'user_created', 'user_updated'], 'integer'],
             [['update_time', 'checked'], 'safe'],
             [['tahun_ajaran_id'], 'exist', 'skipOnError' => true, 'targetClass' => TahunAjaran::className(), 'targetAttribute' => ['tahun_ajaran_id' => 'id']],
@@ -101,4 +110,10 @@ class DosenFakultas extends \yii\db\ActiveRecord
         
         return false;
     }
+    
+    public function afterFind(){
+        $this->setScenario(self::SCENARIOMULTIPLE);
+        parent::afterFind();
+    }
+
 }

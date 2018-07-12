@@ -48,20 +48,40 @@ var template = {
         $('#form-dosenfakultas').on('beforeSubmit', function(e) {
             var form = $(this);
             var formData = form.serialize();
+            var count_row = $('.wrapper-dosen').find('.row-dosen').length;
+            
             $.ajax({
                 url: form.attr("action"),
                 type: form.attr("method"),
                 data: formData,
                 success: function (data) {
-                    alert('Test');
+                    template.clearformerror(count_row);
+                    window.location.replace(data.url_redirect);
                 },
-                error: function () {
-                    alert("Something went wrong");
+                error: function (data) {
+                    var errors = data.responseJSON;
+                    
+                    template.clearformerror(count_row);
+                    
+                    $.each(errors, function(key, val){
+                        $(".field-"+key).addClass('has-error');
+                        $(".field-"+key).find('.help-block').html(val[0]);
+                    });
                 }
             });
+            return false; // prevent default submit
         }).on('submit', function(e){
             e.preventDefault();
         });
+    },
+    clearformerror: function(count){
+        for(var i = 0; i < count; i++){
+            $(".field-dosenfakultas-"+i+"-fakultas_id").removeClass('has-error');
+            $(".field-dosenfakultas-"+i+"-fakultas_id").find('.help-block').html("");
+
+            $(".field-dosenfakultas-"+i+"-dosen_id").removeClass('has-error');
+            $(".field-dosenfakultas-"+i+"-dosen_id").find('.help-block').html("");
+        };
     }
 };
 

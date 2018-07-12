@@ -17,7 +17,7 @@ use kartik\select2\Select2;
 
     <?php $form = ActiveForm::begin([
                     'id'    =>  'form-dosenfakultas',
-                    'enableClientValidation' => true, 
+                    'enableClientValidation' => false, 
                     'enableAjaxValidation' => false,    
                     'options' => ['enctype' => 'multipart/form-data']
     ]); ?>
@@ -27,7 +27,7 @@ use kartik\select2\Select2;
     
         <div class="row row-dosen" id="cd-<?= $i; ?>" data-count="<?= $i; ?>">
             
-            <div class="col-md-4"><?= $form->field($row, "dosen_id[$i]")
+            <div class="col-md-4"><?= $form->field($row, "[$i]dosen_id")
                                         ->widget(Select2::className(), [
                                                     'data'      =>  ArrayHelper::map($dosen, 'id', 'nama'),
                                                     'options'   =>  [
@@ -37,7 +37,7 @@ use kartik\select2\Select2;
                                                         'allowClear'    =>  true
                                                     ]]) ?>
             </div>
-            <div class="col-md-4"><?= $form->field($row, "fakultas_id[$i]")
+            <div class="col-md-4"><?= $form->field($row, "[$i]fakultas_id")
                                         ->widget(Select2::className(), [
                                                     'data'      =>  ArrayHelper::map($fakultas, 'id', 'nama'),
                                                     'options'   =>  [
