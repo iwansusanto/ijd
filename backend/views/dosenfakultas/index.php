@@ -23,13 +23,16 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <p>
         <?= Html::a('Create Dosenfakultas', ['create'], ['class' => 'btn btn-success']) ?>
-        <?= Html::button('Template Dosenfakultas', [
+        <?php 
+            if ($dataProvider->getTotalCount() === 0) { 
+                echo Html::button('Template Dosenfakultas', [
                         'type'  =>  'button',
                         'class' => 'btn btn-danger',
                         'data-toggle'   =>  'modal',
                         'data-target'    =>  '.bs-example-modal-lg',
 //                        'title' =>  'Template Berdasarkan Tahun Ajaran Terakhir'
-            ]) ?>
+                    ]);
+            }; ?>
     </p>
 
     <?= GridView::widget([

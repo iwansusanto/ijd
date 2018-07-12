@@ -92,11 +92,14 @@ class DosenfakultasController extends Controller
         $fakultas = Fakultas::find()->asArray()->all();
         
         if(Yii::$app->request->isAjax){
-            $count = count(Yii::$app->request->post('DosenFakultas', []));
+//            $count = count(Yii::$app->request->post('DosenFakultas', []));
+//            for($i = 0; $i < $count; $i++): // using foreach Yii::$app->request->post() to get index
+//                $model[] = new \app\models\DosenFakultas(['scenario'    =>  'scenariomultiple']);
+//            endfor;
             
-            for($i = 0; $i < $count; $i++):
-                $model[] = new \app\models\DosenFakultas(['scenario'    =>  'scenariomultiple']);
-            endfor;
+            foreach (Yii::$app->request->post('DosenFakultas') as $i=>$row): // using foreach Yii::$app->request->post() to get index
+                $model[$i] = new \app\models\DosenFakultas(['scenario'    =>  'scenariomultiple']);
+            endforeach;
             
             if(\yii\base\Model::loadMultiple($model, Yii::$app->request->post())) {
             
@@ -115,6 +118,7 @@ class DosenfakultasController extends Controller
                 } else {
                     Yii::$app->response->statusCode = 400;
                     Yii::$app->response->format = Response::FORMAT_JSON;
+                    
                     return \yii\widgets\ActiveForm::validateMultiple($model);
                 };
                 
