@@ -73,7 +73,8 @@ class PeranhitungController extends Controller
 //            $request = Yii::$app->request->post('PeranHitung');
             
             if($model->save()){
-                return $this->redirect(['view', 'id' => $model->id]);
+//                return $this->redirect(['view', 'id' => $model->id]);
+                return $this->redirect(['index']);
             }
             
         }
@@ -107,7 +108,8 @@ class PeranhitungController extends Controller
             $model->bulan = date('Y-m', strtotime($request['bulan']));
             
             if($model->save()){
-                return $this->redirect(['view', 'id' => $model->id]);
+//                return $this->redirect(['view', 'id' => $model->id]);
+                return $this->redirect(['index']);
             };
         }
         

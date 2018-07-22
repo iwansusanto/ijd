@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "d4ca10913b9835eedab71d7367d7806e",
+    "content-hash": "6b3cb20d8dc2b70226ea36e4f60926e9",
     "packages": [
         {
             "name": "almasaeed2010/adminlte",
@@ -1519,50 +1519,6 @@
                 "yii"
             ],
             "time": "2017-01-11T14:05:47+00:00"
-        },
-        {
-            "name": "scotthuangzl/yii2-google-chart",
-            "version": "dev-master",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/ScottHuangZL/yii2-google-chart.git",
-                "reference": "6bd68466030af8a931b34d2ceacf0a498da5b9a0"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/ScottHuangZL/yii2-google-chart/zipball/6bd68466030af8a931b34d2ceacf0a498da5b9a0",
-                "reference": "6bd68466030af8a931b34d2ceacf0a498da5b9a0",
-                "shasum": ""
-            },
-            "require": {
-                "yiisoft/yii2": "*"
-            },
-            "type": "yii2-extension",
-            "autoload": {
-                "psr-4": {
-                    "scotthuangzl\\googlechart\\": ""
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "BSD-3-Clause"
-            ],
-            "authors": [
-                {
-                    "name": "Scott Huang",
-                    "email": "zhiliang.huang@gmail.com"
-                }
-            ],
-            "description": "A wraper for google chart",
-            "keywords": [
-                "extension",
-                "google chart",
-                "hzl",
-                "scott huang",
-                "widget",
-                "yii2"
-            ],
-            "time": "2015-06-11T12:13:00+00:00"
         },
         {
             "name": "setasign/fpdi",
@@ -4656,8 +4612,7 @@
     "minimum-stability": "dev",
     "stability-flags": {
         "kartik-v/yii2-widget-datepicker": 20,
-        "kartik-v/yii2-widget-select2": 20,
-        "scotthuangzl/yii2-google-chart": 20
+        "kartik-v/yii2-widget-select2": 20
     },
     "prefer-stable": true,
     "prefer-lowest": false,

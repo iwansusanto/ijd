@@ -1,4 +1,7 @@
 <?php
+
+use kartik\mpdf\Pdf;
+
 $params = array_merge(
     require __DIR__ . '/../../common/config/params.php',
     require __DIR__ . '/../../common/config/params-local.php',
@@ -19,6 +22,16 @@ return [
     ],
     'name'  =>  'Imbal Jasa Dosen',
     'components' => [
+        // setup Krajee Pdf component
+        'pdf' => [
+            'class' => Pdf::className(),
+            'mode' => Pdf::MODE_CORE, 
+            'format' => Pdf::FORMAT_A4,
+            'orientation' => Pdf::ORIENT_LANDSCAPE,
+            'destination' => Pdf::DEST_BROWSER,
+//            'cssFile' => '@vendor/kartik-v/yii2-mpdf/assets/kv-mpdf-bootstrap.min.css'
+            // refer settings section for all configuration options
+        ],
         'view' => [
             'theme' => [
                 'pathMap' => [

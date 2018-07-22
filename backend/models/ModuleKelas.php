@@ -37,7 +37,7 @@ class ModuleKelas extends \yii\db\ActiveRecord
         return [
             [['module_id', 'kelas_id', 'tahun_ajaran_id'], 'required'],
             [['module_id', 'tahun_ajaran_id', 'user_created', 'user_updated'], 'integer'],
-            [['kelas_id'], 'unique', 'message' => 'Kelas has already been taken'],
+//            [['kelas_id'], 'unique', 'message' => 'Kelas has already been taken'],
             [['update_time'], 'safe'],
             [['tahun_ajaran_id'], 'exist', 'skipOnError' => true, 'targetClass' => TahunAjaran::className(), 'targetAttribute' => ['tahun_ajaran_id' => 'id']],
             [['kelas_id'], 'exist', 'skipOnError' => true, 'targetClass' => Kelas::className(), 'targetAttribute' => ['kelas_id' => 'id']],

@@ -64,10 +64,25 @@ $session = Yii::$app->session;
         <button href="javascript:void(0)" class="btn btn-success" id="btn-save" disabled="disabled"><i class="fa fa-save"></i>&nbsp;Simpan</button>
         <button href="javascript:void(0)" class="btn btn-warning" id="btn-cancel" disabled="disabled"><i class="fa fa-mail-reply"></i>&nbsp;Batal</button>
         <button href="javascript:void(0)" class="btn btn-mini btn-danger delete-row" id="btn-delete" disabled="disabled"><i class="fa fa-remove"></i>&nbsp;Hapus Baris</button>
+        <button href="javascript:void(0)" class="btn btn-mini btn-danger export-pdf-row" id="btn-export-pdf"><i class="fa fa-file-pdf-o"></i>&nbsp;Export Pdf</button>
     </div>
 </div>
 
 
+<?= $form = Html::beginForm('/export/pdfijd', 'POST', [
+        'id'    =>  'form-export-pdfijd'
+]); ?>
+
+<?= Html::hiddenInput('moduleid', '', []); ?>
+<?= Html::hiddenInput('transaksi_id', '', []); ?>
+
+<div class="form-group">
+    <?= Html::submitButton('Export', [
+            'class' =>  'hidden'
+    ]); ?>
+</div>
+
+<?= Html::endForm(); ?>
 
 <?php
 

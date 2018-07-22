@@ -28,6 +28,8 @@
         "kartik-v/yii2-field-range": "*",
         "kartik-v/yii2-widget-select2": "@dev",
         "kartik-v/yii2-number": "*",
+        "kartik-v/yii2-mpdf": "*",
+        "scotthuangzl/yii2-google-chart": "dev-master",
         "kartik-v/yii2-widget-touchspin": "*"
     },
     "require-dev": {
@@ -41,6 +43,12 @@
         "process-timeout": 1800,
         "fxp-asset": {
             "enabled": false
+        }
+    },
+    "extra": {
+        "asset-installer-paths": {
+            "npm-asset-library": "vendor/npm",
+            "bower-asset-library": "vendor/bower"
         }
     },
     "repositories": [

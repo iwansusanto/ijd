@@ -308,7 +308,31 @@ var imbaljasa = {
     },
     formatDecimal: function(num){
         return this.addCommas(parseInt(num));																	
-      }
+    },
+    exportPdf: function(moduleid, transaksi_id){
+        
+        $("input[name='moduleid']").val(moduleid);
+        $("input[name='transaksi_id']").val(transaksi_id);
+        
+        $("form#form-export-pdfijd").submit();
+        
+//        var datas = [];
+//            datas = {'moduleid': moduleid, 'transaksi_id': transaksi_id}; 
+//        
+//        $.ajax({
+//                type: "POST",
+//                url: _baseUrl+"/export/pdfijd",
+//                data: { ImbalJasa: datas },
+//                success: function(data){
+//                    console.log(data);
+//                },
+//                error: function(res){
+//                    var errors = res.responseJSON.message;
+//                    console.log(errors);
+//                }
+//            }); 
+        
+    }
 };
 
 var dg = {
@@ -755,6 +779,10 @@ var dg = {
             $("#btn-delete").prop("disabled", true);
         });
         
+        $("#btn-export-pdf").unbind('click');
+        $("#btn-export-pdf").on('click', function(){
+            imbaljasa.exportPdf(moduleid, transaksi_id);
+        });
 //        $("#btn-delete").unbind('click');
 //        $("#btn-delete").on('click', function(){
 ////            imbaljasa.removeit(moduleid);
