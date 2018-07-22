@@ -51,12 +51,20 @@
                         ],
                     ],
                     [
+                        'label' => 'Tahun Ajaran',
+                        'icon' => 'calendar',
+                        'url' => '#',
+                        'items' => [
+                            ['label' => 'Dosen dan Fakultas', 'icon' => 'sitemap', 'url' => ['/dosenfakultas'],],
+                            ['label' => 'Module dan Tahun Ajaran', 'icon' => 'sitemap', 'url' => ['/dosenfakultas'],],
+                            ['label' => 'Module dan Kelas', 'icon' => 'cubes', 'url' => ['/modulekelas'],],
+                        ],
+                    ],
+                    [
                         'label' => 'Transaction',
                         'icon' => 'window-restore',
                         'url' => '#',
                         'items' => [
-                            ['label' => 'Dosen dan Fakultas', 'icon' => 'sitemap', 'url' => ['/dosenfakultas'],],
-                            ['label' => 'Module dan Kelas', 'icon' => 'cubes', 'url' => ['/modulekelas'],],
                             ['label' => 'Hitung Peran', 'icon' => 'calculator', 'url' => ['/peranhitung'],],
                             ['label' => 'Hitung Imbal Jasa', 'icon' => 'th', 'url' => ['/transaksi'], 'active' => Yii::$app->controller->id == 'transaksi'],
                         ],

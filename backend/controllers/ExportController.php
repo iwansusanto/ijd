@@ -33,8 +33,10 @@ class ExportController extends Controller {
         
         $request = Yii::$app->request;
         
-        $moduleid = $request->post('moduleid');
-        $transaksi_id = $request->post('transaksi_id');
+//        $moduleid = $request->post('moduleid');
+        $moduleid = 1;
+//        $transaksi_id = $request->post('transaksi_id');
+        $transaksi_id = 26;
         
         $imbajJasa = ImbalJasa::find()
                         ->where('module_id=:module_id AND transaksi_id=:transaksi_id', 
