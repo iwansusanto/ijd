@@ -7,7 +7,7 @@ use yii\widgets\DetailView;
 /* @var $model app\models\PeranHitung */
 
 $this->title = $model->id;
-$this->params['breadcrumbs'][] = ['label' => 'Peran Hitungs', 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => 'Peran Hitung', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="peran-hitung-view">

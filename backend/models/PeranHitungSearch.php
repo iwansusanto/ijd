@@ -18,7 +18,7 @@ class PeranHitungSearch extends PeranHitung
     public function rules()
     {
         return [
-            [['id', 'peran_id', 'module_id', 'tahun_ajaran_id', 'bulan', 'tahun', 'jumlah_menit_hitung', 'honor_menit_hitung', 'transport_hitung', 'volume_menit_pertemuan', 'user_created', 'user_updated'], 'integer'],
+            [['id', 'peran_id', 'module_tahun_ajaran_id', 'tahun_ajaran_id', 'bulan', 'tahun', 'jumlah_menit_hitung', 'honor_menit_hitung', 'transport_hitung', 'volume_menit_pertemuan', 'user_created', 'user_updated'], 'integer'],
             [['keterangan', 'update_time'], 'safe'],
         ];
     }
@@ -49,8 +49,8 @@ class PeranHitungSearch extends PeranHitung
             'query' => $query,
             'sort'=> [
                 'defaultOrder' => [
-                    'id' => SORT_DESC,
-                    'module_id'  =>  SORT_ASC]]
+                    'module_tahun_ajaran_id'  =>  SORT_ASC,
+                    'id' => SORT_DESC]]
         ]);
 
         $this->load($params);
@@ -65,7 +65,8 @@ class PeranHitungSearch extends PeranHitung
         $query->andFilterWhere([
             'id' => $this->id,
             'peran_id' => $this->peran_id,
-            'module_id' => $this->module_id,
+//            'module_id' => $this->module_id,
+            'module_tahun_ajaran_id' => $this->module_tahun_ajaran_id,
             'tahun_ajaran_id' => $this->tahun_ajaran_id,
             'bulan' => $this->bulan,
             'tahun' => $this->tahun,

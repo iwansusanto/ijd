@@ -75,7 +75,7 @@ class DosenfakultasController extends Controller
         $model->scenario = \app\models\DosenFakultas::SCENARIOCREATE;
         
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+            return $this->redirect(['index']);
         }
 
         return $this->render('create', [
@@ -154,7 +154,7 @@ class DosenfakultasController extends Controller
         $model->scenario = \app\models\DosenFakultas::SCENARIOUPDATE;
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+            return $this->redirect(['index']);
         }
 
         return $this->render('update', [

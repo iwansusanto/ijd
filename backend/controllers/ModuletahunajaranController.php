@@ -36,6 +36,7 @@ class ModuletahunajaranController extends Controller
     public function actionIndex()
     {
         $searchModel = new ModuleTahunAjaranSearch();
+        $searchModel->tahun_ajaran_id = Yii::$app->is->tahunAjaran()->id;
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('index', [

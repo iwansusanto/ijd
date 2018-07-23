@@ -5,14 +5,14 @@ use yii\grid\GridView;
 use yii\helpers\ArrayHelper;
 use app\models\TahunAjaran;
 use kartik\select2\Select2;
-use app\models\Module;
+use app\models\ModuleTahunAjaran;
 use app\models\Peran;
 
 /* @var $this yii\web\View */
 /* @var $searchModel app\models\PeranHitungSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = 'Peran Hitungs';
+$this->title = 'Peran Hitung';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="peran-hitung-index">
@@ -53,12 +53,15 @@ $this->params['breadcrumbs'][] = $this->title;
                         'options'   =>  ['placeholder'  =>  'Select Bulan'],
                         'pluginOptions' =>  ['allowClear'    =>  true]])],
             [
-                'attribute' => 'module_id',
-                'value' => 'module.nama',
+                'attribute' => 'module_tahun_ajaran_id',
+                'value' => 'moduleTahunAjaran.module.nama',
                 'filter' => Select2::widget([
                                 'model' =>  $searchModel,
-                                'attribute'      =>  'module_id',
-                                'data'      =>  ArrayHelper::map(Module::find()->asArray()->all(), 'id', 'nama'),
+                                'attribute'      =>  'module_tahun_ajaran_id',
+                                'data'      =>  ArrayHelper::map(ModuleTahunAjaran::find()
+                                                    ->select(['module_tahun_ajaran.id', 'module.nama'])
+                                                    ->joinWith('module')
+                                                    ->asArray()->all(), 'id', 'nama'),
                                 'options'   =>  ['placeholder'  =>  'Select Module'],
                                 'pluginOptions' =>  ['allowClear'    =>  true]])],
             [

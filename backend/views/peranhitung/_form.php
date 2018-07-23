@@ -8,6 +8,7 @@ use kartik\date\DatePicker;
 use app\models\Module;
 use kartik\select2\Select2;
 use app\models\Peran;
+use app\models\ModuleTahunAjaran;
 use kartik\number\NumberControl;
 use kartik\touchspin\TouchSpin;
 
@@ -23,9 +24,12 @@ use kartik\touchspin\TouchSpin;
     <div class="row">
         
         <div class="col-md-12">
+            <?php
+//            $form->field($model, 'tahun_ajaran_id')
+//                ->dropDownList(ArrayHelper::map(TahunAjaran::find()->asArray()->all(), 'id', 'periode'),
+//                        ['value' =>  Yii::$app->is->tahunajaran()->id]) ?>
             <?= $form->field($model, 'tahun_ajaran_id')
-                ->dropDownList(ArrayHelper::map(TahunAjaran::find()->asArray()->all(), 'id', 'periode'),
-                        ['value' =>  Yii::$app->is->tahunajaran()->id]) ?>
+                ->hiddenInput(['value' => Yii::$app->is->tahunajaran()->id])->label(false); ?>
             
             <?= $form->field($model, 'bulan')->widget(DatePicker::classname(), [
                     'options' => ['placeholder' => 'Select Month'],
@@ -38,9 +42,12 @@ use kartik\touchspin\TouchSpin;
                     ]
                 ]); ?>
             
-            <?= $form->field($model, 'module_id')
+            <?= $form->field($model, 'module_tahun_ajaran_id')
                 ->widget(Select2::className(), [
-                            'data'      =>  ArrayHelper::map(Module::find()->asArray()->all(), 'id', 'nama'),
+                            'data'      =>  ArrayHelper::map(ModuleTahunAjaran::find()
+                                                    ->select(['module_tahun_ajaran.id', 'module.nama'])
+                                                    ->joinWith('module')
+                                                    ->asArray()->all(), 'id', 'nama'),
                             'options'   =>  [
                                 'placeholder'  =>  'Select Module'],
                             'pluginOptions' =>  [

@@ -16,10 +16,17 @@ use kartik\touchspin\TouchSpin;
 <div class="module-tahun-ajaran-form">
 
     <?php $form = ActiveForm::begin(); ?>
-
-    <?= $form->field($model, 'tahun_ajaran_id')
+    
+    <?php if($model->isNewRecord): ?>
+        <?= $form->field($model, 'tahun_ajaran_id')
+                ->hiddenInput(['value' => Yii::$app->is->tahunajaran()->id])->label(false); ?>
+    <?php else: ?>
+        <?= $form->field($model, 'tahun_ajaran_id')
                 ->dropDownList(ArrayHelper::map(TahunAjaran::find()->asArray()->all(), 'id', 'periode'),
                         ['value' =>  Yii::$app->is->tahunajaran()->id]) ?>
+    <?php endif; ?>
+    
+    
     
     <?= $form->field($model, 'module_id')
                 ->widget(Select2::className(), [

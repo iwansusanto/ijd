@@ -37,6 +37,7 @@ class PeranhitungController extends Controller
     {
         $searchModel = new PeranHitungSearch();
         $searchModel->tahun_ajaran_id = Yii::$app->is->tahunAjaran()->id;
+//        print_r($searchModel->search(Yii::$app->request->queryParams));die;
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
         
         
@@ -67,7 +68,8 @@ class PeranhitungController extends Controller
     public function actionCreate()
     {
         $model = new PeranHitung();
-
+        $model->bulan = date('Y-m');
+                
         if ($model->load(Yii::$app->request->post())) {
             
 //            $request = Yii::$app->request->post('PeranHitung');
@@ -79,7 +81,7 @@ class PeranhitungController extends Controller
             
         }
         
-        $model->bulan = date('Y-m');
+
 //        $model->jumlah_sks = PeranHitung::jumlah_sks;
 //        $model->jumlah_menit_per_sks = PeranHitung::jumlah_menit_per_sks;
         $model->volume_menit_pertemuan = PeranHitung::volume_menit_pertemuan;

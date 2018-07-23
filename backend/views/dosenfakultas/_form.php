@@ -34,10 +34,9 @@ use kartik\select2\Select2;
                             'pluginOptions' =>  [
                                 'allowClear'    =>  true
                             ]]) ?>
-
+    
     <?= $form->field($model, 'tahun_ajaran_id')
-                ->dropDownList(ArrayHelper::map(TahunAjaran::find()->asArray()->all(), 'id', 'periode'),
-                        ['value' =>  Yii::$app->is->tahunajaran()->id]) ?>
+                ->hiddenInput(['value' => Yii::$app->is->tahunajaran()->id])->label(false); ?>
 
     <div class="form-group">
         <?= Html::submitButton('Save', ['class' => 'btn btn-success']) ?>

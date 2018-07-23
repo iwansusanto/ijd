@@ -17,9 +17,13 @@ use kartik\select2\Select2;
 
     <?php $form = ActiveForm::begin(); ?>
     
+    <?php
+//    $form->field($model, 'tahun_ajaran_id')
+//                ->dropDownList(ArrayHelper::map(TahunAjaran::find()->asArray()->all(), 'id', 'periode'),
+//                        ['value' =>  Yii::$app->is->tahunajaran()->id]) ?>
+    
     <?= $form->field($model, 'tahun_ajaran_id')
-                ->dropDownList(ArrayHelper::map(TahunAjaran::find()->asArray()->all(), 'id', 'periode'),
-                        ['value' =>  Yii::$app->is->tahunajaran()->id]) ?>
+                ->hiddenInput(['value' => Yii::$app->is->tahunajaran()->id])->label(false); ?>
     
     <?= $form->field($model, 'module_id')
                 ->widget(Select2::className(), [
