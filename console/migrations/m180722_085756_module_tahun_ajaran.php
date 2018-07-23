@@ -21,7 +21,9 @@ class m180722_085756_module_tahun_ajaran extends Migration
         $this->createTable('{{%module_tahun_ajaran}}', [
            'id' => $this->primaryKey(),
            'module_id'   => $this->integer()->notNull(),
+           'nama'   => $this->string(200)->notNull(),
            'tahun_ajaran_id'   => $this->integer()->notNull(), 
+           'periode'   => $this->string(50)->notNull(), 
            'jumlah_sks'   => $this->smallInteger(3)->notNull(),
            'jumlah_menit_per_sks'   => $this->smallInteger(3)->notNull()->defaultValue(50),  
            'user_created'   => $this->integer()->notNull(), 
@@ -30,8 +32,8 @@ class m180722_085756_module_tahun_ajaran extends Migration
         ]);
         
         $this->addForeignKey(
-            'fk-module_kelas-module_id',
-            'module_kelas',
+            'fk-module_tahun_ajaran-module_id',
+            'module_tahun_ajaran',
             'module_id',
             'module',
             'id',
@@ -39,17 +41,8 @@ class m180722_085756_module_tahun_ajaran extends Migration
         );
         
         $this->addForeignKey(
-            'fk-module_kelas-kelas_id',
-            'module_kelas',
-            'kelas_id',
-            'kelas',
-            'id',
-            'CASCADE'
-        );
-        
-        $this->addForeignKey(
-            'fk-module_kelas-tahun_ajaran_id',
-            'module_kelas',
+            'fk-module_tahun_ajaran-tahun_ajaran_id',
+            'module_tahun_ajaran',
             'tahun_ajaran_id',
             'tahun_ajaran',
             'id',

@@ -56,7 +56,7 @@
                         'url' => '#',
                         'items' => [
                             ['label' => 'Dosen dan Fakultas', 'icon' => 'sitemap', 'url' => ['/dosenfakultas'],],
-                            ['label' => 'Module dan Tahun Ajaran', 'icon' => 'sitemap', 'url' => ['/dosenfakultas'],],
+                            ['label' => 'Module dan Tahun Ajaran', 'icon' => 'table', 'url' => ['/moduletahunajaran'],],
                             ['label' => 'Module dan Kelas', 'icon' => 'cubes', 'url' => ['/modulekelas'],],
                         ],
                     ],
