@@ -18,7 +18,7 @@
         <tbody>
             <tr>
                 <td>Modul</td>
-                <td><?= $module->nama; ?></td>
+                <td><?= $moduleTahunAjaran->nama; ?></td>
             </tr>
             <tr>
                 <td>Bulan</td>

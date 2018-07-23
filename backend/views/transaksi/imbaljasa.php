@@ -45,7 +45,7 @@ $session = Yii::$app->session;
     
     <div id="tt" class="easyui-tabs" style="height:auto;">
         <?php foreach ($module as $i=>$modul): ?>
-        <div title="<?= $modul->nama; ?>" style="padding:10px" data-moduleid="<?= $modul->id; ?>">
+        <div title="<?= $modul->nama; ?>" style="padding:10px" data-moduleid="<?= $modul->module_id; ?>" data-moduletahunajaranid="<?= $modul->id; ?>">
             <?php //if($i == 0): ?>
             <table 
                 id="dg<?= $modul->id; ?>" 
@@ -64,16 +64,18 @@ $session = Yii::$app->session;
         <button href="javascript:void(0)" class="btn btn-success" id="btn-save" disabled="disabled"><i class="fa fa-save"></i>&nbsp;Simpan</button>
         <button href="javascript:void(0)" class="btn btn-warning" id="btn-cancel" disabled="disabled"><i class="fa fa-mail-reply"></i>&nbsp;Batal</button>
         <button href="javascript:void(0)" class="btn btn-mini btn-danger delete-row" id="btn-delete" disabled="disabled"><i class="fa fa-remove"></i>&nbsp;Hapus Baris</button>
+        <button href="javascript:void(0)" class="btn btn-mini btn-info refresh-grid" id="btn-refresh"><i class="fa fa-refresh"></i>&nbsp;Refresh</button>
         <button href="javascript:void(0)" class="btn btn-mini btn-danger export-pdf-row" id="btn-export-pdf"><i class="fa fa-file-pdf-o"></i>&nbsp;Export Pdf</button>
     </div>
 </div>
 
 
 <?= $form = Html::beginForm('/export/pdfijd', 'POST', [
-        'id'    =>  'form-export-pdfijd'
+        'id'    =>  'form-export-pdfijd',
+        'target'    =>  '_blank'
 ]); ?>
 
-<?= Html::hiddenInput('moduleid', '', []); ?>
+<?= Html::hiddenInput('moduletahunajaranid', '', []); ?>
 <?= Html::hiddenInput('transaksi_id', '', []); ?>
 
 <div class="form-group">

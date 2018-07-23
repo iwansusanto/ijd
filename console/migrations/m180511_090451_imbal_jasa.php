@@ -30,8 +30,9 @@ class m180511_090451_imbal_jasa extends Migration
            'nip_digantikan'   => $this->string(30), 
            'nama_dosen_digantikan'   => $this->string(200), 
            'nama_fakultas_digantikan'   => $this->string(100), 
-           'module_id'   => $this->integer()->notNull(), 
-           'nama_module'   => $this->string(200), 
+           'module_tahun_ajaran_id'   => $this->integer()->notNull(), 
+//           'module_id'   => $this->integer()->notNull(), 
+//           'nama_module'   => $this->string(200), 
            'kelas_id'   => $this->integer()->notNull(), 
            'nama_kelas'   => $this->string(100), 
            'ruangan_id'   => $this->integer()->notNull(), 
@@ -50,14 +51,14 @@ class m180511_090451_imbal_jasa extends Migration
            'update_time'   => $this->dateTime()->notNull(), 
         ]);
         
-        $this->addForeignKey(
-            'fk-imbal_jasa-module_id',
-            'imbal_jasa',
-            'module_id',
-            'module',
-            'id',
-            'CASCADE'
-        );
+//        $this->addForeignKey(
+//            'fk-imbal_jasa-module_id',
+//            'imbal_jasa',
+//            'module_id',
+//            'module',
+//            'id',
+//            'CASCADE'
+//        );
         
         $this->addForeignKey(
             'fk-imbal_jasa-kelas_id',
@@ -100,6 +101,15 @@ class m180511_090451_imbal_jasa extends Migration
             'imbal_jasa',
             'transaksi_id',
             'transaksi',
+            'id',
+            'CASCADE'
+        );
+        
+        $this->addForeignKey(
+            'fk-imbal_jasa-module_tahun_ajaran_id',
+            'imbal_jasa',
+            'module_tahun_ajaran_id',
+            'module_tahun_ajaran',
             'id',
             'CASCADE'
         );

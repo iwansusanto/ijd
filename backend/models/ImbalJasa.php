@@ -18,8 +18,7 @@ use Yii;
  * @property string $nip_digantikan
  * @property string $nama_dosen_digantikan
  * @property string $nama_fakultas_digantikan
- * @property int $module_id
- * @property string $nama_module
+ * @property string $module_tahun_ajaran_id
  * @property int $kelas_id
  * @property string $nama_kelas
  * @property int $ruangan_id
@@ -63,17 +62,18 @@ class ImbalJasa extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['tgl_kegiatan', 'dosen_fakultas_id', 'transaksi_id', 'nip', 'module_id', 'kelas_id', 'ruangan_id', 'jam_mulai', 'jam_selesai', 'peran_hitung_id', 'peran_id', 'jumlah_jam_rumus'], 'required'],
+            [['tgl_kegiatan', 'dosen_fakultas_id', 'transaksi_id', 'nip', 'module_tahun_ajaran_id', 'kelas_id', 'ruangan_id', 'jam_mulai', 'jam_selesai', 'peran_hitung_id', 'peran_id', 'jumlah_jam_rumus'], 'required'],
             [['tgl_kegiatan', 'jam_mulai', 'jam_selesai', 'update_time', 'bulan', 'tahun', 'id'], 'safe'],
-            [['dosen_fakultas_id', 'transaksi_id', 'dosen_fakultas_id_digantikan', 'module_id', 'kelas_id', 'ruangan_id', 'peran_hitung_id', 'peran_id', 'jumlah_jam_rumus', 'user_created', 'user_updated'], 'integer'],
+            [['dosen_fakultas_id', 'transaksi_id', 'dosen_fakultas_id_digantikan', 'kelas_id', 'ruangan_id', 'peran_hitung_id', 'peran_id', 'jumlah_jam_rumus', 'user_created', 'user_updated'], 'integer'],
             [['transport', 'honor'], 'number'],
             [['keterangan'], 'string'],
             [['nip', 'nip_digantikan'], 'string', 'max' => 30],
-            [['nama_dosen', 'nama_dosen_digantikan', 'nama_module'], 'string', 'max' => 200],
+            [['nama_dosen', 'nama_dosen_digantikan'], 'string', 'max' => 200],
             [['nama_fakultas', 'nama_fakultas_digantikan', 'nama_kelas', 'nama_ruangan', 'nama_peran'], 'string', 'max' => 100],
             [['transaksi_id'], 'exist', 'skipOnError' => true, 'targetClass' => Transaksi::className(), 'targetAttribute' => ['transaksi_id' => 'id']],
             [['kelas_id'], 'exist', 'skipOnError' => true, 'targetClass' => Kelas::className(), 'targetAttribute' => ['kelas_id' => 'id']],
-            [['module_id'], 'exist', 'skipOnError' => true, 'targetClass' => Module::className(), 'targetAttribute' => ['module_id' => 'id']],
+//            [['module_id'], 'exist', 'skipOnError' => true, 'targetClass' => Module::className(), 'targetAttribute' => ['module_id' => 'id']],
+            [['module_tahun_ajaran_id'], 'exist', 'skipOnError' => true, 'targetClass' => ModuleTahunAjaran::className(), 'targetAttribute' => ['module_tahun_ajaran_id' => 'id']],
             [['peran_hitung_id'], 'exist', 'skipOnError' => true, 'targetClass' => PeranHitung::className(), 'targetAttribute' => ['peran_hitung_id' => 'id']],
             [['peran_id'], 'exist', 'skipOnError' => true, 'targetClass' => Peran::className(), 'targetAttribute' => ['peran_id' => 'id']],
             [['ruangan_id'], 'exist', 'skipOnError' => true, 'targetClass' => Ruangan::className(), 'targetAttribute' => ['ruangan_id' => 'id']],
@@ -98,8 +98,9 @@ class ImbalJasa extends \yii\db\ActiveRecord
             'nip_digantikan' => 'Nip Digantikan',
             'nama_dosen_digantikan' => 'Nama Dosen Digantikan',
             'nama_fakultas_digantikan' => 'Nama Fakultas Digantikan',
-            'module_id' => 'Module',
-            'nama_module' => 'Nama Module',
+            'module_tahun_ajaran_id' => 'Module',
+//            'module_id' => 'Module',
+//            'nama_module' => 'Nama Module',
             'kelas_id' => 'Kelas',
             'nama_kelas' => 'Nama Kelas',
             'ruangan_id' => 'Ruangan',
@@ -143,9 +144,9 @@ class ImbalJasa extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getModule()
+    public function getModuleTahunAjaran()
     {
-        return $this->hasOne(Module::className(), ['id' => 'module_id']);
+        return $this->hasOne(ModuleTahunAjaran::className(), ['id' => 'module_tahun_ajaran_id']);
     }
 
     /**
@@ -185,7 +186,7 @@ class ImbalJasa extends \yii\db\ActiveRecord
             
             $this->tgl_kegiatan = date('Y-m-d H:i:s', strtotime($this->tgl_kegiatan));
             $this->nama_dosen = DosenFakultas::findOne($this->dosen_fakultas_id)->dosen->nama;
-            $this->nama_module = Module::findOne($this->module_id)->nama;
+//            $this->nama_module = Module::findOne($this->module_id)->nama;
             $this->nama_kelas = Kelas::findOne($this->kelas_id)->nama;
             $this->nama_ruangan = Ruangan::findOne($this->ruangan_id)->nama;
             $this->nama_peran = Peran::findOne($this->peran_id)->nama;

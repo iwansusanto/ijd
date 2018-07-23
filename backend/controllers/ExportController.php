@@ -13,6 +13,7 @@ use yii\web\Controller;
 use yii\web\Response;
 use app\models\ImbalJasa;
 use app\models\Module;
+use app\models\ModuleTahunAjaran;
 
 /**
  * Description of ExportController
@@ -33,22 +34,22 @@ class ExportController extends Controller {
         
         $request = Yii::$app->request;
         
-//        $moduleid = $request->post('moduleid');
-        $moduleid = 1;
+//        $moduletahunajaranid = $request->post('moduletahunajaranid');
+        $moduletahunajaranid = 1;
 //        $transaksi_id = $request->post('transaksi_id');
         $transaksi_id = 26;
         
         $imbajJasa = ImbalJasa::find()
-                        ->where('module_id=:module_id AND transaksi_id=:transaksi_id', 
-                                                [':module_id'   =>  $moduleid,
+                        ->where('module_tahun_ajaran_id=:module_tahun_ajaran_id AND transaksi_id=:transaksi_id', 
+                                                [':module_tahun_ajaran_id'   =>  $moduletahunajaranid,
                                                  ':transaksi_id'    =>  $transaksi_id])
                         ->all();
         
-        $module = Module::findOne($moduleid);
+        $moduleTahunAjaran = ModuleTahunAjaran::findOne($moduletahunajaranid);
         
         $contentHtml = $this->renderPartial('pdfijd',[
                             'imbalJasa' =>  $imbajJasa,
-                            'module'    =>  $module
+                            'moduleTahunAjaran'    =>  $moduleTahunAjaran
         ]);
         
         $pdf = Yii::$app->pdf;
@@ -61,7 +62,7 @@ class ExportController extends Controller {
         
         $pdf->cssFile = Yii::getAlias('@webroot').'/css/pdfijd.css';
         $pdf->options = [
-            'title' => 'Remun '.$module->nama
+            'title' => 'Remun '.$moduleTahunAjaran->nama
         ];
         
         

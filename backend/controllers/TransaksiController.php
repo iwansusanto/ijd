@@ -9,6 +9,7 @@ use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use app\models\Module;
+use app\models\ModuleTahunAjaran;
 use app\models\ImbalJasa;
 use yii\web\Response;
 use app\models\Kelas;
@@ -159,8 +160,9 @@ class TransaksiController extends Controller
     {
         $model = $this->findModel($id);
         
-        $module = Module::find()
-                    ->where([])
+        $module = ModuleTahunAjaran::find()
+                    ->where('tahun_ajaran_id=:tahun_ajaran_id',[
+                                ':tahun_ajaran_id'  =>  Yii::$app->is->tahunAjaran()->id])
                     ->all();
         
         $session = Yii::$app->session;
@@ -179,11 +181,11 @@ class TransaksiController extends Controller
         $result = [];
 //        if(Yii::$app->request->isAjax){
             if(Yii::$app->request->isGet){
-                $module_id = Yii::$app->request->get('module_id');
+                $module_tahun_ajaran_id = Yii::$app->request->get('module_tahun_ajaran_id');
                 $transaksi_id = Yii::$app->request->get('transaksi_id');
                 
                 $query = (new \yii\db\Query())
-                    ->select(['ij.id', 'ij.module_id', 'ij.peran_hitung_id', 'DATE_FORMAT(ij.tgl_kegiatan, "%d %b %Y") AS tgl_kegiatan', 
+                    ->select(['ij.id', 'ij.module_tahun_ajaran_id', 'ij.peran_hitung_id', 'DATE_FORMAT(ij.tgl_kegiatan, "%d %b %Y") AS tgl_kegiatan', 
                                 'ij.nip', 'ij.nama_dosen as dosen_fakultas_id_show', 'ij.dosen_fakultas_id', 'ij.nip_digantikan',
                                 'ij.nama_fakultas', 'IfNull(ij.nama_dosen_digantikan, "-") AS dosen_fakultas_id_digantikan_show',
                                 'ij.dosen_fakultas_id_digantikan', 'ij.nama_kelas as kelas_id_show', 'ij.kelas_id', 
@@ -197,8 +199,8 @@ class TransaksiController extends Controller
                                 new \yii\db\Expression('TIME_FORMAT(ij.jam_selesai,  "%H:%i") as jam_selesai'), 
                                 'ij.nama_peran as peran_id_show', 'ij.peran_id', 'ij.jumlah_jam_rumus', 'ij.transport', 'ij.honor', 'ij.keterangan'])
                     ->from('imbal_jasa ij')
-                    ->where('ij.module_id=:module_id AND ij.transaksi_id=:transaksi_id', 
-                                [':module_id' => $module_id, ':transaksi_id' => $transaksi_id])
+                    ->where('ij.module_tahun_ajaran_id=:module_tahun_ajaran_id AND ij.transaksi_id=:transaksi_id', 
+                                [':module_tahun_ajaran_id' => $module_tahun_ajaran_id, ':transaksi_id' => $transaksi_id])
                     ->orderBy('ij.id DESC')
                     ->createCommand();
                 
@@ -447,7 +449,7 @@ class TransaksiController extends Controller
                 $transport = 0;
                 $honor = 0;
                 
-                $module_id = $model->module_id;
+                $module_tahun_ajaran_id = $model->module_tahun_ajaran_id;
                 $peran_id = $model->peran_id;
                 $jumlah_jam_rumus = $model->jumlah_jam_rumus;
                 $tahun_ajaran_id = Yii::$app->is->tahunAjaran()->id;
@@ -455,9 +457,9 @@ class TransaksiController extends Controller
                 $tahun = $model->tahun;
                 
                 $peranHitung = PeranHitung::find()
-                                    ->where('module_id=:module_id AND peran_id=:peran_id AND tahun_ajaran_id=:tahun_ajaran_id '
+                                    ->where('module_tahun_ajaran_id=:module_tahun_ajaran_id AND peran_id=:peran_id AND tahun_ajaran_id=:tahun_ajaran_id '
                                             . ' AND bulan=:bulan AND tahun=:tahun', 
-                                                [':module_id'   =>  $module_id,
+                                                [':module_tahun_ajaran_id'   =>  $module_tahun_ajaran_id,
                                                  ':peran_id'    =>  $peran_id,
                                                  ':tahun_ajaran_id' =>  $tahun_ajaran_id,
                                                  ':bulan'    =>  $bulan,

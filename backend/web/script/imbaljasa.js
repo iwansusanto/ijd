@@ -8,27 +8,27 @@ var editIndex = undefined;
 var clickCell = undefined;
 
 var imbaljasa = {
-    form: function(moduleid, editIndex){
-        var id = $('#dg'+moduleid).datagrid('getEditor', {index:editIndex, field:'id'}),
-            nip = $('#dg'+moduleid).datagrid('getEditor', {index:editIndex, field:'nip'}),
-            transaksi_id = $('#dg'+moduleid).datagrid('getEditor', {index:editIndex, field:'transaksi_id'}),    
-            dosen_fakultas_id = $('#dg'+moduleid).datagrid('getEditor', {index:editIndex, field:'dosen_fakultas_id'}),
-            nama_fakultas = $('#dg'+moduleid).datagrid('getEditor', {index:editIndex, field:'nama_fakultas'}),
-            nip_digantikan = $('#dg'+moduleid).datagrid('getEditor', {index:editIndex, field:'nip_digantikan'}),
-            dosen_fakultas_id_digantikan = $('#dg'+moduleid).datagrid('getEditor', {index:editIndex, field:'dosen_fakultas_id_digantikan'}),
-            nama_fakultas_digantikan = $('#dg'+moduleid).datagrid('getEditor', {index:editIndex, field:'nama_fakultas_digantikan'}),
-            module_id = $('#dg'+moduleid).datagrid('getEditor', {index:editIndex, field:'module_id'}),
-            kelas_id = $('#dg'+moduleid).datagrid('getEditor', {index:editIndex, field:'kelas_id'}),
-            ruangan_id = $('#dg'+moduleid).datagrid('getEditor', {index:editIndex, field:'ruangan_id'}),
-            tgl_kegiatan = $('#dg'+moduleid).datagrid('getEditor', {index:editIndex, field:'tgl_kegiatan'}),
-            jam_mulai = $('#dg'+moduleid).datagrid('getEditor', {index:editIndex, field:'jam_mulai'}),
-            jam_selesai = $('#dg'+moduleid).datagrid('getEditor', {index:editIndex, field:'jam_selesai'}),
-            peran_id = $('#dg'+moduleid).datagrid('getEditor', {index:editIndex, field:'peran_id'}),
-            jumlah_jam_rumus = $('#dg'+moduleid).datagrid('getEditor', {index:editIndex, field:'jumlah_jam_rumus'}),
-            transport = $('#dg'+moduleid).datagrid('getEditor', {index:editIndex, field:'transport'}),
-            honor = $('#dg'+moduleid).datagrid('getEditor', {index:editIndex, field:'honor'}),
-            keterangan = $('#dg'+moduleid).datagrid('getEditor', {index:editIndex, field:'keterangan'}),
-            peran_hitung_id = $('#dg'+moduleid).datagrid('getEditor', {index:editIndex, field:'peran_hitung_id'});
+    form: function(moduletahunajaranid, editIndex){
+        var id = $('#dg'+moduletahunajaranid).datagrid('getEditor', {index:editIndex, field:'id'}),
+            nip = $('#dg'+moduletahunajaranid).datagrid('getEditor', {index:editIndex, field:'nip'}),
+            transaksi_id = $('#dg'+moduletahunajaranid).datagrid('getEditor', {index:editIndex, field:'transaksi_id'}),    
+            dosen_fakultas_id = $('#dg'+moduletahunajaranid).datagrid('getEditor', {index:editIndex, field:'dosen_fakultas_id'}),
+            nama_fakultas = $('#dg'+moduletahunajaranid).datagrid('getEditor', {index:editIndex, field:'nama_fakultas'}),
+            nip_digantikan = $('#dg'+moduletahunajaranid).datagrid('getEditor', {index:editIndex, field:'nip_digantikan'}),
+            dosen_fakultas_id_digantikan = $('#dg'+moduletahunajaranid).datagrid('getEditor', {index:editIndex, field:'dosen_fakultas_id_digantikan'}),
+            nama_fakultas_digantikan = $('#dg'+moduletahunajaranid).datagrid('getEditor', {index:editIndex, field:'nama_fakultas_digantikan'}),
+            module_tahun_ajaran_id = $('#dg'+moduletahunajaranid).datagrid('getEditor', {index:editIndex, field:'module_tahun_ajaran_id'}),
+            kelas_id = $('#dg'+moduletahunajaranid).datagrid('getEditor', {index:editIndex, field:'kelas_id'}),
+            ruangan_id = $('#dg'+moduletahunajaranid).datagrid('getEditor', {index:editIndex, field:'ruangan_id'}),
+            tgl_kegiatan = $('#dg'+moduletahunajaranid).datagrid('getEditor', {index:editIndex, field:'tgl_kegiatan'}),
+            jam_mulai = $('#dg'+moduletahunajaranid).datagrid('getEditor', {index:editIndex, field:'jam_mulai'}),
+            jam_selesai = $('#dg'+moduletahunajaranid).datagrid('getEditor', {index:editIndex, field:'jam_selesai'}),
+            peran_id = $('#dg'+moduletahunajaranid).datagrid('getEditor', {index:editIndex, field:'peran_id'}),
+            jumlah_jam_rumus = $('#dg'+moduletahunajaranid).datagrid('getEditor', {index:editIndex, field:'jumlah_jam_rumus'}),
+            transport = $('#dg'+moduletahunajaranid).datagrid('getEditor', {index:editIndex, field:'transport'}),
+            honor = $('#dg'+moduletahunajaranid).datagrid('getEditor', {index:editIndex, field:'honor'}),
+            keterangan = $('#dg'+moduletahunajaranid).datagrid('getEditor', {index:editIndex, field:'keterangan'}),
+            peran_hitung_id = $('#dg'+moduletahunajaranid).datagrid('getEditor', {index:editIndex, field:'peran_hitung_id'});
         
         var datas = []; 
         
@@ -41,7 +41,7 @@ var imbaljasa = {
                         'nip_digantikan':$.trim($(nip_digantikan.target)[nip_digantikan.type]('getValue')),
                         'dosen_fakultas_id_digantikan':$.trim($(dosen_fakultas_id_digantikan.target)[dosen_fakultas_id_digantikan.type]('getValue')),
                         'nama_fakultas_digantikan':$(nama_fakultas_digantikan.target)[nama_fakultas_digantikan.type]('getValue'),
-                        'module_id':$(module_id.target)[module_id.type]('getValue'),
+                        'module_tahun_ajaran_id':$(module_tahun_ajaran_id.target)[module_tahun_ajaran_id.type]('getValue'),
                         'kelas_id':$(kelas_id.target)[kelas_id.type]('getValue'),
                         'ruangan_id':$(ruangan_id.target)[ruangan_id.type]('getValue'),
                         'tgl_kegiatan':$(tgl_kegiatan.target)[tgl_kegiatan.type]('getValue'),
@@ -78,41 +78,45 @@ var imbaljasa = {
                 }
             }); 
     },
-    endEditing: function(moduleid){
+    endEditing: function(moduleid, moduletahunajaranid){
         
 //        var ed_module_id = $('#dg'+moduleid).datagrid('getEditor', {index: editIndex, field: 'module_id'});
 //        $(ed_module_id.target).textbox('setValue',moduleid);
         if (editIndex == undefined){return true}
         
-        if ($('#dg' + moduleid).datagrid('validateRow', editIndex)) {
+        if ($('#dg' + moduletahunajaranid).datagrid('validateRow', editIndex)) {
 //            $('#tt').tooltip({
 //                content: 'This is the tooltip message.'
 //            });
-            var ed_transaksi_id = $('#dg'+moduleid).datagrid('getEditor', {index: editIndex, field: 'transaksi_id'});
-            $(ed_transaksi_id.target).textbox('setValue', imbaljasa.urlparam('id'));
-            
-                // validate and save form
-                imbaljasa.form(moduleid, editIndex); 
+            var ed_transaksi_id = $('#dg'+moduletahunajaranid).datagrid('getEditor', {index: editIndex, field: 'transaksi_id'});
+            if(ed_transaksi_id !== null){
+                $(ed_transaksi_id.target).textbox('setValue', imbaljasa.urlparam('id'));
                 
-                $('#dg' + moduleid).datagrid('endEdit', editIndex);
+                // validate and save form
+                imbaljasa.form(moduletahunajaranid, editIndex); 
+
+                $('#dg' + moduletahunajaranid).datagrid('endEdit', editIndex);
                 setTimeout(function(){
                     editIndex = undefined;
+    //                    $('#dg'+moduletahunajaranid).datagrid('reload');
                 },0);
-                
-                return true;
+            };
+
+            return true;
         } else {
             return false;
         }
     },
     onClickCell: function(index, field){
         var moduleid = $('#tt').tabs('getSelected')[0].dataset.moduleid;
+        var moduletahunajaranid = $('#tt').tabs('getSelected')[0].dataset.moduletahunajaranid;
         
         if (editIndex != index){
-            if (imbaljasa.endEditing(moduleid)){
-                $('#dg'+moduleid).datagrid('selectRow', index)
+            if (imbaljasa.endEditing(moduleid, moduletahunajaranid)){
+                $('#dg'+moduletahunajaranid).datagrid('selectRow', index)
                         .datagrid('beginEdit', index);
-                var ed = $('#dg'+moduleid).datagrid('getEditor', {index:index,field:field}),
-                    ed_kelas_id_show = $('#dg'+moduleid).datagrid('getEditor', {index: index, field: 'kelas_id_show'}),
+                var ed = $('#dg'+moduletahunajaranid).datagrid('getEditor', {index:index,field:field}),
+                    ed_kelas_id_show = $('#dg'+moduletahunajaranid).datagrid('getEditor', {index: index, field: 'kelas_id_show'}),
                     url = _baseUrl+'/transaksi/jsonlihatkelas?module_id='+moduleid;
                 
                 if (ed){
@@ -124,7 +128,7 @@ var imbaljasa = {
                 editIndex = index;
             } else {
                 setTimeout(function(){
-                    $('#dg'+moduleid).datagrid('selectRow', editIndex);
+                    $('#dg'+moduletahunajaranid).datagrid('selectRow', editIndex);
                 },0);
             }
         };
@@ -135,20 +139,20 @@ var imbaljasa = {
         $("#btn-delete").prop("disabled", false);
     },
     onEndEdit: function (index, row) {
-        var moduleid = $('#tt').tabs('getSelected')[0].dataset.moduleid;
+        var moduletahunajaranid = $('#tt').tabs('getSelected')[0].dataset.moduletahunajaranid;
 //        var ed = $(this).datagrid('getEditor', {
 //            index: index,
 //            field: 'nip'
 //        });
 //        row.nip = $(ed.target).combobox('getText');
-        $('#dg'+moduleid).datagrid('reload');
+        $('#dg'+moduletahunajaranid).datagrid('reload');
         console.log('end to reload grid');
     },
-    append: function (moduleid) {
+    append: function (moduleid, moduletahunajaranid) {
         console.log('append : '+moduleid);    
-        if (imbaljasa.endEditing(moduleid)) {
+        if (imbaljasa.endEditing(moduleid, moduletahunajaranid)) {
             
-            var ed_module_id,
+            var ed_module_tahun_ajaran_id,
                 ed_kelas_id_show,
                 ed_tgl_kegiatan,
                 bulan_tahun = new Date($("#bulan_tahun").val()),
@@ -156,16 +160,16 @@ var imbaljasa = {
                 tahun = bulan_tahun.getFullYear(),
                 url = _baseUrl+'/transaksi/jsonlihatkelas?module_id='+moduleid;
             
-            $('#dg'+moduleid).datagrid('appendRow', {});
-            editIndex = $('#dg'+moduleid).datagrid('getRows').length - 1;
-            $('#dg'+moduleid).datagrid('selectRow', editIndex)
+            $('#dg'+moduletahunajaranid).datagrid('appendRow', {});
+            editIndex = $('#dg'+moduletahunajaranid).datagrid('getRows').length - 1;
+            $('#dg'+moduletahunajaranid).datagrid('selectRow', editIndex)
                     .datagrid('beginEdit', editIndex);
             
-            ed_module_id = $('#dg'+moduleid).datagrid('getEditor', {index: editIndex, field: 'module_id'});
-            ed_kelas_id_show = $('#dg'+moduleid).datagrid('getEditor', {index: editIndex, field: 'kelas_id_show'});            
-            ed_tgl_kegiatan = $('#dg'+moduleid).datagrid('getEditor', {index: editIndex, field: 'tgl_kegiatan'});            
+            ed_module_tahun_ajaran_id = $('#dg'+moduletahunajaranid).datagrid('getEditor', {index: editIndex, field: 'module_tahun_ajaran_id'});
+            ed_kelas_id_show = $('#dg'+moduletahunajaranid).datagrid('getEditor', {index: editIndex, field: 'kelas_id_show'});            
+            ed_tgl_kegiatan = $('#dg'+moduletahunajaranid).datagrid('getEditor', {index: editIndex, field: 'tgl_kegiatan'});            
             
-            $(ed_module_id.target).textbox('setValue', moduleid);
+            $(ed_module_tahun_ajaran_id.target).textbox('setValue', moduletahunajaranid);
             $(ed_kelas_id_show.target).combobox('reload',url);
             
             $(ed_tgl_kegiatan.target).datebox().datebox('calendar').calendar({
@@ -178,14 +182,14 @@ var imbaljasa = {
             $(ed_tgl_kegiatan.target).datebox('setValue', (bulan+1)+'/01/'+tahun);	// set datebox value
         }
     },
-    removeit: function (moduleid) {
+    removeit: function (moduleid, moduletahunajaranid) {
         if (editIndex == undefined) {
             return;
         }
         
                     
         var datas = [],
-            id = $('#dg'+moduleid).datagrid('getEditor', {index:editIndex, field:'id'});
+            id = $('#dg'+moduletahunajaranid).datagrid('getEditor', {index:editIndex, field:'id'});
     
             datas = {'id':$.trim($(id.target)[id.type]('getValue'))}; 
         
@@ -198,7 +202,7 @@ var imbaljasa = {
                     console.log(data);
                     imbaljasa.showMessage('Sukses', data.message);
                     
-                    $('#dg'+moduleid).datagrid('cancelEdit', editIndex)
+                    $('#dg'+moduletahunajaranid).datagrid('cancelEdit', editIndex)
                             .datagrid('deleteRow', editIndex);
                     editIndex = undefined;
                     
@@ -214,15 +218,15 @@ var imbaljasa = {
             });
         
     },
-    accept: function (moduleid) {
-        if (imbaljasa.endEditing(moduleid)) {
-            $('#dg'+moduleid).datagrid('acceptChanges');
-            $('#dg'+moduleid).datagrid('reload');
+    accept: function (moduleid, moduletahunajaranid) {
+        if (imbaljasa.endEditing(moduleid, moduletahunajaranid)) {
+            $('#dg'+moduletahunajaranid).datagrid('acceptChanges');
+            $('#dg'+moduletahunajaranid).datagrid('reload');
         };
         
     },
-    reject: function (moduleid) {        
-        $('#dg'+moduleid).datagrid('rejectChanges');
+    reject: function (moduleid, moduletahunajaranid) {        
+        $('#dg'+moduletahunajaranid).datagrid('rejectChanges');
         editIndex = undefined;
     },
     jumlahJamRumus: function(jam_mulai, jam_selesai, separator, ed_jumlah_jam_rumus){
@@ -245,7 +249,7 @@ var imbaljasa = {
 
         $(ed_jumlah_jam_rumus.target).textbox('setValue', jumlah_jam_rumus / 60);
     },
-    hitungimbaljasa: function(ed_peran_id, ed_module_id, ed_peran_hitung_id, ed_jumlah_jam_rumus, ed_transport, ed_honor, peran_id){
+    hitungimbaljasa: function(ed_peran_id, ed_module_tahun_ajaran_id, ed_peran_hitung_id, ed_jumlah_jam_rumus, ed_transport, ed_honor, peran_id){
         
         var bulan_tahun = new Date($("#bulan_tahun").val()),
             bulan = bulan_tahun.getMonth(),
@@ -253,7 +257,7 @@ var imbaljasa = {
         
         var datas = {
             peran_id: peran_id,
-            module_id: $(ed_module_id.target).textbox('getValue'),
+            module_tahun_ajaran_id: $(ed_module_tahun_ajaran_id.target).textbox('getValue'),
             jumlah_jam_rumus: $(ed_jumlah_jam_rumus.target).textbox('getValue'),
             bulan: bulan+1,
             tahun: tahun
@@ -309,9 +313,9 @@ var imbaljasa = {
     formatDecimal: function(num){
         return this.addCommas(parseInt(num));																	
     },
-    exportPdf: function(moduleid, transaksi_id){
+    exportPdf: function(moduletahunajaranid, transaksi_id){
         
-        $("input[name='moduleid']").val(moduleid);
+        $("input[name='moduletahunajaranid']").val(moduletahunajaranid);
         $("input[name='transaksi_id']").val(transaksi_id);
         
         $("form#form-export-pdfijd").submit();
@@ -332,11 +336,17 @@ var imbaljasa = {
 //                }
 //            }); 
         
+    },
+    refreshGrid: function(moduleid, moduletahunajaranid){
+        
+//        imbaljasa.endEditing(moduleid, moduletahunajaranid);
+//        $('#dg' + moduletahunajaranid).datagrid('endEdit', false);
+        $('#dg'+moduletahunajaranid).datagrid('reload');
     }
 };
 
 var dg = {
-    columnsFrozen: function(moduleid){
+    columnsFrozen: function(moduleid, moduletahunajaranid){
         return [[
                     {
                         field:'id',
@@ -389,9 +399,9 @@ var dg = {
                                 url:_baseUrl+'/transaksi/dosenfakultas',
                                 required:true,
                                 onSelect: function(selected){
-                                    var ed_nip = $('#dg'+moduleid).datagrid('getEditor', {index: editIndex, field: 'nip'});
-                                    var ed_nama_fakultas = $('#dg'+moduleid).datagrid('getEditor', {index: editIndex, field: 'nama_fakultas'});
-                                    var ed_dosen_fakultas_id = $('#dg'+moduleid).datagrid('getEditor', {index: editIndex, field: 'dosen_fakultas_id'});
+                                    var ed_nip = $('#dg'+moduletahunajaranid).datagrid('getEditor', {index: editIndex, field: 'nip'});
+                                    var ed_nama_fakultas = $('#dg'+moduletahunajaranid).datagrid('getEditor', {index: editIndex, field: 'nama_fakultas'});
+                                    var ed_dosen_fakultas_id = $('#dg'+moduletahunajaranid).datagrid('getEditor', {index: editIndex, field: 'dosen_fakultas_id'});
                                     
                                     $(ed_nip.target).textbox('setValue', selected.nip);
                                     $(ed_nama_fakultas.target).textbox('setValue', selected.fakultas);
@@ -449,9 +459,9 @@ var dg = {
                                 method: 'get',
                                 url:_baseUrl+'/transaksi/dosenfakultas',
                                 onSelect: function(selected){
-                                    var ed_nip_digantikan = $('#dg'+moduleid).datagrid('getEditor', {index: editIndex, field: 'nip_digantikan'});
-                                    var ed_nama_fakultas_digantikan = $('#dg'+moduleid).datagrid('getEditor', {index: editIndex, field: 'nama_fakultas_digantikan'});
-                                    var ed_dosen_fakultas_id_digantikan = $('#dg'+moduleid).datagrid('getEditor', {index: editIndex, field: 'dosen_fakultas_id_digantikan'});
+                                    var ed_nip_digantikan = $('#dg'+moduletahunajaranid).datagrid('getEditor', {index: editIndex, field: 'nip_digantikan'});
+                                    var ed_nama_fakultas_digantikan = $('#dg'+moduletahunajaranid).datagrid('getEditor', {index: editIndex, field: 'nama_fakultas_digantikan'});
+                                    var ed_dosen_fakultas_id_digantikan = $('#dg'+moduletahunajaranid).datagrid('getEditor', {index: editIndex, field: 'dosen_fakultas_id_digantikan'});
                                     
                                     $(ed_nip_digantikan.target).textbox('setValue', selected.nip);
                                     $(ed_nama_fakultas_digantikan.target).textbox('setValue', selected.fakultas);
@@ -485,10 +495,10 @@ var dg = {
                     }
             ]];
     },
-    columns: function(moduleid){
+    columns: function(moduleid, moduletahunajaranid){
         return [[
                     {
-                        field:'module_id',
+                        field:'module_tahun_ajaran_id',
                         title:'Modul',
                         width: 180,
                         hidden: true,
@@ -522,7 +532,7 @@ var dg = {
                                 url:_baseUrl+'/transaksi/jsonruang',
                                 required: true,
                                 onSelect: function(selected){
-                                    var ed_ruangan_id = $('#dg'+moduleid).datagrid('getEditor', {index: editIndex, field: 'ruangan_id'});
+                                    var ed_ruangan_id = $('#dg'+moduletahunajaranid).datagrid('getEditor', {index: editIndex, field: 'ruangan_id'});
                                     
                                     $(ed_ruangan_id.target).textbox('setValue', selected.id);
                                 }
@@ -552,7 +562,7 @@ var dg = {
                                 method: 'get',
                                 required: true,
                                 onSelect: function(selected){
-                                    var ed_kelas_id = $('#dg'+moduleid).datagrid('getEditor', {index: editIndex, field: 'kelas_id'});
+                                    var ed_kelas_id = $('#dg'+moduletahunajaranid).datagrid('getEditor', {index: editIndex, field: 'kelas_id'});
                                     
                                     $(ed_kelas_id.target).textbox('setValue', selected.kelas_id);
                                 }
@@ -581,8 +591,8 @@ var dg = {
                                     required: true,
                                     showSeconds: false,
                                     onSpinUp: function(){
-                                        var ed_jumlah_jam_rumus = $('#dg'+moduleid).datagrid('getEditor', {index: editIndex, field: 'jumlah_jam_rumus'});
-                                        var ed_jam_selesai = $('#dg'+moduleid).datagrid('getEditor', {index: editIndex, field: 'jam_selesai'});
+                                        var ed_jumlah_jam_rumus = $('#dg'+moduletahunajaranid).datagrid('getEditor', {index: editIndex, field: 'jumlah_jam_rumus'});
+                                        var ed_jam_selesai = $('#dg'+moduletahunajaranid).datagrid('getEditor', {index: editIndex, field: 'jam_selesai'});
                                         var jam_selesai = $(ed_jam_selesai.target).timespinner('getValue'); 
                                         var jam_mulai = $(this).timespinner('getValue'); 
                                         var separator = $(this).timespinner('options').separator;
@@ -590,8 +600,8 @@ var dg = {
                                         imbaljasa.jumlahJamRumus(jam_mulai, jam_selesai, separator, ed_jumlah_jam_rumus);
                                     },
                                     onSpinDown: function(){
-                                        var ed_jumlah_jam_rumus = $('#dg'+moduleid).datagrid('getEditor', {index: editIndex, field: 'jumlah_jam_rumus'});
-                                        var ed_jam_selesai = $('#dg'+moduleid).datagrid('getEditor', {index: editIndex, field: 'jam_selesai'});
+                                        var ed_jumlah_jam_rumus = $('#dg'+moduletahunajaranid).datagrid('getEditor', {index: editIndex, field: 'jumlah_jam_rumus'});
+                                        var ed_jam_selesai = $('#dg'+moduletahunajaranid).datagrid('getEditor', {index: editIndex, field: 'jam_selesai'});
                                         var jam_selesai = $(ed_jam_selesai.target).timespinner('getValue'); 
                                         var jam_mulai = $(this).timespinner('getValue'); 
                                         var separator = $(this).timespinner('options').separator;
@@ -611,8 +621,8 @@ var dg = {
                                     required: true,
                                     showSeconds: false,
                                     onSpinUp: function(){
-                                        var ed_jumlah_jam_rumus = $('#dg'+moduleid).datagrid('getEditor', {index: editIndex, field: 'jumlah_jam_rumus'});
-                                        var ed_jam_mulai = $('#dg'+moduleid).datagrid('getEditor', {index: editIndex, field: 'jam_mulai'});
+                                        var ed_jumlah_jam_rumus = $('#dg'+moduletahunajaranid).datagrid('getEditor', {index: editIndex, field: 'jumlah_jam_rumus'});
+                                        var ed_jam_mulai = $('#dg'+moduletahunajaranid).datagrid('getEditor', {index: editIndex, field: 'jam_mulai'});
                                         var jam_mulai = $(ed_jam_mulai.target).timespinner('getValue'); 
                                         var jam_selesai = $(this).timespinner('getValue'); 
                                         var separator = $(this).timespinner('options').separator;
@@ -620,8 +630,8 @@ var dg = {
                                         imbaljasa.jumlahJamRumus(jam_mulai, jam_selesai, separator, ed_jumlah_jam_rumus);
                                     },
                                     onSpinDown: function(){
-                                        var ed_jumlah_jam_rumus = $('#dg'+moduleid).datagrid('getEditor', {index: editIndex, field: 'jumlah_jam_rumus'});
-                                        var ed_jam_mulai = $('#dg'+moduleid).datagrid('getEditor', {index: editIndex, field: 'jam_mulai'});
+                                        var ed_jumlah_jam_rumus = $('#dg'+moduletahunajaranid).datagrid('getEditor', {index: editIndex, field: 'jumlah_jam_rumus'});
+                                        var ed_jam_mulai = $('#dg'+moduletahunajaranid).datagrid('getEditor', {index: editIndex, field: 'jam_mulai'});
                                         var jam_mulai = $(ed_jam_mulai.target).timespinner('getValue'); 
                                         var jam_selesai = $(this).timespinner('getValue'); 
                                         var separator = $(this).timespinner('options').separator;
@@ -644,17 +654,17 @@ var dg = {
                                 required: true,
                                 onSelect: function(selected){
                                    
-                                    var ed_peran_id = $('#dg'+moduleid).datagrid('getEditor', {index: editIndex, field: 'peran_id'}),
+                                    var ed_peran_id = $('#dg'+moduletahunajaranid).datagrid('getEditor', {index: editIndex, field: 'peran_id'}),
                                         peran_id = selected.peran_id,
-                                        ed_module_id = $('#dg'+moduleid).datagrid('getEditor', {index: editIndex, field: 'module_id'}),
-                                        ed_jumlah_jam_rumus = $('#dg'+moduleid).datagrid('getEditor', {index: editIndex, field: 'jumlah_jam_rumus'}),
-                                        ed_transport = $('#dg'+moduleid).datagrid('getEditor', {index: editIndex, field: 'transport'}),
-                                        ed_honor = $('#dg'+moduleid).datagrid('getEditor', {index: editIndex, field: 'honor'}),
-                                        ed_peran_hitung_id = $('#dg'+moduleid).datagrid('getEditor', {index: editIndex, field: 'peran_hitung_id'}),
-                                        ed_peran_id = $('#dg'+moduleid).datagrid('getEditor', {index: editIndex, field: 'peran_id'});
+                                        ed_module_tahun_ajaran_id = $('#dg'+moduletahunajaranid).datagrid('getEditor', {index: editIndex, field: 'module_tahun_ajaran_id'}),
+                                        ed_jumlah_jam_rumus = $('#dg'+moduletahunajaranid).datagrid('getEditor', {index: editIndex, field: 'jumlah_jam_rumus'}),
+                                        ed_transport = $('#dg'+moduletahunajaranid).datagrid('getEditor', {index: editIndex, field: 'transport'}),
+                                        ed_honor = $('#dg'+moduletahunajaranid).datagrid('getEditor', {index: editIndex, field: 'honor'}),
+                                        ed_peran_hitung_id = $('#dg'+moduletahunajaranid).datagrid('getEditor', {index: editIndex, field: 'peran_hitung_id'}),
+                                        ed_peran_id = $('#dg'+moduletahunajaranid).datagrid('getEditor', {index: editIndex, field: 'peran_id'});
                                 
                                     $(ed_peran_id.target).textbox('setValue', selected.peran_id);
-                                    imbaljasa.hitungimbaljasa(ed_peran_id, ed_module_id, ed_peran_hitung_id, ed_jumlah_jam_rumus, ed_transport, ed_honor, peran_id);
+                                    imbaljasa.hitungimbaljasa(ed_peran_id, ed_module_tahun_ajaran_id, ed_peran_hitung_id, ed_jumlah_jam_rumus, ed_transport, ed_honor, peran_id);
                                 }
                             }}
                     },
@@ -735,11 +745,11 @@ var dg = {
                     }
             ]];
     },
-    init: function(moduleid){
+    init: function(moduleid, moduletahunajaranid){
         
         var transaksi_id = $("#transaksi_id").val();
-        $("#dg"+moduleid).datagrid({
-            url: _baseUrl+'/transaksi/jsonimbaljasa?module_id='+moduleid+'&transaksi_id='+transaksi_id,
+        $("#dg"+moduletahunajaranid).datagrid({
+            url: _baseUrl+'/transaksi/jsonimbaljasa?module_tahun_ajaran_id='+moduletahunajaranid+'&transaksi_id='+transaksi_id,
             iconCls: 'fa fa-th',
             toolbar: '#tb',
             onClickCell: imbaljasa.onClickCell,
@@ -749,8 +759,8 @@ var dg = {
             showFooter: true,
             pagination: false,
             pageList: 50,
-            frozenColumns: dg.columnsFrozen(moduleid),
-            columns: dg.columns(moduleid),
+            frozenColumns: dg.columnsFrozen(moduleid, moduletahunajaranid),
+            columns: dg.columns(moduleid, moduletahunajaranid),
             onLoadSuccess: function(){
                 
             }
@@ -758,7 +768,7 @@ var dg = {
         
         $("#btn-add").unbind('click');
         $("#btn-add").on('click', function(){
-            imbaljasa.append(moduleid);
+            imbaljasa.append(moduleid, moduletahunajaranid);
             $("#btn-add").prop("disabled", true);
             $("#btn-save").prop("disabled", false);
             $("#btn-cancel").prop("disabled", false);
@@ -767,12 +777,12 @@ var dg = {
         
         $("#btn-save").unbind('click');
         $("#btn-save").on('click', function(){
-            imbaljasa.accept(moduleid);
+            imbaljasa.accept(moduleid, moduletahunajaranid);
         });
         
         $("#btn-cancel").unbind('click');
         $("#btn-cancel").on('click', function(){
-            imbaljasa.reject(moduleid);
+            imbaljasa.reject(moduleid, moduletahunajaranid);
             $("#btn-add").prop("disabled", false);
             $("#btn-cancel").prop("disabled", true);
             $("#btn-save").prop("disabled", true);
@@ -781,8 +791,18 @@ var dg = {
         
         $("#btn-export-pdf").unbind('click');
         $("#btn-export-pdf").on('click', function(){
-            imbaljasa.exportPdf(moduleid, transaksi_id);
+            imbaljasa.exportPdf(moduletahunajaranid, transaksi_id);
         });
+        
+        $("#btn-refresh").unbind('click');
+        $("#btn-refresh").on('click', function(){
+            imbaljasa.refreshGrid(moduleid, moduletahunajaranid);
+            $("#btn-add").prop("disabled", false);
+            $("#btn-cancel").prop("disabled", true);
+            $("#btn-save").prop("disabled", true);
+            $("#btn-delete").prop("disabled", true);
+        });
+        
 //        $("#btn-delete").unbind('click');
 //        $("#btn-delete").on('click', function(){
 ////            imbaljasa.removeit(moduleid);
@@ -798,7 +818,7 @@ var dg = {
             message: 'Anda yakin akan menghapus data ini?',
             btn_ok_label:       'Ya',
             btn_cancel_label:   'Batal',
-            delete_callback:    function() { imbaljasa.removeit(moduleid); },
+            delete_callback:    function() { imbaljasa.removeit(moduleid, moduletahunajaranid); },
             cancel_callback:    function() { 
                 setTimeout(function(){
                     $("#btn-cancel").trigger("click");
@@ -815,7 +835,9 @@ var tabs = {
             onSelect: function (title, index) {
                 var selected = $(this).tabs('getSelected');
                 var moduleid = selected[0].dataset.moduleid;
-                dg.init(moduleid);
+                var moduletahunajaranid = selected[0].dataset.moduletahunajaranid;
+                
+                dg.init(moduleid, moduletahunajaranid);
 //                console.log(moduleid);
             }
         });
@@ -824,7 +846,8 @@ var tabs = {
 
 $(document).ready(function(){
     var moduleid = $('#tt').tabs('getSelected')[0].dataset.moduleid;
+    var moduletahunajaranid = $('#tt').tabs('getSelected')[0].dataset.moduletahunajaranid;
     
-    dg.init(moduleid);
+    dg.init(moduleid, moduletahunajaranid);
     tabs.init();
 });
