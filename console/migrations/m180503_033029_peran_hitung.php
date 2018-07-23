@@ -22,6 +22,7 @@ class m180503_033029_peran_hitung extends Migration
            'id' => $this->primaryKey(),
            'peran_id'   => $this->integer()->notNull(),
            'module_id'   => $this->integer()->notNull(),
+           'module_tahun_ajaran_id'   => $this->integer()->notNull(),
            'tahun_ajaran_id'   => $this->integer()->notNull(),
            'bulan'   => $this->smallInteger(2)->notNull(), 
            'tahun'   => $this->smallInteger(4)->notNull(), 
@@ -61,6 +62,15 @@ class m180503_033029_peran_hitung extends Migration
             'peran_hitung',
             'tahun_ajaran_id',
             'tahun_ajaran',
+            'id',
+            'CASCADE'
+        );
+        
+        $this->addForeignKey(
+            'fk-peran_hitung-module_tahun_ajaran_id',
+            'peran_hitung',
+            'module_tahun_ajaran_id',
+            'module_tahun_ajaran',
             'id',
             'CASCADE'
         );

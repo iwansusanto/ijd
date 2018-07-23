@@ -26,6 +26,9 @@ class ModuleTahunAjaran extends \yii\db\ActiveRecord
     /**
      * {@inheritdoc}
      */
+    const jumlah_menit_per_sks = 50;
+    const jumlah_sks = 2;
+    
     public static function tableName()
     {
         return 'module_tahun_ajaran';
@@ -37,13 +40,14 @@ class ModuleTahunAjaran extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['module_id', 'nama', 'tahun_ajaran_id', 'periode', 'jumlah_sks'], 'required'],
+            [['module_id', 'tahun_ajaran_id', 'jumlah_sks', 'jumlah_menit_per_sks'], 'required'],
             [['module_id', 'tahun_ajaran_id', 'jumlah_sks', 'jumlah_menit_per_sks', 'user_created', 'user_updated'], 'integer'],
-            [['update_time'], 'safe'],
+            [['update_time', 'periode', 'nama'], 'safe'],
             [['nama'], 'string', 'max' => 200],
             [['periode'], 'string', 'max' => 50],
             [['tahun_ajaran_id'], 'exist', 'skipOnError' => true, 'targetClass' => TahunAjaran::className(), 'targetAttribute' => ['tahun_ajaran_id' => 'id']],
-            [['module_id'], 'exist', 'skipOnError' => true, 'targetClass' => Module::className(), 'targetAttribute' => ['module_id' => 'id']],
+//            [['module_id'], 'exist', 'skipOnError' => true, 'targetClass' => Module::className(), 'targetAttribute' => ['module_id' => 'id']],
+            ['module_id', 'unique', 'targetAttribute' => ['module_id', 'tahun_ajaran_id'], 'comboNotUnique' => 'Module already exist']
         ];
     }
 
@@ -80,5 +84,25 @@ class ModuleTahunAjaran extends \yii\db\ActiveRecord
     public function getModule()
     {
         return $this->hasOne(Module::className(), ['id' => 'module_id']);
+    }
+    
+    public function beforeSave($insert) {
+        
+        if(parent::beforeSave($insert)){
+            if($insert){
+                $this->user_created = Yii::$app->user->id;
+                $this->update_time = date('Y-m-d H:i:s');
+            } else {
+                $this->user_updated = Yii::$app->user->id;
+                $this->update_time = date('Y-m-d H:i:s');
+            };
+            
+            $this->periode = TahunAjaran::findOne($this->tahun_ajaran_id)->periode;
+            $this->nama = Module::findOne($this->module_id)->nama;
+            
+            return true;
+        };
+        
+        return false;
     }
 }

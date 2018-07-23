@@ -66,10 +66,16 @@ class ModuletahunajaranController extends Controller
     {
         $model = new ModuleTahunAjaran();
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+        if ($model->load(Yii::$app->request->post())) {
+//            echo '<pre>';            print_r(Yii::$app->request->post());die;
+            if($model->save()){
+                return $this->redirect(['index']);
+            }
         }
-
+        
+        $model->jumlah_sks = ModuleTahunAjaran::jumlah_sks;
+        $model->jumlah_menit_per_sks = ModuleTahunAjaran::jumlah_menit_per_sks;
+        
         return $this->render('create', [
             'model' => $model,
         ]);

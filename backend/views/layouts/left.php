@@ -55,9 +55,9 @@
                         'icon' => 'calendar',
                         'url' => '#',
                         'items' => [
-                            ['label' => 'Dosen dan Fakultas', 'icon' => 'sitemap', 'url' => ['/dosenfakultas'],],
-                            ['label' => 'Module dan Tahun Ajaran', 'icon' => 'table', 'url' => ['/moduletahunajaran'],],
-                            ['label' => 'Module dan Kelas', 'icon' => 'cubes', 'url' => ['/modulekelas'],],
+                            ['label' => 'Dosen dan Fakultas', 'icon' => 'sitemap', 'url' => ['/dosenfakultas'], 'active' => Yii::$app->controller->id == 'dosenfakultas'],
+                            ['label' => 'Module dan Tahun Ajaran', 'icon' => 'table', 'url' => ['/moduletahunajaran'], 'active' => Yii::$app->controller->id == 'moduletahunajaran'],
+                            ['label' => 'Module dan Kelas', 'icon' => 'cubes', 'url' => ['/modulekelas'], 'active' => Yii::$app->controller->id == 'modulekelas'],
                         ],
                     ],
                     [
@@ -65,7 +65,7 @@
                         'icon' => 'window-restore',
                         'url' => '#',
                         'items' => [
-                            ['label' => 'Hitung Peran', 'icon' => 'calculator', 'url' => ['/peranhitung'],],
+                            ['label' => 'Hitung Peran', 'icon' => 'calculator', 'url' => ['/peranhitung'], 'active' => Yii::$app->controller->id == 'peranhitung'],
                             ['label' => 'Hitung Imbal Jasa', 'icon' => 'th', 'url' => ['/transaksi'], 'active' => Yii::$app->controller->id == 'transaksi'],
                         ],
                     ],

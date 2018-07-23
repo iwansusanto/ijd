@@ -21,14 +21,14 @@ class m180722_085756_module_tahun_ajaran extends Migration
         $this->createTable('{{%module_tahun_ajaran}}', [
            'id' => $this->primaryKey(),
            'module_id'   => $this->integer()->notNull(),
-           'nama'   => $this->string(200)->notNull(),
+           'nama'   => $this->string(200),
            'tahun_ajaran_id'   => $this->integer()->notNull(), 
-           'periode'   => $this->string(50)->notNull(), 
+           'periode'   => $this->string(50), 
            'jumlah_sks'   => $this->smallInteger(3)->notNull(),
-           'jumlah_menit_per_sks'   => $this->smallInteger(3)->notNull()->defaultValue(50),  
-           'user_created'   => $this->integer()->notNull(), 
+           'jumlah_menit_per_sks'   => $this->smallInteger(3)->notNull()->defaultValue(50)->notNull(),
+           'user_created'   => $this->integer(), 
            'user_updated'   => $this->integer(), 
-           'update_time'   => $this->dateTime()->notNull(), 
+           'update_time'   => $this->dateTime(), 
         ]);
         
         $this->addForeignKey(

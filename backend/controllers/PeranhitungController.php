@@ -80,9 +80,9 @@ class PeranhitungController extends Controller
         }
         
         $model->bulan = date('Y-m');
-        $model->jumlah_sks = PeranHitung::jumlah_sks;
-        $model->jumlah_menit_per_sks = PeranHitung::jumlah_menit_per_sks;
-        $model->volume_menit_pertemuan = PeranHitung::volume_menit_pertemuan/60;
+//        $model->jumlah_sks = PeranHitung::jumlah_sks;
+//        $model->jumlah_menit_per_sks = PeranHitung::jumlah_menit_per_sks;
+        $model->volume_menit_pertemuan = PeranHitung::volume_menit_pertemuan;
         
         return $this->render('create', [
             'model' => $model,

@@ -2,12 +2,15 @@
 
 use yii\helpers\Html;
 use yii\grid\GridView;
+use kartik\select2\Select2;
+use yii\helpers\ArrayHelper;
+use app\models\TahunAjaran;
 
 /* @var $this yii\web\View */
 /* @var $searchModel app\models\ModuleTahunAjaranSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = 'Module Tahun Ajarans';
+$this->title = 'Module Tahun Ajaran';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="module-tahun-ajaran-index">
@@ -25,7 +28,16 @@ $this->params['breadcrumbs'][] = $this->title;
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
             'id',
-            'periode',
+//            'periode',
+            [
+                'attribute' => 'tahun_ajaran_id',
+                'value' => 'tahunAjaran.periode',
+                'filter' => Select2::widget([
+                                'model' =>  $searchModel,
+                                'attribute'      =>  'tahun_ajaran_id',
+                                'data'      =>  ArrayHelper::map(TahunAjaran::find()->asArray()->all(), 'id', 'periode'),
+                                'options'   =>  ['placeholder'  =>  'Select Tahun Ajaran'],
+                                'pluginOptions' =>  ['allowClear'    =>  true]])],
 //            'tahun_ajaran_id',
 //            'module_id',
             'nama',

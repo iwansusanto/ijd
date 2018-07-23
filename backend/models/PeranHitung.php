@@ -10,6 +10,7 @@ use Yii;
  * @property int $id
  * @property int $peran_id
  * @property int $module_id
+ * @property int $module_tahun_ajaran_id
  * @property int $tahun_ajaran_id
  * @property int $bulan
  * @property int $tahun
@@ -33,8 +34,8 @@ class PeranHitung extends \yii\db\ActiveRecord
     /**
      * {@inheritdoc}
      */
-    const jumlah_menit_per_sks = 50;
-    const jumlah_sks = 2;
+//    const jumlah_menit_per_sks = 50;
+//    const jumlah_sks = 2;
     const volume_menit_pertemuan = 2; // 2 hour's
 
     public static function tableName()
@@ -48,8 +49,8 @@ class PeranHitung extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['peran_id', 'module_id', 'tahun_ajaran_id', 'bulan', 'jumlah_sks', 'honor_menit_hitung'], 'required'],
-            [['peran_id', 'module_id', 'tahun_ajaran_id', 'tahun', 'jumlah_sks', 'jumlah_menit_hitung', 'honor_menit_hitung', 'transport_hitung','jumlah_menit_per_sks', 'volume_menit_pertemuan', 'user_created', 'user_updated'], 'integer'],
+            [['peran_id', 'module_id', 'tahun_ajaran_id', 'bulan', 'honor_menit_hitung'], 'required'],
+            [['peran_id', 'module_id', 'module_tahun_ajaran_id', 'tahun_ajaran_id', 'tahun', 'jumlah_menit_hitung', 'honor_menit_hitung', 'transport_hitung', 'volume_menit_pertemuan', 'user_created', 'user_updated'], 'integer'],
             [['keterangan', 'bulan'], 'string'],
             [['update_time'], 'safe'],
             [['tahun_ajaran_id'], 'exist', 'skipOnError' => true, 'targetClass' => TahunAjaran::className(), 'targetAttribute' => ['tahun_ajaran_id' => 'id']],
@@ -72,11 +73,11 @@ class PeranHitung extends \yii\db\ActiveRecord
             'tahun_ajaran_id' => 'Tahun Ajaran',
             'bulan' => 'Bulan Tahun',
             'tahun' => 'Tahun',
-            'jumlah_sks' => 'Jumlah Sks',
+//            'jumlah_sks' => 'Jumlah Sks',
             'jumlah_menit_hitung' => 'Jumlah Menit',
             'honor_menit_hitung' => 'Honor',
             'transport_hitung' => 'Transport',
-            'jumlah_menit_per_sks' => 'Menit / Sks',
+//            'jumlah_menit_per_sks' => 'Menit / Sks',
             'volume_menit_pertemuan' => 'Volume / Pertemuan (Jam)',
             'keterangan' => 'Keterangan',
             'user_created' => 'User Created',

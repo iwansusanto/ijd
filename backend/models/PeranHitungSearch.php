@@ -18,7 +18,7 @@ class PeranHitungSearch extends PeranHitung
     public function rules()
     {
         return [
-            [['id', 'peran_id', 'module_id', 'tahun_ajaran_id', 'bulan', 'tahun', 'jumlah_sks', 'jumlah_menit_hitung', 'honor_menit_hitung', 'transport_hitung','jumlah_menit_per_sks', 'volume_menit_pertemuan', 'user_created', 'user_updated'], 'integer'],
+            [['id', 'peran_id', 'module_id', 'tahun_ajaran_id', 'bulan', 'tahun', 'jumlah_menit_hitung', 'honor_menit_hitung', 'transport_hitung', 'volume_menit_pertemuan', 'user_created', 'user_updated'], 'integer'],
             [['keterangan', 'update_time'], 'safe'],
         ];
     }
@@ -69,11 +69,11 @@ class PeranHitungSearch extends PeranHitung
             'tahun_ajaran_id' => $this->tahun_ajaran_id,
             'bulan' => $this->bulan,
             'tahun' => $this->tahun,
-            'jumlah_sks' => $this->jumlah_sks,
+//            'jumlah_sks' => $this->jumlah_sks,
             'jumlah_menit_hitung' => $this->jumlah_menit_hitung,
             'honor_menit_hitung' => $this->honor_menit_hitung,
             'transport_hitung' => $this->transport_hitung,
-            'jumlah_menit_per_sks' => $this->jumlah_menit_per_sks,
+//            'jumlah_menit_per_sks' => $this->jumlah_menit_per_sks,
             'volume_menit_pertemuan' => $this->volume_menit_pertemuan,
             'user_created' => $this->user_created,
             'user_updated' => $this->user_updated,

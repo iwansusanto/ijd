@@ -21,7 +21,8 @@ use kartik\touchspin\TouchSpin;
     <?php $form = ActiveForm::begin(); ?>
     
     <div class="row">
-        <div class="col-md-6">
+        
+        <div class="col-md-12">
             <?= $form->field($model, 'tahun_ajaran_id')
                 ->dropDownList(ArrayHelper::map(TahunAjaran::find()->asArray()->all(), 'id', 'periode'),
                         ['value' =>  Yii::$app->is->tahunajaran()->id]) ?>
@@ -71,60 +72,43 @@ use kartik\touchspin\TouchSpin;
                             'saveInputContainer' => Yii::$app->params['saveCont']
                     ]) ?>
 
-            
-        </div>
-        <div class="col-md-6">
-            
-            <?= $form->field($model, 'jumlah_sks')->widget(TouchSpin::className(),[
-                    'readonly'  =>  true,
-                               'pluginOptions' => [
-                                   'min' => 1,
-                                   'max' => 150,
-                                   'step' => 1,
-                                   'verticalbuttons' => true,
-                                   'verticalupclass' => 'glyphicon glyphicon-plus',
-                                   'verticaldownclass' => 'glyphicon glyphicon-minus',
-                               ]
-            ]) ?>
-            
-            <?= $form->field($model, 'jumlah_menit_per_sks')->widget(TouchSpin::className(), [
-                    'readonly'  =>  true,
-                               'pluginOptions' => [
-                                   'min' => 50,
-                                   'max'    =>  3600,
-                                   'step' => 10,
-                                   'verticalbuttons' => true,
-                                   'verticalupclass' => 'glyphicon glyphicon-plus',
-                                   'verticaldownclass' => 'glyphicon glyphicon-minus',
-                               ]
-            ]) ?>
-
-            <?= $form->field($model, 'volume_menit_pertemuan')->widget(TouchSpin::className(), [
-                    'readonly'  =>  true,
-                               'pluginOptions' => [
-                                   'min' => 2,
-                                   'max'    =>  24,
-                                   'step' => 1,
-                                   'verticalbuttons' => true,
-                                   'verticalupclass' => 'glyphicon glyphicon-plus',
-                                   'verticaldownclass' => 'glyphicon glyphicon-minus',
-                               ]
-            ]) ?>    
+            <?= $form->field($model, 'volume_menit_pertemuan')->hiddenInput()->label(false) ?>    
 
             <?= $form->field($model, 'keterangan')->textarea(['rows' => 6]) ?>
             
             <div class="form-group">
                 <?= Html::submitButton('Save', ['class' => 'btn btn-success']) ?>
             </div>
-            
         </div>
+            
+            
+            <?php
+//            $form->field($model, 'jumlah_sks')->widget(TouchSpin::className(),[
+//                    'readonly'  =>  true,
+//                               'pluginOptions' => [
+//                                   'min' => 1,
+//                                   'max' => 150,
+//                                   'step' => 1,
+//                                   'verticalbuttons' => true,
+//                                   'verticalupclass' => 'glyphicon glyphicon-plus',
+//                                   'verticaldownclass' => 'glyphicon glyphicon-minus',
+//                               ]
+//            ]) ?>
+            
+            <?php
+//            $form->field($model, 'jumlah_menit_per_sks')->widget(TouchSpin::className(), [
+//                    'readonly'  =>  true,
+//                               'pluginOptions' => [
+//                                   'min' => 50,
+//                                   'max'    =>  3600,
+//                                   'step' => 10,
+//                                   'verticalbuttons' => true,
+//                                   'verticalupclass' => 'glyphicon glyphicon-plus',
+//                                   'verticaldownclass' => 'glyphicon glyphicon-minus',
+//                               ]
+//            ]); ?>
+        
     </div>
-
-   
-
-    
-
-    
 
     <?php ActiveForm::end(); ?>
 
