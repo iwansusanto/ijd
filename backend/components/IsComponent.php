@@ -53,17 +53,23 @@ class IsComponent extends Component {
         
     }
     
-    public function bulanhitung(){
+    public function bulanhitung($date = null){
         $session = \Yii::$app->session;
         
-        if ($session->has('bulan_tahun'))
+        // session from transaksi/imbaljasa
+        if ($session->has('bulan_tahun') && $date == null)
             return date('m', strtotime($session->get('bulan_tahun')));
+        
+        return date('m', strtotime($date));
     }
     
-    public function tahunhitung(){
+    public function tahunhitung($date = null){
         $session = \Yii::$app->session;
         
-        if ($session->has('bulan_tahun'))
+        // session from transaksi/imbaljasa
+        if ($session->has('bulan_tahun') && $date == null)
             return date('Y', strtotime($session->get('bulan_tahun')));
+        
+        return date('Y', strtotime($date));
     }
 }

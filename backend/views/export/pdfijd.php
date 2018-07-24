@@ -8,38 +8,49 @@
 
 ?>
 
-<div class="header-ijd">
-    <div class="blue_1">REKAPITULASI JAM DAN HONOR PENGAJARAN DOSEN</div>
-    <div class="green-1">MODUL RUMPUN ILMU KESEHATAN</div>
-</div>
-
 <div class="module-info">
-    <table class="table-module">
+    <table class="table">
+        <thead>
+            <tr>
+                <th class="cell">NIP</th>
+                <th class="cell">Nama</th>
+                <th class="cell">Induk Fak</th>
+                <th class="cell">Nama Dosen Yang Digantikan</th>
+                <th class="cell">Induk Fak Dosen Yang Digantikan</th>
+                <th class="cell">Modul</th>
+                <th class="cell">Nama Kelas</th>
+                <th class="cell">Ruang</th>
+                <th class="cell">Tgl_Kegiatan</th>
+                <th class="cell">Jam Mulai</th>
+                <th class="cell">Jam Selesai</th>
+                <th class="cell">Peran</th>
+                <th class="cell">Jumlah Jam Rumus</th>
+                <th class="cell">Transport</th>
+                <th class="cell">Honor Diterima</th>
+                <th class="cell">Keterangan</th>
+            </tr>
+        </thead>
         <tbody>
+            <?php foreach ($imbajJasa as $i=>$row): ?>
             <tr>
-                <td>Modul</td>
-                <td><?= $moduleTahunAjaran->nama; ?></td>
+                <td class="cell"><?= $row->nip ?></td>
+                <td class="cell"><?= $row->nama_dosen; ?></td>
+                <td class="cell"><?= $row->nama_fakultas; ?></td>
+                <td class="cell"><?= $row->nama_dosen_digantikan; ?></td>
+                <td class="cell"><?= $row->nama_fakultas_digantikan; ?></td>
+                <td class="cell"><?= $row->moduleTahunAjaran->module->nama; ?></td>
+                <td class="cell"><?= $row->nama_kelas; ?></td>
+                <td class="cell"><?= $row->nama_ruangan; ?></td>
+                <td class="cell"><?= $row->tgl_kegiatan; ?></td>
+                <td class="cell"><?= $row->jam_mulai; ?></td>
+                <td class="cell"><?= $row->jam_selesai; ?></td>
+                <td class="cell"><?= $row->nama_peran; ?></td>
+                <td class="cell"><?= $row->jumlah_jam_rumus; ?></td>
+                <td class="cell"><?= $row->transport; ?></td>
+                <td class="cell"><?= $row->honor; ?></td>
+                <td class="cell"><?= $row->keterangan; ?></td>
             </tr>
-            <tr>
-                <td>Bulan</td>
-                <td>2</td>
-                <td>Tahun</td>
-                <td>2018</td>
-            </tr>
-        </tbody>
-    </table>
-    <table class="table-module">
-        <tbody>
-            <tr>
-                <td class="background-yellow-1">Juml SKS</td>
-                <td class="background-yellow-1">2</td>
-                <td class="background-yellow-1"></td>
-            </tr>
-            <tr>
-                <td class="background-yellow-1">Fasilitator</td>
-                <td class="background-yellow-1">Rp. 100.000,-</td>
-                <td class="background-yellow-1">per jam</td>
-            </tr>
+            <?php endforeach; ?>
         </tbody>
     </table>
 </div>

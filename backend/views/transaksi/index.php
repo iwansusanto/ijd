@@ -8,7 +8,7 @@ use kartik\select2\Select2;
 /* @var $searchModel app\models\TransaksiSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = 'Transaksis';
+$this->title = 'Transaksi';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="transaksi-index">

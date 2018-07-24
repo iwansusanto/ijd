@@ -162,7 +162,7 @@ class TransaksiController extends Controller
         
         $module = ModuleTahunAjaran::find()
                     ->where('tahun_ajaran_id=:tahun_ajaran_id',[
-                                ':tahun_ajaran_id'  =>  Yii::$app->is->tahunAjaran()->id])
+                                ':tahun_ajaran_id'  =>  $model->tahun_ajaran_id])
                     ->all();
         
         $session = Yii::$app->session;

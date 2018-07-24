@@ -10,6 +10,7 @@ and open the template in the editor.
 .header-ijd {
     font-size: 11px;
     font-weight: bold;
+    font-style: normal;
 }
 .blue_1 {
     color: #007fff;
@@ -18,16 +19,33 @@ and open the template in the editor.
     color: #008d4c;
 }
 .module-info {
-    font-size: 8px;
+    padding: 5px 0px;
 }
-.table-module {
-    border-collapse: collapse;
-    /*border: 1px solid #D9D9D9;*/
-    font-size: 10px;
+
+body {
+  font-size: 9px;
+  /*font-family: sans-serif;*/
 }
-.table-module td {
-    width: 100px;
+table.table {
+  border-collapse: collapse;
+  width: 100%;
 }
-.table-module td.background-yellow-1 {
-    background-color: yellow;
+th.cell, td.cell {
+  padding: 0.25rem;
+  text-align: left;
+  border: 1px solid #ffffff;
+}
+th.cell {
+    background-color: #0291df;
+    color: #ffffff;
+    padding: 4px 2px;
+}
+td.cell {
+    /*background-color: #d7ebf9;*/
+}
+table.table tbody tr:nth-child(odd) {
+    background-color: #e1edf7;
+}
+table.table tbody tr:nth-child(even) {
+    background-color: #d7ebf9;
 }

@@ -313,10 +313,11 @@ var imbaljasa = {
     formatDecimal: function(num){
         return this.addCommas(parseInt(num));																	
     },
-    exportPdf: function(moduletahunajaranid, transaksi_id){
+    exportPdf: function(moduletahunajaranid, transaksi_id, tahun_ajaran_id){
         
         $("input[name='moduletahunajaranid']").val(moduletahunajaranid);
         $("input[name='transaksi_id']").val(transaksi_id);
+        $("input[name='tahunajaran_id']").val(tahun_ajaran_id);
         
         $("form#form-export-pdfijd").submit();
         
@@ -748,6 +749,8 @@ var dg = {
     init: function(moduleid, moduletahunajaranid){
         
         var transaksi_id = $("#transaksi_id").val();
+        var tahun_ajaran_id = $("#tahun_ajaran_id").val();
+        
         $("#dg"+moduletahunajaranid).datagrid({
             url: _baseUrl+'/transaksi/jsonimbaljasa?module_tahun_ajaran_id='+moduletahunajaranid+'&transaksi_id='+transaksi_id,
             iconCls: 'fa fa-th',
@@ -791,7 +794,7 @@ var dg = {
         
         $("#btn-export-pdf").unbind('click');
         $("#btn-export-pdf").on('click', function(){
-            imbaljasa.exportPdf(moduletahunajaranid, transaksi_id);
+            imbaljasa.exportPdf(moduletahunajaranid, transaksi_id, tahun_ajaran_id);
         });
         
         $("#btn-refresh").unbind('click');
@@ -838,6 +841,10 @@ var tabs = {
                 var moduletahunajaranid = selected[0].dataset.moduletahunajaranid;
                 
                 dg.init(moduleid, moduletahunajaranid);
+                $("#btn-add").prop("disabled", false);
+                $("#btn-cancel").prop("disabled", true);
+                $("#btn-save").prop("disabled", true);
+                $("#btn-delete").prop("disabled", true);
 //                console.log(moduleid);
             }
         });

@@ -43,6 +43,10 @@ $session = Yii::$app->session;
                             'class' => 'form-control',
                             'id'    =>  'transaksi_id']); ?>
     
+    <?= Html::textInput('tahun_ajaran_id', $model->tahun_ajaran_id, [
+                            'class' => 'form-control',
+                            'id'    =>  'tahun_ajaran_id']); ?>
+    
     <div id="tt" class="easyui-tabs" style="height:auto;">
         <?php foreach ($module as $i=>$modul): ?>
         <div title="<?= $modul->nama; ?>" style="padding:10px" data-moduleid="<?= $modul->module_id; ?>" data-moduletahunajaranid="<?= $modul->id; ?>">
@@ -77,6 +81,7 @@ $session = Yii::$app->session;
 
 <?= Html::hiddenInput('moduletahunajaranid', '', []); ?>
 <?= Html::hiddenInput('transaksi_id', '', []); ?>
+<?= Html::hiddenInput('tahunajaran_id', '', []); ?>
 
 <div class="form-group">
     <?= Html::submitButton('Export', [
