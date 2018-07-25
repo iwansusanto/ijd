@@ -43,7 +43,7 @@ $session = Yii::$app->session;
                             'class' => 'form-control',
                             'id'    =>  'transaksi_id']); ?>
     
-    <?= Html::textInput('tahun_ajaran_id', $model->tahun_ajaran_id, [
+    <?= Html::hiddenInput('tahun_ajaran_id', $model->tahun_ajaran_id, [
                             'class' => 'form-control',
                             'id'    =>  'tahun_ajaran_id']); ?>
     

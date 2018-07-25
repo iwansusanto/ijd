@@ -6,9 +6,58 @@
  * and open the template in the editor.
  */
 
+$total_transport = 0;
+$total_honor = 0;
+
 ?>
 
 <div class="module-info">
+    <div class="wrapper-left-70">
+        <ul class="list-header">
+            <li>
+                <div class="list-left">Modul</div>
+                <div class="list-right">:&nbsp;&nbsp;<?= $moduleTahunAjaran->module->nama; ?></div>
+            </li>
+            <li>
+                <div class="list-left">Jumlah SKS</div>
+                <div class="list-right">:&nbsp;&nbsp;<?= $moduleTahunAjaran->jumlah_sks; ?></div>
+            </li>
+            <li>
+                <div class="list-left">Jumlah menit per SKS</div>
+                <div class="list-right">:&nbsp;&nbsp;<?= $moduleTahunAjaran->jumlah_menit_per_sks; ?> menit</div>
+            </li>
+            <li>
+                <div class="list-left">Bulan</div>
+                <div class="list-right">:&nbsp;&nbsp;<?= Yii::$app->is->bulan((int)Yii::$app->is->bulanhitung($transaksi->bulan_tahun)); ?></div>
+            </li>
+            <li>
+                <div class="list-left">Tahun</div>
+                <div class="list-right">:&nbsp;&nbsp;<?= Yii::$app->is->tahunhitung($transaksi->bulan_tahun) ?></div>
+            </li>
+        </ul>
+    </div>
+    
+    <div class="wrapper-left-30">
+        <table class="table-peran">
+            <thead>
+                <tr>
+                    <th class="cell-peran">Peran</th>
+                    <th class="cell-peran right">Honor</th>
+                    <th class="cell-peran">Keterangan</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php foreach ($peranHitung as $x=>$data): ?>
+                <tr>
+                    <td class="cell-peran"><?= $data->peran->nama; ?></td>
+                    <td class="cell-peran right"><?= Yii::$app->formatter->asRoundedCurrency($data->honor_menit_hitung, 'Rp.'); ?></td>
+                    <td class="cell-peran">per jam</td>
+                </tr>
+                <?php endforeach; ?>
+            </tbody>
+        </table>
+    </div>
+    
     <table class="table">
         <thead>
             <tr>
@@ -30,8 +79,11 @@
                 <th class="cell">Keterangan</th>
             </tr>
         </thead>
+        <?php  ?>
         <tbody>
             <?php foreach ($imbajJasa as $i=>$row): ?>
+            <?php $total_transport += $row->transport; ?>
+            <?php $total_honor += $row->honor; ?>
             <tr>
                 <td class="cell"><?= $row->nip ?></td>
                 <td class="cell"><?= $row->nama_dosen; ?></td>
@@ -41,16 +93,24 @@
                 <td class="cell"><?= $row->moduleTahunAjaran->module->nama; ?></td>
                 <td class="cell"><?= $row->nama_kelas; ?></td>
                 <td class="cell"><?= $row->nama_ruangan; ?></td>
-                <td class="cell"><?= $row->tgl_kegiatan; ?></td>
+                <td class="cell"><?= Yii::$app->formatter->asDate($row->tgl_kegiatan); ?></td>
                 <td class="cell"><?= $row->jam_mulai; ?></td>
                 <td class="cell"><?= $row->jam_selesai; ?></td>
                 <td class="cell"><?= $row->nama_peran; ?></td>
                 <td class="cell"><?= $row->jumlah_jam_rumus; ?></td>
-                <td class="cell"><?= $row->transport; ?></td>
-                <td class="cell"><?= $row->honor; ?></td>
+                <td class="cell right"><?= Yii::$app->formatter->asRoundedCurrency($row->transport, 'Rp.'); ?></td>
+                <td class="cell right"><?= Yii::$app->formatter->asRoundedCurrency($row->honor, 'Rp.'); ?></td>
                 <td class="cell"><?= $row->keterangan; ?></td>
             </tr>
             <?php endforeach; ?>
         </tbody>
+        <tfoot>
+            <tr>
+                <td colspan="13">Total</td>
+                <td class="cell right"><?= Yii::$app->formatter->asRoundedCurrency($total_transport, 'Rp.'); ?></td>
+                <td class="cell right"><?= Yii::$app->formatter->asRoundedCurrency($total_honor, 'Rp.'); ?></td>
+                <td class="cell"></td>
+            </tr>
+        </tfoot>
     </table>
 </div>

@@ -40,7 +40,7 @@ class ExportController extends Controller {
         $moduletahunajaranid = 1;
 //        $transaksi_id = $request->post('transaksi_id');
         $transaksi_id = 26;
-//        $tahunajaran_id = $request->post('$tahunajaran_id');
+//        $tahunajaran_id = $request->post('tahunajaran_id');
         $tahunajaran_id = 14;
         
         $transaksi = Transaksi::findOne($transaksi_id);
@@ -87,7 +87,7 @@ class ExportController extends Controller {
         $pdf->marginLeft = 10;
         $pdf->marginRight = 10;
         $pdf->marginTop = 20;
-        $pdf->marginBottom = 10;
+        $pdf->marginBottom = 15;
         
         
         return $pdf->render();

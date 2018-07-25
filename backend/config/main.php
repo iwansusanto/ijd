@@ -103,6 +103,8 @@ return [
         ],
         'formatter' => [
               'class' => 'app\components\isFormatter',
+              'dateFormat' => 'php:l, d F Y',
+              'defaultTimeZone' =>  'Asia/Jakarta'
 //            'class' => 'yii\i18n\formatter',
 //            'thousandSeparator' => '.',
 //            'decimalSeparator' => ',',
