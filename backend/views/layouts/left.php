@@ -58,6 +58,7 @@
                             ['label' => 'Dosen dan Fakultas', 'icon' => 'sitemap', 'url' => ['/dosenfakultas'], 'active' => Yii::$app->controller->id == 'dosenfakultas'],
                             ['label' => 'Module dan Tahun Ajaran', 'icon' => 'table', 'url' => ['/moduletahunajaran'], 'active' => Yii::$app->controller->id == 'moduletahunajaran'],
                             ['label' => 'Module dan Kelas', 'icon' => 'cubes', 'url' => ['/modulekelas'], 'active' => Yii::$app->controller->id == 'modulekelas'],
+                            ['label' => 'NoteIjd', 'icon' => 'sticky-note-o', 'url' => ['/noteijd'], 'active' => Yii::$app->controller->id == 'noteijd'],
                         ],
                     ],
                     [

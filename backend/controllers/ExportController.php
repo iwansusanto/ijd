@@ -88,6 +88,7 @@ class ExportController extends Controller {
         $pdf->marginRight = 10;
         $pdf->marginTop = 20;
         $pdf->marginBottom = 15;
+        $pdf->filename = 'Remun '.$moduleTahunAjaran->module->nama. '_'.Yii::$app->is->bulanhitung($transaksi->bulan_tahun).'-'.Yii::$app->is->tahunhitung($transaksi->bulan_tahun). '_'.rand(1, 100).'.pdf';
         
         
         return $pdf->render();

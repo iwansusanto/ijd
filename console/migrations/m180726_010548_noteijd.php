@@ -3,9 +3,9 @@
 use yii\db\Migration;
 
 /**
- * Class m180725_082253_notes
+ * Class m180726_010548_noteijd
  */
-class m180725_082253_notes extends Migration
+class m180726_010548_noteijd extends Migration
 {
     /**
      * {@inheritdoc}
@@ -18,18 +18,19 @@ class m180725_082253_notes extends Migration
             $tableOptions = 'CHARACTER SET utf8 COLLATE utf8_unicode_ci ENGINE=InnoDB';
         }
         
-        $this->createTable('{{%notes}}', [
+        $this->createTable('{{%noteijd}}', [
            'id' => $this->primaryKey(),
            'title'   => $this->string(100)->notNull(),
-           'tahun_ajaran_id'   => $this->smallInteger(3)->null(), 
+           'tahun_ajaran_id'   => $this->integer()->notNull(), 
+           'no_urut'   => $this->tinyInteger()->notNull(), 
            'user_created'   => $this->integer()->notNull(), 
            'user_updated'   => $this->integer(), 
            'update_time'   => $this->dateTime()->notNull(), 
         ]);
         
         $this->addForeignKey(
-            'fk-notes-tahun_ajaran_id',
-            'notes',
+            'fk-noteijd-tahun_ajaran_id',
+            'noteijd',
             'tahun_ajaran_id',
             'tahun_ajaran',
             'id',
@@ -42,7 +43,7 @@ class m180725_082253_notes extends Migration
      */
     public function safeDown()
     {
-        echo "m180725_082253_notes cannot be reverted.\n";
+        echo "m180726_010548_noteijd cannot be reverted.\n";
 
         return false;
     }
@@ -56,7 +57,7 @@ class m180725_082253_notes extends Migration
 
     public function down()
     {
-        echo "m180725_082253_notes cannot be reverted.\n";
+        echo "m180726_010548_noteijd cannot be reverted.\n";
 
         return false;
     }

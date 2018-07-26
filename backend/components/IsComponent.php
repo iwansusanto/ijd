@@ -72,4 +72,13 @@ class IsComponent extends Component {
         
         return date('Y', strtotime($date));
     }
+    
+    public function urut_100(){
+        $no = [];
+        for($x = 1; $x <= 100; $x++):
+            $no[$x] = $x;
+        endfor;
+        
+        return $no;
+    }
 }
