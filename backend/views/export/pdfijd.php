@@ -122,10 +122,14 @@ $total_honor = 0;
     </ul>
     
     <div class="wrapper-persetujuan">
-        <div>Depok, <?= Yii::$app->formatter->asDate(date('Y-m-d')) ?></div>
+        <div>Depok, <?= date('d F Y') ?></div>
         <br/>
         <div>Menyetujui</div>
-        <div>Koordinator</div>
+        <div><strong><?= $personIjd->jabatan->nama; ?>&nbsp;RIK</strong></div>
+        <div class="top-80">
+            <strong><?= $personIjd->nama; ?></strong>
+            <div>NIP <strong><?= $personIjd->nip; ?></strong></div>
+        </div>
     </div>
         
 </div>

@@ -17,6 +17,7 @@ use app\models\ModuleTahunAjaran;
 use app\models\Transaksi;
 use app\models\PeranHitung;
 use app\models\Noteijd;
+use app\models\Personijd;
 
 /**
  * Description of ExportController
@@ -71,12 +72,20 @@ class ExportController extends Controller {
                     ])
                     ->all();
         
+        $personIjd = Personijd::find()
+                        ->where('tahun_ajaran_id=:tahun_ajaran_id AND jabatan_id=:jabatan_id',[
+                                    ':tahun_ajaran_id'  =>  $tahunajaran_id,
+                                    ':jabatan_id'   => Personijd::JABATAN_SDM
+                        ])
+                        ->one();
+        
         $contentHtml = $this->renderPartial('pdfijd',[
                             'imbajJasa' =>  $imbajJasa,
                             'transaksi'    =>  $transaksi,
                             'moduleTahunAjaran'    =>  $moduleTahunAjaran,
                             'peranHitung'  =>  $peranHitung,
-                            'noteIjd'   =>  $noteIjd
+                            'noteIjd'   =>  $noteIjd,
+                            'personIjd'    =>  $personIjd
         ]);
         
         $pdf = Yii::$app->pdf;

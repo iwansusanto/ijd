@@ -107,8 +107,9 @@ ul.list-note {
 ul.list-note li {
     list-style-type: none;
     background-color: #ffff00;
+    padding-left: 5px;
+    padding-right: 5px;
 }
-
 ul.list-header li {
     font-weight: bold;
 }
@@ -124,5 +125,7 @@ ul.list-header li {
     font-size: 11px;
     width: 30%;
     float: right;
-    border: 1px solid red;
+}
+.top-80 {
+    margin-top: 80px;
 }

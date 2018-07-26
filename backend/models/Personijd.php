@@ -31,6 +31,8 @@ class Personijd extends \yii\db\ActiveRecord
     const STATUS_ACTIVE = 1;
     const STATUS_NOT_ACTIVE = 0;
     
+    const JABATAN_SDM = 2;
+    
     public static function tableName()
     {
         return 'personijd';
