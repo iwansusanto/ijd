@@ -77,12 +77,14 @@ class ReportController extends Controller
                                                                     . 'WHEN ij.nama_fakultas_digantikan = "" THEN "-" '
                                                                     . 'ELSE ij.nama_fakultas_digantikan '
                                                                     . 'END AS nama_fakultas_digantikan'),
-                                            'ij.nama_module', 'ij.nama_kelas', 'ij.nama_ruangan', 
+                                            'm.nama as nama_module', 'ij.nama_kelas', 'ij.nama_ruangan', 
                                             'DATE_FORMAT(ij.tgl_kegiatan, "%d %b %Y") AS tgl_kegiatan',
                                             new \yii\db\Expression('TIME_FORMAT(ij.jam_mulai,  "%H:%i") as jam_mulai'),
                                             new \yii\db\Expression('TIME_FORMAT(ij.jam_selesai,  "%H:%i") as jam_selesai'),
                                             'ij.nama_peran', 'ij.jumlah_jam_rumus', 'ij.transport', 'ij.honor', 'ij.keterangan'])
                                 ->from('imbal_jasa ij')
+                                ->leftJoin('module_tahun_ajaran mta', 'ij.module_tahun_ajaran_id = mta.id')
+                                ->leftJoin('module m', 'mta.module_id = m.id')
                                 ->where('ij.tgl_kegiatan >=:start_date AND ij.tgl_kegiatan <=:end_date', 
                                             [':start_date' => $start_date, ':end_date' => $end_date])
                                 ->orderBy('ij.tgl_kegiatan ASC')
@@ -151,12 +153,14 @@ class ReportController extends Controller
                                                                     . 'WHEN ij.nama_fakultas_digantikan = "" THEN "-" '
                                                                     . 'ELSE ij.nama_fakultas_digantikan '
                                                                     . 'END AS nama_fakultas_digantikan'),
-                                            'ij.nama_module', 'ij.module_id', 'ij.nama_kelas', 'ij.nama_ruangan', 
+                                            'm.nama as nama_module', 'm.id as module_id', 'ij.nama_kelas', 'ij.nama_ruangan', 
                                             'DATE_FORMAT(ij.tgl_kegiatan, "%d %b %Y") AS tgl_kegiatan',
                                             new \yii\db\Expression('TIME_FORMAT(ij.jam_mulai,  "%H:%i") as jam_mulai'),
                                             new \yii\db\Expression('TIME_FORMAT(ij.jam_selesai,  "%H:%i") as jam_selesai'),
                                             'ij.nama_peran', 'ij.jumlah_jam_rumus', 'ij.transport', 'ij.honor', 'ij.keterangan'])
                                 ->from('imbal_jasa ij')
+                                ->leftJoin('module_tahun_ajaran mta', 'ij.module_tahun_ajaran_id = mta.id')
+                                ->leftJoin('module m', 'mta.module_id = m.id')
                                 ->where('ij.tgl_kegiatan >=:start_date AND ij.tgl_kegiatan <=:end_date', 
                                             [':start_date' => $start_date, ':end_date' => $end_date])
                                 ->orderBy('ij.tgl_kegiatan ASC')
@@ -246,12 +250,14 @@ class ReportController extends Controller
                                                                     . 'WHEN ij.nama_fakultas_digantikan = "" THEN "-" '
                                                                     . 'ELSE ij.nama_fakultas_digantikan '
                                                                     . 'END AS nama_fakultas_digantikan'),
-                                            'ij.nama_module', 'ij.module_id', 'ij.nama_kelas', 'ij.nama_ruangan', 
+                                            'm.nama as nama_module', 'm.id as module_id', 'ij.nama_kelas', 'ij.nama_ruangan', 
                                             'DATE_FORMAT(ij.tgl_kegiatan, "%d %b %Y") AS tgl_kegiatan',
                                             new \yii\db\Expression('TIME_FORMAT(ij.jam_mulai,  "%H:%i") as jam_mulai'),
                                             new \yii\db\Expression('TIME_FORMAT(ij.jam_selesai,  "%H:%i") as jam_selesai'),
                                             'ij.nama_peran', 'ij.jumlah_jam_rumus', 'ij.transport', 'ij.honor', 'ij.keterangan'])
                                 ->from('imbal_jasa ij')
+                                ->leftJoin('module_tahun_ajaran mta', 'ij.module_tahun_ajaran_id = mta.id')
+                                ->leftJoin('module m', 'mta.module_id = m.id')
                                 ->where('ij.tgl_kegiatan >=:start_date AND ij.tgl_kegiatan <=:end_date', 
                                             [':start_date' => $start_date, ':end_date' => $end_date])
                                 ->orderBy('ij.tgl_kegiatan ASC')
@@ -341,12 +347,14 @@ class ReportController extends Controller
                                                                     . 'WHEN ij.nama_fakultas_digantikan = "" THEN "-" '
                                                                     . 'ELSE ij.nama_fakultas_digantikan '
                                                                     . 'END AS nama_fakultas_digantikan'),
-                                            'ij.nama_module', 'ij.module_id', 'ij.nama_kelas', 'ij.nama_ruangan', 
+                                            'm.nama as nama_module', 'm.id as module_id', 'ij.nama_kelas', 'ij.nama_ruangan', 
                                             'DATE_FORMAT(ij.tgl_kegiatan, "%d %b %Y") AS tgl_kegiatan',
                                             new \yii\db\Expression('TIME_FORMAT(ij.jam_mulai,  "%H:%i") as jam_mulai'),
                                             new \yii\db\Expression('TIME_FORMAT(ij.jam_selesai,  "%H:%i") as jam_selesai'),
                                             'ij.nama_peran', 'ij.jumlah_jam_rumus', 'ij.transport', 'ij.honor', 'ij.keterangan'])
                                 ->from('imbal_jasa ij')
+                                ->leftJoin('module_tahun_ajaran mta', 'ij.module_tahun_ajaran_id = mta.id')
+                                ->leftJoin('module m', 'mta.module_id = m.id')
                                 ->where('ij.tgl_kegiatan >=:start_date AND ij.tgl_kegiatan <=:end_date', 
                                             [':start_date' => $start_date, ':end_date' => $end_date])
                                 ->orderBy('ij.tgl_kegiatan ASC')

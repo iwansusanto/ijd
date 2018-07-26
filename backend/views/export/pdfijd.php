@@ -93,7 +93,7 @@ $total_honor = 0;
                 <td class="cell"><?= $row->moduleTahunAjaran->module->nama; ?></td>
                 <td class="cell"><?= $row->nama_kelas; ?></td>
                 <td class="cell"><?= $row->nama_ruangan; ?></td>
-                <td class="cell"><?= Yii::$app->formatter->asDate($row->tgl_kegiatan); ?></td>
+                <td class="cell"><?= Yii::$app->is->tanggalIndonesia($row->tgl_kegiatan); ?></td>
                 <td class="cell"><?= $row->jam_mulai; ?></td>
                 <td class="cell"><?= $row->jam_selesai; ?></td>
                 <td class="cell"><?= $row->nama_peran; ?></td>
@@ -113,7 +113,7 @@ $total_honor = 0;
             </tr>
         </tfoot>
     </table>
-    
+    <watermarktext content="Brian&amp;#039;s document" />
     <ul class="list-note">
             <li class="nb">Catatan yang harus diperhatikan</li>
         <?php foreach ($noteIjd as $i=>$note): ?>
@@ -122,7 +122,7 @@ $total_honor = 0;
     </ul>
     
     <div class="wrapper-persetujuan">
-        <div>Depok, <?= date('d F Y') ?></div>
+        <div>Depok, <?= Yii::$app->is->tanggalIndonesia(date('d F Y'), true); ?></div>
         <br/>
         <div>Menyetujui</div>
         <div><strong><?= $personIjd->jabatan->nama; ?>&nbsp;RIK</strong></div>

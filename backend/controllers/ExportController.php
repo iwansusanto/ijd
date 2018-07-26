@@ -18,6 +18,7 @@ use app\models\Transaksi;
 use app\models\PeranHitung;
 use app\models\Noteijd;
 use app\models\Personijd;
+use kartik\mpdf\Pdf;
 
 /**
  * Description of ExportController
@@ -38,76 +39,107 @@ class ExportController extends Controller {
         
         $request = Yii::$app->request;
         
-//        $moduletahunajaranid = $request->post('moduletahunajaranid');
-        $moduletahunajaranid = 1;
-//        $transaksi_id = $request->post('transaksi_id');
-        $transaksi_id = 26;
-//        $tahunajaran_id = $request->post('tahunajaran_id');
-        $tahunajaran_id = 14;
-        
-        $transaksi = Transaksi::findOne($transaksi_id);
-        
-        $imbajJasa = ImbalJasa::find()
-                        ->where('module_tahun_ajaran_id=:module_tahun_ajaran_id AND transaksi_id=:transaksi_id', 
-                                                [':module_tahun_ajaran_id'   =>  $moduletahunajaranid,
-                                                 ':transaksi_id'    =>  $transaksi_id])
-                        ->all();
-        
-        $moduleTahunAjaran = ModuleTahunAjaran::findOne($moduletahunajaranid);
-        
-        $peranHitung = PeranHitung::find()
-                        ->where('module_tahun_ajaran_id=:module_tahun_ajaran_id AND '
-                                . 'tahun_ajaran_id=:tahun_ajaran_id AND '
-                                . 'bulan=:bulan AND tahun=:tahun',[
-                                    ':module_tahun_ajaran_id'   =>  $moduletahunajaranid,
-                                    ':tahun_ajaran_id'   =>  $tahunajaran_id,
-                                    ':bulan'   =>  Yii::$app->is->bulanhitung($transaksi->bulan_tahun),
-                                    ':tahun'   =>  Yii::$app->is->tahunhitung($transaksi->bulan_tahun),
+        if($request->post()){
+            $moduletahunajaranid = $request->post('moduletahunajaranid');
+    //        $moduletahunajaranid = 1;
+            $transaksi_id = $request->post('transaksi_id');
+    //        $transaksi_id = 26;
+            $tahunajaran_id = $request->post('tahunajaran_id');
+    //        $tahunajaran_id = 14;
+
+            $transaksi = Transaksi::findOne($transaksi_id);
+
+            $imbajJasa = ImbalJasa::find()
+                            ->where('module_tahun_ajaran_id=:module_tahun_ajaran_id AND transaksi_id=:transaksi_id', 
+                                                    [':module_tahun_ajaran_id'   =>  $moduletahunajaranid,
+                                                     ':transaksi_id'    =>  $transaksi_id])
+                            ->all();
+
+            $moduleTahunAjaran = ModuleTahunAjaran::findOne($moduletahunajaranid);
+
+            $peranHitung = PeranHitung::find()
+                            ->where('module_tahun_ajaran_id=:module_tahun_ajaran_id AND '
+                                    . 'tahun_ajaran_id=:tahun_ajaran_id AND '
+                                    . 'bulan=:bulan AND tahun=:tahun',[
+                                        ':module_tahun_ajaran_id'   =>  $moduletahunajaranid,
+                                        ':tahun_ajaran_id'   =>  $tahunajaran_id,
+                                        ':bulan'   =>  Yii::$app->is->bulanhitung($transaksi->bulan_tahun),
+                                        ':tahun'   =>  Yii::$app->is->tahunhitung($transaksi->bulan_tahun),
+                            ])
+                            ->all();
+
+            $noteIjd = Noteijd::find()
+                        ->where('tahun_ajaran_id=:tahun_ajaran_id', [
+                                    ':tahun_ajaran_id'  =>  $tahunajaran_id
                         ])
                         ->all();
+
+            $personIjd = Personijd::find()
+                            ->where('tahun_ajaran_id=:tahun_ajaran_id AND jabatan_id=:jabatan_id',[
+                                        ':tahun_ajaran_id'  =>  $tahunajaran_id,
+                                        ':jabatan_id'   => Personijd::JABATAN_SDM
+                            ])
+                            ->one();
+
+            $pdf = Yii::$app->pdf;
+
+    //        $mpdf = $pdf->api;
+    //        $stylesheet = file_get_contents(Yii::getAlias('@webroot').'/css/pdfijd.css');
+    //        $mpdf->WriteHTML($stylesheet,1);
+    //        
+    //        $mpdf->SetTitle('Remun '.$moduleTahunAjaran->nama);
+    //        $mpdf->SetHeader('<div class="header-ijd"><div class="blue_1">REKAPITULASI JAM DAN HONOR PENGAJARAN DOSEN</div><div class="green-1">MODUL RUMPUN ILMU KESEHATAN</div></div>'); // call methods or set any properties
+    //        
+    //        
+    //        $contentHtml = $this->renderPartial('pdfijd',[
+    //                            'imbajJasa' =>  $imbajJasa,
+    //                            'transaksi'    =>  $transaksi,
+    //                            'moduleTahunAjaran'    =>  $moduleTahunAjaran,
+    //                            'peranHitung'  =>  $peranHitung,
+    //                            'noteIjd'   =>  $noteIjd,
+    //                            'personIjd'    =>  $personIjd,
+    //                            'mpdf' =>  $mpdf
+    //        ]);
+    //        
+    //        
+    //        
+    //        $mpdf->WriteHTML($contentHtml, 2);
+    //        
+    //        
+    //        $mpdf->SetFooter('|PAGE - {PAGENO}|');
+    //                
+    //        echo $mpdf->Output('Remun '.$moduleTahunAjaran->module->nama. '_'.Yii::$app->is->bulanhitung($transaksi->bulan_tahun).'-'.Yii::$app->is->tahunhitung($transaksi->bulan_tahun). '_'.rand(1, 100).'.pdf', 'I'); // call the mpdf api output as needed
+            //
+            $contentHtml = $this->renderPartial('pdfijd',[
+                                'imbajJasa' =>  $imbajJasa,
+                                'transaksi'    =>  $transaksi,
+                                'moduleTahunAjaran'    =>  $moduleTahunAjaran,
+                                'peranHitung'  =>  $peranHitung,
+                                'noteIjd'   =>  $noteIjd,
+                                'personIjd'    =>  $personIjd
+            ]);
+
+            $pdf->content = $contentHtml;
+
+            $pdf->methods = [
+                'SetHeader'=>['<div class="header-ijd"><div class="blue_1">REKAPITULASI JAM DAN HONOR PENGAJARAN DOSEN</div><div class="green-1">MODUL RUMPUN ILMU KESEHATAN</div></div>'], 
+                'SetFooter'=>['|PAGE - {PAGENO}|'],
+            ];
+
+            $pdf->cssFile = Yii::getAlias('@webroot').'/css/pdfijd.css';
+            $pdf->options = [
+                'title' => 'Remun '.$moduleTahunAjaran->nama
+            ];
+
+            $pdf->marginLeft = 10;
+            $pdf->marginRight = 10;
+            $pdf->marginTop = 20;
+            $pdf->marginBottom = 15;
+            $pdf->filename = 'Remun '.$moduleTahunAjaran->module->nama. '_'.Yii::$app->is->bulanhitung($transaksi->bulan_tahun).'-'.Yii::$app->is->tahunhitung($transaksi->bulan_tahun). '_'.rand(1, 100).'.pdf';
+
+
+            return $pdf->render();
+        }
         
-        $noteIjd = Noteijd::find()
-                    ->where('tahun_ajaran_id=:tahun_ajaran_id', [
-                                ':tahun_ajaran_id'  =>  $tahunajaran_id
-                    ])
-                    ->all();
-        
-        $personIjd = Personijd::find()
-                        ->where('tahun_ajaran_id=:tahun_ajaran_id AND jabatan_id=:jabatan_id',[
-                                    ':tahun_ajaran_id'  =>  $tahunajaran_id,
-                                    ':jabatan_id'   => Personijd::JABATAN_SDM
-                        ])
-                        ->one();
-        
-        $contentHtml = $this->renderPartial('pdfijd',[
-                            'imbajJasa' =>  $imbajJasa,
-                            'transaksi'    =>  $transaksi,
-                            'moduleTahunAjaran'    =>  $moduleTahunAjaran,
-                            'peranHitung'  =>  $peranHitung,
-                            'noteIjd'   =>  $noteIjd,
-                            'personIjd'    =>  $personIjd
-        ]);
-        
-        $pdf = Yii::$app->pdf;
-        $pdf->content = $contentHtml;
-        
-        $pdf->methods = [
-            'SetHeader'=>['<div class="header-ijd"><div class="blue_1">REKAPITULASI JAM DAN HONOR PENGAJARAN DOSEN</div><div class="green-1">MODUL RUMPUN ILMU KESEHATAN</div></div>'], 
-            'SetFooter'=>['|PAGE - {PAGENO}|'],
-        ];
-        
-        $pdf->cssFile = Yii::getAlias('@webroot').'/css/pdfijd.css';
-        $pdf->options = [
-            'title' => 'Remun '.$moduleTahunAjaran->nama
-        ];
-        
-        $pdf->marginLeft = 10;
-        $pdf->marginRight = 10;
-        $pdf->marginTop = 20;
-        $pdf->marginBottom = 15;
-        $pdf->filename = 'Remun '.$moduleTahunAjaran->module->nama. '_'.Yii::$app->is->bulanhitung($transaksi->bulan_tahun).'-'.Yii::$app->is->tahunhitung($transaksi->bulan_tahun). '_'.rand(1, 100).'.pdf';
-        
-        
-        return $pdf->render();
     }
 }
