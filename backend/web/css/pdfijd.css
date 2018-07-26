@@ -55,7 +55,7 @@ th.cell-peran, td.cell-peran {
   /*border: 1px solid #ffffff;*/
 }
 th.cell {
-    background-color: #0291df;
+    background-color: #5b9bd5;
     color: #ffffff;
     padding: 4px 2px;
 }
@@ -65,7 +65,7 @@ tfoot tr td {
     padding: 4px 2px;
 }
 th.cell-peran {
-    background-color: #FFD34F;
+    background-color: #fbed50;
 /*    color: #ffffff;*/
     padding: 4px;
 }
@@ -73,7 +73,7 @@ td.cell-peran {
     padding: 4px;
 }
 table.table-peran tbody tr {
-    background-color: #fbed50;
+    background-color: #ffff00;
 }
 /*td.cell {*/
     /*background-color: #d7ebf9;*/
@@ -87,17 +87,28 @@ td.right, th.right {
     /*width: 10%;*/
 }
 table.table tbody tr:nth-child(odd) {
-    background-color: #e1edf7;
+    background-color: #bdd7ee;
 }
 table.table tbody tr:nth-child(even) {
-    background-color: #d7ebf9;
+    background-color: #ddebf7;
 }
 
+ul.list-header, ul.list-note {
+    padding: 0px;    
+}
 ul.list-header {
     margin: 0px 0px 10px;
-    padding: 0px;
     list-style-type: none;
 }
+ul.list-note {
+    margin: 10px 0px 10px 0px;
+    width: 60%;
+}
+ul.list-note li {
+    list-style-type: none;
+    background-color: #ffff00;
+}
+
 ul.list-header li {
     font-weight: bold;
 }
@@ -108,4 +119,10 @@ ul.list-header li {
 .list-right {
     float: left;
     width: 60%;
+}
+.wrapper-persetujuan {
+    font-size: 11px;
+    width: 30%;
+    float: right;
+    border: 1px solid red;
 }

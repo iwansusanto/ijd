@@ -48,6 +48,7 @@
                             ['label' => 'Kelas', 'icon' => 'window-maximize', 'url' => ['/kelas'],],
                             ['label' => 'Module', 'icon' => 'file-text', 'url' => ['/module'],],
                             ['label' => 'Peran', 'icon' => 'blind', 'url' => ['/peran'],],
+                            ['label' => 'Jabatan', 'icon' => 'handshake-o', 'url' => ['/jabatan'],],
                         ],
                     ],
                     [
@@ -58,7 +59,8 @@
                             ['label' => 'Dosen dan Fakultas', 'icon' => 'sitemap', 'url' => ['/dosenfakultas'], 'active' => Yii::$app->controller->id == 'dosenfakultas'],
                             ['label' => 'Module dan Tahun Ajaran', 'icon' => 'table', 'url' => ['/moduletahunajaran'], 'active' => Yii::$app->controller->id == 'moduletahunajaran'],
                             ['label' => 'Module dan Kelas', 'icon' => 'cubes', 'url' => ['/modulekelas'], 'active' => Yii::$app->controller->id == 'modulekelas'],
-                            ['label' => 'NoteIjd', 'icon' => 'sticky-note-o', 'url' => ['/noteijd'], 'active' => Yii::$app->controller->id == 'noteijd'],
+                            ['label' => 'Note Ijd', 'icon' => 'sticky-note-o', 'url' => ['/noteijd'], 'active' => Yii::$app->controller->id == 'noteijd'],
+                            ['label' => 'Person Ijd', 'icon' => 'user-md', 'url' => ['/personijd'], 'active' => Yii::$app->controller->id == 'person'],
                         ],
                     ],
                     [

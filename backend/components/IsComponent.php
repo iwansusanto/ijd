@@ -81,4 +81,16 @@ class IsComponent extends Component {
         
         return $no;
     }
+    
+    public function status($id = null){
+        $status = [
+            '0' =>  'Not Active',
+            '1' =>  'Active',
+        ];
+        
+        if($id !== null)
+            return $status[$id];
+        
+        return $status;
+    }
 }

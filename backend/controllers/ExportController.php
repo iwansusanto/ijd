@@ -16,6 +16,7 @@ use app\models\ImbalJasa;
 use app\models\ModuleTahunAjaran;
 use app\models\Transaksi;
 use app\models\PeranHitung;
+use app\models\Noteijd;
 
 /**
  * Description of ExportController
@@ -64,11 +65,18 @@ class ExportController extends Controller {
                         ])
                         ->all();
         
+        $noteIjd = Noteijd::find()
+                    ->where('tahun_ajaran_id=:tahun_ajaran_id', [
+                                ':tahun_ajaran_id'  =>  $tahunajaran_id
+                    ])
+                    ->all();
+        
         $contentHtml = $this->renderPartial('pdfijd',[
                             'imbajJasa' =>  $imbajJasa,
                             'transaksi'    =>  $transaksi,
                             'moduleTahunAjaran'    =>  $moduleTahunAjaran,
-                            'peranHitung'  =>  $peranHitung
+                            'peranHitung'  =>  $peranHitung,
+                            'noteIjd'   =>  $noteIjd
         ]);
         
         $pdf = Yii::$app->pdf;

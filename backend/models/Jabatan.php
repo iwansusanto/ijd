@@ -5,26 +5,24 @@ namespace app\models;
 use Yii;
 
 /**
- * This is the model class for table "noteijd".
+ * This is the model class for table "jabatan".
  *
  * @property int $id
- * @property string $title
- * @property int $tahun_ajaran_id
- * @property int $no_urut
+ * @property string $nama
  * @property int $user_created
  * @property int $user_updated
  * @property string $update_time
  *
- * @property TahunAjaran $tahunAjaran
+ * @property Personijd[] $personijds
  */
-class Noteijd extends \yii\db\ActiveRecord
+class Jabatan extends \yii\db\ActiveRecord
 {
     /**
      * {@inheritdoc}
      */
     public static function tableName()
     {
-        return 'noteijd';
+        return 'jabatan';
     }
 
     /**
@@ -33,11 +31,10 @@ class Noteijd extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['title', 'no_urut'], 'required'],
-            [['tahun_ajaran_id', 'no_urut', 'user_created', 'user_updated'], 'integer'],
+            [['nama'], 'required'],
+            [['user_created', 'user_updated'], 'integer'],
             [['update_time'], 'safe'],
-            [['title'], 'string'],
-            [['tahun_ajaran_id'], 'exist', 'skipOnError' => true, 'targetClass' => TahunAjaran::className(), 'targetAttribute' => ['tahun_ajaran_id' => 'id']],
+            [['nama'], 'string', 'max' => 200],
         ];
     }
 
@@ -48,9 +45,7 @@ class Noteijd extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
-            'title' => 'Title',
-            'tahun_ajaran_id' => 'Tahun Ajaran ID',
-            'no_urut' => 'No Urut',
+            'nama' => 'Nama',
             'user_created' => 'User Created',
             'user_updated' => 'User Updated',
             'update_time' => 'Update Time',
@@ -60,9 +55,9 @@ class Noteijd extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getTahunAjaran()
+    public function getPersonijds()
     {
-        return $this->hasOne(TahunAjaran::className(), ['id' => 'tahun_ajaran_id']);
+        return $this->hasMany(Personijd::className(), ['jabatan_id' => 'id']);
     }
     
     public function beforeSave($insert) {

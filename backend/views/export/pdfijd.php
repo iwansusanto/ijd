@@ -113,4 +113,19 @@ $total_honor = 0;
             </tr>
         </tfoot>
     </table>
+    
+    <ul class="list-note">
+            <li class="nb">Catatan yang harus diperhatikan</li>
+        <?php foreach ($noteIjd as $i=>$note): ?>
+            <li><?= ($i+1).'.&nbsp;'.$note->title; ?></li>
+        <?php endforeach; ?>
+    </ul>
+    
+    <div class="wrapper-persetujuan">
+        <div>Depok, <?= Yii::$app->formatter->asDate(date('Y-m-d')) ?></div>
+        <br/>
+        <div>Menyetujui</div>
+        <div>Koordinator</div>
+    </div>
+        
 </div>
