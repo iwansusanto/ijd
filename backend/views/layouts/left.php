@@ -60,7 +60,7 @@
                             ['label' => 'Module dan Tahun Ajaran', 'icon' => 'table', 'url' => ['/moduletahunajaran'], 'active' => Yii::$app->controller->id == 'moduletahunajaran'],
                             ['label' => 'Module dan Kelas', 'icon' => 'cubes', 'url' => ['/modulekelas'], 'active' => Yii::$app->controller->id == 'modulekelas'],
                             ['label' => 'Note Ijd', 'icon' => 'sticky-note-o', 'url' => ['/noteijd'], 'active' => Yii::$app->controller->id == 'noteijd'],
-                            ['label' => 'Person Ijd', 'icon' => 'user-md', 'url' => ['/personijd'], 'active' => Yii::$app->controller->id == 'person'],
+                            ['label' => 'Person Ijd', 'icon' => 'user-md', 'url' => ['/personijd'], 'active' => Yii::$app->controller->id == 'personijd'],
                         ],
                     ],
                     [
