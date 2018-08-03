@@ -22,6 +22,9 @@ return [
     ],
     'name'  =>  'Imbal Jasa Dosen',
     'components' => [
+        'is' => [
+            'class' =>  'backend\components\IsComponent'
+        ],
         // setup Krajee Pdf component
         'pdf' => [
             'class' => Pdf::className(),
@@ -45,13 +48,6 @@ return [
                     'skin' => 'skin-blue-light',
                 ],
             ],
-        ],
-        'db'=>[
-            'class'=>'yii\db\Connection',
-            'dsn' => 'mysql:host=localhost;dbname=ijd',
-            'username' => 'fatih',
-            'password' => '1234',
-            'charset' => 'utf8'            
         ],
         'authManager' => [
             'class' => 'yii\rbac\DbManager', // or use 'yii\rbac\DbManager'
