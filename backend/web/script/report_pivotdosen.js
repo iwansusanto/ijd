@@ -102,9 +102,12 @@ var dg = {
     },
     init: function(){
         
-        var start_date,	end_date, url_grid;	
+        var start_date,	end_date, url_grid, url_combo_dosen, nip;	
         
         url_grid = _baseUrl+'/report/jsonreportpivotdosen';
+        url_combo_dosen = _baseUrl+'/report/jsondosen';
+        
+        $('#filter-export').linkbutton('disable');
         
         dg.load(url_grid);
         
@@ -125,14 +128,45 @@ var dg = {
             }
         });
 
+        $('#dosen').combobox({
+            url: url_combo_dosen,
+            mode: 'remote',
+            method: 'get',
+            valueField:'nip',
+            textField:'nama_dosen',
+            label: 'Dosen :',
+            readonly: true,
+            labelPosition: 'left',
+            editable:false
+        });
+
         $("#filter-report").unbind("click");
         $("#filter-report").on("click", function(){
             start_date = $('#start_date').datebox('getValue');
             end_date = $('#end_date').datebox('getValue');
+            nip = $('#dosen').combobox('getValue');
             
-            url_grid = _baseUrl+'/report/jsonreportpivotdosen?start_date='+start_date+'&end_date='+end_date;
+            url_grid = _baseUrl+'/report/jsonreportpivotdosen?start_date='+start_date+'&end_date='+end_date+'&nip='+nip;
             
             dg.load(url_grid);
+            
+            // set button enabled
+           
+            $('#filter-export').linkbutton('enable');
+            
+            // reload combobox dosen
+            $('#dosen').combobox({
+                onBeforeLoad: function(param){
+                        param.start_date = start_date;
+                        param.end_date = end_date;
+                        param.nip = nip;
+                },
+                onLoadSuccess: function(){
+                     $('#dosen').combobox('readonly', false);
+                     $('#dosen').combobox('setValue', nip);
+                }
+            });
+            
         });
     }
 };

@@ -17,6 +17,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <p>
         <?= Html::a('Create Dosen', ['create'], ['class' => 'btn btn-success']) ?>
+        <?= Html::a('Download Template Excell', ['import'], ['class' => 'btn btn-primary']) ?>
         <?= Html::a('Import Excell', ['import'], ['class' => 'btn btn-danger']) ?>
     </p>
 

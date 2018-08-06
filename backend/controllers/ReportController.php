@@ -139,9 +139,9 @@ class ReportController extends Controller
             if(Yii::$app->request->isGet){
                 $start_date = Yii::$app->request->get('start_date');
                 $end_date = Yii::$app->request->get('end_date');
+                $nip = Yii::$app->request->get('nip');
                 
                 if(!empty($start_date) && !empty($end_date)){
-                    
                     $start_date = date('Y-m-d', strtotime($start_date));
                     $end_date = date('Y-m-d', strtotime($end_date));
                     
@@ -162,10 +162,17 @@ class ReportController extends Controller
                                 ->leftJoin('module_tahun_ajaran mta', 'ij.module_tahun_ajaran_id = mta.id')
                                 ->leftJoin('module m', 'mta.module_id = m.id')
                                 ->where('ij.tgl_kegiatan >=:start_date AND ij.tgl_kegiatan <=:end_date', 
-                                            [':start_date' => $start_date, ':end_date' => $end_date])
-                                ->orderBy('ij.tgl_kegiatan ASC')
-                                ->createCommand();
-
+                                            [':start_date' => $start_date, ':end_date' => $end_date]);
+                            
+                            if(!empty($nip)){
+                                $query = $query->andWhere('ij.nip =:nip', [':nip' =>  $nip])
+                                        ->orderBy('ij.tgl_kegiatan ASC')
+                                        ->createCommand();
+                            } else {
+                                $query = $query->orderBy('ij.tgl_kegiatan ASC')
+                                    ->createCommand();
+                            };
+                            
                             $results = $query->queryAll();
                             
                             $honor = 0;
@@ -410,6 +417,39 @@ class ReportController extends Controller
         }
         
         return $result;
+    }
+    
+    public function actionJsondosen(){
+        Yii::$app->response->format = Response::FORMAT_JSON;
+        
+        $results = [];
+        
+        if(Yii::$app->request->isAjax){
+            if(Yii::$app->request->isGet){
+                $start_date = Yii::$app->request->get('start_date');
+                $end_date = Yii::$app->request->get('end_date');
+                
+                if(!empty($start_date) && !empty($end_date)){
+                    
+                    $start_date = date('Y-m-d', strtotime($start_date));
+                    $end_date = date('Y-m-d', strtotime($end_date));
+                    
+                    $query = (new \yii\db\Query())
+                                ->select(['ij.id', 'ij.nip', 'ij.nama_dosen'])
+                                ->from('imbal_jasa ij')
+                                ->where('ij.tgl_kegiatan >=:start_date AND ij.tgl_kegiatan <=:end_date', 
+                                            [':start_date' => $start_date, ':end_date' => $end_date])
+                                ->orderBy('ij.nip ASC')
+                                ->groupBy('ij.nip')
+                                ->createCommand();
+
+                            $results = $query->queryAll();
+                            $results = array_merge([['nip'   =>  '','nama_dosen' =>  'Pilih Dosen']],$results);
+                };
+            }
+        }
+        
+        return $results;
     }
     
 }
