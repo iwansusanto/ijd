@@ -142,4 +142,49 @@ class ExportController extends Controller {
         }
         
     }
+    
+    public function actionPdfpivotdosen(){
+        $request = Yii::$app->request;
+        
+        if($request->post()){
+            
+            $pdf = Yii::$app->pdf;
+        
+//            $start_date = $request->post('start_date');
+            $start_date = '09/01/2018';
+//            $end_date = $request->post('end_date');
+            $end_date = '09/30/2018';
+//            $nip = $request->post('nip');
+            $nip = '010603184';
+            
+//            print_r($start_date.'-'.$end_date.'-'.$nip);die;
+
+            $contentHtml = $this->renderPartial('pdfpivotdosen',[
+
+                ]);
+
+            $pdf->content = $contentHtml;
+
+            $pdf->methods = [
+                'SetHeader'=>['<div class="header-ijd"><div class="blue_1">PIVOT DOSEN</div><div class="green-1">IWAN SUSANTO</div></div>'], 
+                'SetFooter'=>['|PAGE - {PAGENO}|'],
+            ];
+
+            $pdf->cssFile = Yii::getAlias('@webroot').'/css/pdfijd.css';
+            $pdf->options = [
+                'title' => 'Pivot Dosen'
+            ];
+
+            $pdf->marginLeft = 10;
+            $pdf->marginRight = 10;
+            $pdf->marginTop = 20;
+            $pdf->marginBottom = 15;
+            $pdf->filename = 'Pivot Dosen Iwan Susanto' . '_'.rand(1, 100).'.pdf';
+
+
+            return $pdf->render();
+
+        }
+        
+    }
 }

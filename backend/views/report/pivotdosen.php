@@ -45,8 +45,26 @@ $session = Yii::$app->session;
                         <input id="dosen" name="dosen" style="width: 100%;">
                     </div>
                     <div class="col-md-2">
-                        <a href="#" class="easyui-linkbutton" id="filter-report" data-options="iconCls:'icon-search'" style="width:80px">Filter</a>
-                        <a href="#" class="easyui-linkbutton" id="filter-export" data-options="iconCls:'icon-lock'" style="width:80px">Export</a>
+                        
+                        <?= $form = Html::beginForm('/export/pdfpivotdosen', 'POST', [
+                                'id'    =>  'form-export-pdfpivotdosen',
+                                'target'    =>  '_blank'
+                        ]); ?>
+
+                            <?= Html::hiddenInput('start_date', '', []); ?>
+                            <?= Html::hiddenInput('end_date', '', []); ?>
+                            <?= Html::hiddenInput('nip', '', []); ?>
+
+                            <a href="#" class="easyui-linkbutton" id="filter-report" data-options="iconCls:'icon-search'" style="width:80px">Filter</a>
+                            <?= Html::submitButton('Export', [
+                                    'class' =>  'easyui-linkbutton',
+                                    'id'    =>  'filter-export',
+                                    'data-options'  =>  "iconCls:'icon-lock'",
+                                    'style' =>  'width:80px'
+                            ]); ?>
+
+                        <?= Html::endForm(); ?>
+                            
                     </div>
                 </div>
             </div>
