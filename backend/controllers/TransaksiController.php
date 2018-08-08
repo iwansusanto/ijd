@@ -74,7 +74,8 @@ class TransaksiController extends Controller
     public function actionCreate()
     {
         $model = new Transaksi();
-
+        $model->tahun_ajaran_id = Yii::$app->is->tahunAjaran()->id;
+        
         if ($model->load(Yii::$app->request->post())) {
             
             $transaksi = Transaksi::find()

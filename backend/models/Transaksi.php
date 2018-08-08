@@ -74,12 +74,14 @@ class Transaksi extends \yii\db\ActiveRecord
             if($this->isNewRecord){
                 $condition = [
                     'MONTH(bulan_tahun) = '.date("m", strtotime($this->bulan_tahun)),
-                    'YEAR(bulan_tahun) = '.date("Y", strtotime($this->bulan_tahun))
+                    'YEAR(bulan_tahun) = '.date("Y", strtotime($this->bulan_tahun)),
+                    'tahun_ajaran_id = '.$this->tahun_ajaran_id
                 ];
             } else {
                 $condition = [
                     'MONTH(bulan_tahun) <> '.date("m", strtotime($this->bulan_tahun)),
                     'YEAR(bulan_tahun) <> '.date("Y", strtotime($this->bulan_tahun)),
+                    'tahun_ajaran_id = '.$this->tahun_ajaran_id,
                     'id = '.$this->id
                 ];
             }

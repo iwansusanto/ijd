@@ -40,7 +40,7 @@ class m180514_032940_transaksi extends Migration
         $this->createIndex(
             'bulan_tahun-index-transaksi',
             'transaksi',
-            'bulan_tahun',
+            ['bulan_tahun', 'tahun_ajaran_id'],
             true
         );
     }

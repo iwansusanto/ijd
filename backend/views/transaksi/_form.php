@@ -24,7 +24,8 @@ use kartik\date\DatePicker;
                         'autoclose' => true,
                     ]
                 ]); ?>
-
+    
+    <?= $form->field($model, 'tahun_ajaran_id')->hiddenInput(); ?>
     <?= $form->field($model, 'keterangan')->textarea(['rows' => 6]) ?>
 
     <div class="form-group">
