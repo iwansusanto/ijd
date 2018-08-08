@@ -19,6 +19,7 @@ use app\models\PeranHitung;
 use app\models\Noteijd;
 use app\models\Personijd;
 use kartik\mpdf\Pdf;
+use app\models\Dosen;
 
 /**
  * Description of ExportController
@@ -144,33 +145,75 @@ class ExportController extends Controller {
     }
     
     public function actionPdfpivotdosen(){
+        
         $request = Yii::$app->request;
+        $results = [];
+        $datas = [];
         
         if($request->post()){
             
             $pdf = Yii::$app->pdf;
         
-//            $start_date = $request->post('start_date');
-            $start_date = '09/01/2018';
-//            $end_date = $request->post('end_date');
-            $end_date = '09/30/2018';
-//            $nip = $request->post('nip');
-            $nip = '010603184';
+            $start_date = $request->post('start_date');
+//            $start_date = '09/01/2018';
+            $end_date = $request->post('end_date');
+//            $end_date = '09/30/2018';
+            $nip = $request->post('nip');
+//            $nip = '195302221982022001';
             
+            if(!empty($start_date) && !empty($end_date)){
+                $start_date = date('Y-m-d', strtotime($start_date));
+                $end_date = date('Y-m-d', strtotime($end_date));
+                
+                $query = (new \yii\db\Query())
+                            ->select(['ij.id', 'ij.tgl_kegiatan', 'ij.dosen_fakultas_id', 'ij.transaksi_id', 'ij.nip', 'ij.nama_dosen',
+                                        'ij.nama_fakultas', 'ij.dosen_fakultas_id_digantikan', 'ij.nip_digantikan', 'ij.nama_dosen_digantikan',
+                                        'ij.nama_fakultas_digantikan', 'ij.module_tahun_ajaran_id', 'ij.kelas_id', 'ij.nama_kelas',
+                                        'ij.ruangan_id', 'ij.nama_ruangan', 'ij.jam_mulai', 'ij.jam_selesai', 'ij.peran_hitung_id', 'ij.peran_id',
+                                        'ij.nama_peran', 'ij.jumlah_jam_rumus', 'ij.transport', 'ij.honor', 'ij.keterangan', 'mta.nama as nama_module'])
+                            ->from('imbal_jasa ij')
+                            ->leftJoin('module_tahun_ajaran mta', 'ij.module_tahun_ajaran_id = mta.id')
+                            ->where('ij.tgl_kegiatan >=:start_date AND ij.tgl_kegiatan <=:end_date', 
+                                            [':start_date' => $start_date, ':end_date' => $end_date]);
+                
+                if(!empty($nip)){
+                    $query = $query->andWhere('ij.nip =:nip', [':nip' =>  $nip]);
+                    $dosen = Dosen::find()
+                                ->where('nip=:nip',[
+                                    ':nip'  =>  $nip
+                                ])
+                                ->one();
+                };
+            
+                $results = $query->orderBy('ij.tgl_kegiatan ASC')
+                        ->createCommand()
+                        ->queryAll();
+                
+                foreach ($results as $i=>$res):
+                    $datas[$res['nip']]['nama_dosen'] = $res['nama_dosen'];
+                    $datas[$res['nip']]['datas'][$res['module_tahun_ajaran_id']]['nama_module'] = $res['nama_module'];
+                    $datas[$res['nip']]['datas'][$res['module_tahun_ajaran_id']]['datas'][$res['peran_id']]['nama_peran'] = $res['nama_peran'];
+                    $datas[$res['nip']]['datas'][$res['module_tahun_ajaran_id']]['datas'][$res['peran_id']]['datas'][strtotime($res['tgl_kegiatan'])]['tgl_kegiatan'] = $res['tgl_kegiatan'];
+                    $datas[$res['nip']]['datas'][$res['module_tahun_ajaran_id']]['datas'][$res['peran_id']]['datas'][strtotime($res['tgl_kegiatan'])]['datas'][$res['kelas_id']]['nama_kelas'] = $res['nama_kelas'];
+                    $datas[$res['nip']]['datas'][$res['module_tahun_ajaran_id']]['datas'][$res['peran_id']]['datas'][strtotime($res['tgl_kegiatan'])]['datas'][$res['kelas_id']]['datas'][$res['dosen_fakultas_id']]['nama_fakultas'] = $res['nama_fakultas'];
+                    $datas[$res['nip']]['datas'][$res['module_tahun_ajaran_id']]['datas'][$res['peran_id']]['datas'][strtotime($res['tgl_kegiatan'])]['datas'][$res['kelas_id']]['datas'][$res['dosen_fakultas_id']]['datas'][$res['ruangan_id']]['nama_ruangan'] = $res['nama_ruangan'];
+                    $datas[$res['nip']]['datas'][$res['module_tahun_ajaran_id']]['datas'][$res['peran_id']]['datas'][strtotime($res['tgl_kegiatan'])]['datas'][$res['kelas_id']]['datas'][$res['dosen_fakultas_id']]['datas'][$res['ruangan_id']]['datas'][] = $res;
+                endforeach;
+            }
 //            print_r($start_date.'-'.$end_date.'-'.$nip);die;
-
+//            echo '<pre>';print_r($datas);die;
             $contentHtml = $this->renderPartial('pdfpivotdosen',[
-
+                                            'datas'  =>  $datas
                 ]);
 
             $pdf->content = $contentHtml;
 
             $pdf->methods = [
-                'SetHeader'=>['<div class="header-ijd"><div class="blue_1">PIVOT DOSEN</div><div class="green-1">IWAN SUSANTO</div></div>'], 
+                'SetHeader'=>['<div class="header-ijd"><div class="blue_1">PIVOT DOSEN</div><div class="green-1">'.(!empty($nip) ? $dosen->nama : 'Semua Dosen').'</div></div>'], 
                 'SetFooter'=>['|PAGE - {PAGENO}|'],
             ];
 
-            $pdf->cssFile = Yii::getAlias('@webroot').'/css/pdfijd.css';
+            $pdf->cssFile = Yii::getAlias('@webroot').'/css/pdfpivotdosen.css';
             $pdf->options = [
                 'title' => 'Pivot Dosen'
             ];
