@@ -349,6 +349,7 @@ class ReportController extends Controller
             if(Yii::$app->request->isGet){
                 $start_date = Yii::$app->request->get('start_date');
                 $end_date = Yii::$app->request->get('end_date');
+                $nip = Yii::$app->request->get('nip');
                 
                 if(!empty($start_date) && !empty($end_date)){
                     
@@ -372,10 +373,19 @@ class ReportController extends Controller
                                 ->leftJoin('module_tahun_ajaran mta', 'ij.module_tahun_ajaran_id = mta.id')
                                 ->leftJoin('module m', 'mta.module_id = m.id')
                                 ->where('ij.tgl_kegiatan >=:start_date AND ij.tgl_kegiatan <=:end_date', 
-                                            [':start_date' => $start_date, ':end_date' => $end_date])
-                                ->orderBy('ij.tgl_kegiatan ASC')
-                                ->createCommand();
-
+                                            [':start_date' => $start_date, ':end_date' => $end_date]);
+//                                ->orderBy('ij.tgl_kegiatan ASC')
+//                                ->createCommand();
+                            
+                            if(!empty($nip)){
+                                $query = $query->andWhere('ij.nip =:nip', [':nip' =>  $nip])
+                                        ->orderBy('ij.tgl_kegiatan ASC')
+                                        ->createCommand();
+                            } else {
+                                $query = $query->orderBy('ij.tgl_kegiatan ASC')
+                                    ->createCommand();
+                            };
+                            
                             $results = $query->queryAll();
                             
                             $honor = 0;

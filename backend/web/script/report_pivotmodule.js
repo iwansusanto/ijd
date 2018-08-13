@@ -25,7 +25,15 @@ var report = {
     },
     formatDecimal: function(num){
         return this.addCommas(parseInt(num));																	
-    }
+    },
+    exportPdf: function(start_date, end_date, nip){
+        
+        $("input[name='start_date']").val(start_date);
+        $("input[name='end_date']").val(end_date);
+        $("input[name='nip']").val(nip);
+        
+        $("form#form-export-pdfpivotmodule").submit();
+    },
 };
 
 var dg = {
@@ -102,9 +110,12 @@ var dg = {
     },
     init: function(){
         
-        var start_date,	end_date, url_grid;	
+        var start_date,	end_date, url_grid, url_combo_dosen, nip;	
         
         url_grid = _baseUrl+'/report/jsonreportpivotmodule';
+        url_combo_dosen = _baseUrl+'/report/jsondosen';
+        
+        $('#filter-export').linkbutton('disable');
         
         dg.load(url_grid);
         
@@ -124,15 +135,54 @@ var dg = {
                 $('#end_date').datebox('setValue', '');	
             }
         });
-
+        
+        $('#dosen').combobox({
+            url: url_combo_dosen,
+            mode: 'remote',
+            method: 'get',
+            valueField:'nip',
+            textField:'nama_dosen',
+            label: 'Dosen :',
+            readonly: true,
+            labelPosition: 'left',
+            editable:false
+        });
+        
         $("#filter-report").unbind("click");
         $("#filter-report").on("click", function(){
             start_date = $('#start_date').datebox('getValue');
             end_date = $('#end_date').datebox('getValue');
+            nip = $('#dosen').combobox('getValue');
             
-            url_grid = _baseUrl+'/report/jsonreportpivotmodule?start_date='+start_date+'&end_date='+end_date;
+            url_grid = _baseUrl+'/report/jsonreportpivotmodule?start_date='+start_date+'&end_date='+end_date+'&nip='+nip;
             
             dg.load(url_grid);
+            
+            // set button enabled
+           
+            $('#filter-export').linkbutton('enable');
+            
+            // reload combobox dosen
+            $('#dosen').combobox({
+                onBeforeLoad: function(param){
+                        param.start_date = start_date;
+                        param.end_date = end_date;
+                        param.nip = nip;
+                },
+                onLoadSuccess: function(){
+                     $('#dosen').combobox('readonly', false);
+                     $('#dosen').combobox('setValue', nip);
+                }
+            });
+        });
+        
+        $("#filter-export").unbind('click');
+        $("#filter-export").on('click', function(){
+            start_date = $('#start_date').datebox('getValue');
+            end_date = $('#end_date').datebox('getValue');
+            nip = $('#dosen').combobox('getValue');
+            
+            report.exportPdf(start_date, end_date, nip);
         });
     }
 };

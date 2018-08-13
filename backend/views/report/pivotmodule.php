@@ -35,14 +35,36 @@ $session = Yii::$app->session;
         <div id="p" class="easyui-panel" title="Filter Date" style="padding:10px;margin-bottom: -1px;">
             <div class="container-fluid">
                 <div class="row" style="padding: 0px 20px 10px;">
-                    <div class="col-md-4">
+                    <div class="col-md-2">
                         <input class="easyui-datebox" id="start_date" label="Start Date:" labelPosition="left" style="width:100%;">
                     </div>
-                    <div class="col-md-4">
+                    <div class="col-md-2">
                         <input class="easyui-datebox" id="end_date" label="End Date:" labelPosition="left" style="width:100%;">
                     </div>
                     <div class="col-md-4">
-                        <a href="#" class="easyui-linkbutton" id="filter-report" data-options="iconCls:'icon-search'" style="width:80px">Filter</a>
+                        <input id="dosen" name="dosen" style="width: 100%;">
+                    </div>
+                    <div class="col-md-2">
+                        
+                        <?= $form = Html::beginForm('/export/pdfpivotmodule', 'POST', [
+                                'id'    =>  'form-export-pdfpivotmodule',
+                                'target'    =>  '_blank'
+                        ]); ?>
+
+                            <?= Html::hiddenInput('start_date', '', []); ?>
+                            <?= Html::hiddenInput('end_date', '', []); ?>
+                            <?= Html::hiddenInput('nip', '', []); ?>
+
+                            <a href="#" class="easyui-linkbutton" id="filter-report" data-options="iconCls:'icon-search'" style="width:80px">Filter</a>
+                            <?= Html::submitButton('Export', [
+                                    'class' =>  'easyui-linkbutton',
+                                    'id'    =>  'filter-export',
+                                    'data-options'  =>  "iconCls:'icon-lock'",
+                                    'style' =>  'width:80px'
+                            ]); ?>
+
+                        <?= Html::endForm(); ?>
+                            
                     </div>
                 </div>
             </div>

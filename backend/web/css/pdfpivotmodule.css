@@ -1,0 +1,140 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : Jul 20, 2018, 10:34:02 AM
+    Author     : HP Pavilion
+*/
+.header-ijd {
+    font-size: 11px;
+    font-weight: bold;
+    font-style: normal;
+}
+.blue_1 {
+    color: #007fff;
+}
+.green-1 {
+    color: #008d4c;
+}
+.module-info {
+    padding: 5px 0px;
+}
+
+body {
+  font-size: 9px;
+  /*font-family: sans-serif;*/
+}
+.wrapper-left-30 {
+    width: 30%;
+}
+.wrapper-left-70 {
+    width: 70%;
+}
+.wrapper-left-30, .wrapper-left-70 {
+    float: left;
+    margin-bottom: 10px;
+}
+table.table {
+  border-collapse: collapse;
+  width: 100%;
+}
+table.table-peran {
+  border-collapse: collapse;
+  width: 100%;
+}
+th.cell, td.cell, th.cell-peran, td.cell-peran {
+  padding: 0.25rem;
+  text-align: left;
+}
+th.cell, td.cell {
+  border: 1px solid #ffffff;
+}
+th.cell-peran, td.cell-peran {
+  /*border: 1px solid #ffffff;*/
+}
+th.cell {
+    background-color: #5b9bd5;
+    color: #ffffff;
+    padding: 4px 2px;
+}
+tfoot tr td {
+    background-color: #0291df;
+    color: #ffffff;
+    padding: 4px 2px;
+}
+th.cell-peran {
+    background-color: #5b9bd5;
+    color: #ffffff;
+    padding: 4px;
+}
+th.cell-center {
+    text-align: center;
+}
+td.cell-peran {
+    padding: 4px;
+}
+table.table-peran tbody tr {
+    background-color: #ffffff;
+}
+/*td.cell {*/
+    /*background-color: #d7ebf9;*/
+/*}*/
+td.right, th.right {
+    text-align: right;
+    /*border: 1px solid red;*/
+    position: relative;
+/*    display: table-cell;
+    vertical-align: middle;*/
+    /*width: 10%;*/
+}
+td.padd-5 {
+    padding: 2px 5px;
+}
+td.total-row {
+    background-color: #bdd7ee;
+}
+table.table tbody tr:nth-child(odd) {
+    background-color: #bdd7ee;
+}
+table.table tbody tr:nth-child(even) {
+    background-color: #ddebf7;
+}
+
+ul.list-header, ul.list-note {
+    padding: 0px;    
+}
+ul.list-header {
+    margin: 0px 0px 10px;
+    list-style-type: none;
+}
+ul.list-note {
+    margin: 10px 0px 10px 0px;
+    width: 60%;
+}
+ul.list-note li {
+    list-style-type: none;
+    background-color: #ffff00;
+    padding-left: 5px;
+    padding-right: 5px;
+}
+ul.list-header li {
+    font-weight: bold;
+}
+.list-left {
+    width: 20%;
+    float: left;
+}
+.list-right {
+    float: left;
+    width: 60%;
+}
+.wrapper-persetujuan {
+    font-size: 11px;
+    width: 30%;
+    float: right;
+}
+.top-80 {
+    margin-top: 80px;
+}
