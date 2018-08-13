@@ -45,9 +45,9 @@
                     <?php foreach ($moduls['datas'] as $c=>$perans): ?>
                         <?php foreach ($perans['datas'] as $d=>$tgls): ?>
                             <?php foreach ($tgls['datas'] as $e=>$kelass): ?>
-                                <?php foreach ($kelass['datas'] as $d=>$fakultass): ?>  
-                                    <?php foreach ($fakultass['datas'] as $e=>$ruangs): ?>
-                                        <?php foreach ($ruangs['datas'] as $f=>$res): ?>
+                                <?php foreach ($kelass['datas'] as $f=>$fakultass): ?>  
+                                    <?php foreach ($fakultass['datas'] as $g=>$ruangs): ?>
+                                        <?php foreach ($ruangs['datas'] as $h=>$res): ?>
                                             <tr>
                                                 <td class="padd-5"><?= ($data['nama_dosen'] != $nama_dosen) ? $data['nama_dosen'] : ''; ?></td>
                                                 <td class="padd-5"><?= ($moduls['nama_module'] != $nama_modul) ? $moduls['nama_module'] : ''; ?></td>
@@ -92,7 +92,7 @@
             <?php endforeach; ?>
             <?php 
                 echo '<tr>';
-                    echo '<td colspan="9" class="padd-5 total-row"><strong>&nbsp;Grand Total</strong></td>';
+                    echo '<td colspan="9" class="padd-5 total-row"><strong>Grand Total</strong></td>';
                     echo '<td class="right padd-5 total-row"><strong>'.$grandtotal_jam_rumus_dosen.'</strong></td>';
                     echo '<td class="right padd-5 total-row"><strong>'.Yii::$app->formatter->asRoundedCurrency($grandtotal_honor_dosen, 'Rp.').'</strong></td>';
                 echo '</tr>';
