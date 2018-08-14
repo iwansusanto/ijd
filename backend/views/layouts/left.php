@@ -33,8 +33,8 @@
 //                    ['label' => 'Menu', 'options' => ['class' => 'header']],
                     ['label' => 'Tahun Ajaran '.Yii::$app->is->tahunAjaran()->periode, 
                      'options' => ['class' => 'header']],
-                    ['label' => 'Gii', 'icon' => 'file-code-o', 'url' => ['/gii']],
-                    ['label' => 'Debug', 'icon' => 'dashboard', 'url' => ['/debug']],
+//                    ['label' => 'Gii', 'icon' => 'file-code-o', 'url' => ['/gii']],
+//                    ['label' => 'Debug', 'icon' => 'dashboard', 'url' => ['/debug']],
                     ['label' => 'Login', 'url' => ['site/login'], 'visible' => Yii::$app->user->isGuest],
                     [
                         'label' => 'Master',

@@ -30,7 +30,8 @@
         "kartik-v/yii2-number": "*",
         "kartik-v/yii2-mpdf": "dev-master",
         "scotthuangzl/yii2-google-chart": "dev-master",
-        "kartik-v/yii2-widget-touchspin": "*"
+        "kartik-v/yii2-widget-touchspin": "*",
+        "2amigos/yii2-highcharts-widget" : "~1.0"
     },
     "require-dev": {
         "yiisoft/yii2-debug": "~2.0.0",
