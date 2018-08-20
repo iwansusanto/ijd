@@ -5,7 +5,7 @@ use yii\db\Migration;
 /**
  * Class m180722_085756_module_tahun_ajaran
  */
-class m180722_085756_module_tahun_ajaran extends Migration
+class m180503_032756_module_tahun_ajaran extends Migration
 {
     /**
      * {@inheritdoc}
@@ -23,6 +23,7 @@ class m180722_085756_module_tahun_ajaran extends Migration
            'module_id'   => $this->integer()->notNull(),
            'nama'   => $this->string(200),
            'tahun_ajaran_id'   => $this->integer()->notNull(), 
+           'semester_id'   => $this->integer()->notNull(), 
            'periode'   => $this->string(50), 
            'jumlah_sks'   => $this->smallInteger(3)->notNull(),
            'jumlah_menit_per_sks'   => $this->smallInteger(3)->notNull()->defaultValue(50)->notNull(),
@@ -30,6 +31,16 @@ class m180722_085756_module_tahun_ajaran extends Migration
            'user_updated'   => $this->integer(), 
            'update_time'   => $this->dateTime(), 
         ]);
+        
+        // add foreign key for table `semester`
+        $this->addForeignKey(
+            'fk-module_tahun_ajaran-semester_id',
+            'module_tahun_ajaran',
+            'semester_id',
+            'semester',
+            'id',
+            'CASCADE'
+        );
         
         $this->addForeignKey(
             'fk-module_tahun_ajaran-module_id',

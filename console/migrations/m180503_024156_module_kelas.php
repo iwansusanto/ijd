@@ -23,10 +23,21 @@ class m180503_024156_module_kelas extends Migration
            'module_id'   => $this->integer()->notNull(),
            'kelas_id'   => $this->integer()->notNull(), 
            'tahun_ajaran_id'   => $this->integer()->notNull(), 
+           'semester_id'   => $this->integer()->notNull(),
            'user_created'   => $this->integer()->notNull(), 
            'user_updated'   => $this->integer(), 
            'update_time'   => $this->dateTime()->notNull(), 
         ]);
+        
+        // add foreign key for table `semester`
+        $this->addForeignKey(
+            'fk-module_kelas-semester_id',
+            'module_kelas',
+            'semester_id',
+            'semester',
+            'id',
+            'CASCADE'
+        );
         
         $this->addForeignKey(
             'fk-module_kelas-module_id',

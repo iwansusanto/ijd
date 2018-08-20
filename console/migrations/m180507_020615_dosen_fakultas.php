@@ -21,12 +21,23 @@ class m180507_020615_dosen_fakultas extends Migration
         $this->createTable('{{%dosen_fakultas}}', [
            'id' => $this->primaryKey(),
            'dosen_id'   => $this->integer()->notNull(),
-           'fakultas_id'   => $this->integer()->notNull(), 
+           'fakultas_id'   => $this->integer()->notNull(),
+           'semester_id'   => $this->integer()->notNull(),
            'tahun_ajaran_id'   => $this->integer()->notNull(), 
            'user_created'   => $this->integer()->notNull(), 
            'user_updated'   => $this->integer(), 
            'update_time'   => $this->dateTime()->notNull(), 
         ]);
+        
+        // add foreign key for table `semester`
+        $this->addForeignKey(
+            'fk-dosen_fakultas-semester_id',
+            'dosen_fakultas',
+            'semester_id',
+            'semester',
+            'id',
+            'CASCADE'
+        );
         
         // add foreign key for table `dosen`
         $this->addForeignKey(

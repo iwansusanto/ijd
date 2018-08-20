@@ -24,6 +24,7 @@ class m180503_033029_peran_hitung extends Migration
 //           'module_id'   => $this->integer()->notNull(),
            'module_tahun_ajaran_id'   => $this->integer()->notNull(),
            'tahun_ajaran_id'   => $this->integer()->notNull(),
+           'semester_id'   => $this->integer()->notNull(),
            'bulan'   => $this->smallInteger(2)->notNull(), 
            'tahun'   => $this->smallInteger(4)->notNull(), 
 //           'jumlah_sks'   => $this->smallInteger(3)->notNull(), 
@@ -37,6 +38,16 @@ class m180503_033029_peran_hitung extends Migration
            'user_updated'   => $this->integer(), 
            'update_time'   => $this->dateTime()->notNull(), 
         ]);
+        
+        // add foreign key for table `semester`
+        $this->addForeignKey(
+            'fk-peran_hitung-semester_id',
+            'peran_hitung',
+            'semester_id',
+            'semester',
+            'id',
+            'CASCADE'
+        );
         
         $this->addForeignKey(
             'fk-peran_hitung-peran_id',

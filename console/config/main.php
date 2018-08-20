@@ -22,6 +22,13 @@ return [
           ],
     ],
     'components' => [
+        'db' => [
+            'class' => 'yii\db\Connection',
+            'dsn' => 'mysql:host=mysql;dbname=ijd',
+            'username' => 'fatih',
+            'password' => '1234',
+            'charset' => 'utf8',
+        ],
         'log' => [
             'targets' => [
                 [

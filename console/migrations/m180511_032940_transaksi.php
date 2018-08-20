@@ -5,7 +5,7 @@ use yii\db\Migration;
 /**
  * Class m180514_032940_transaksi
  */
-class m180514_032940_transaksi extends Migration
+class m180511_032940_transaksi extends Migration
 {
     /**
      * {@inheritdoc}
@@ -23,12 +23,23 @@ class m180514_032940_transaksi extends Migration
            'no_transaksi'   => $this->string(15)->notNull()->unique()->comment('Ym/IJD/xxx'),
            'tgl_transaksi'   => $this->dateTime()->notNull(), 
            'tahun_ajaran_id'   => $this->integer()->notNull(),
+           'semester_id'   => $this->integer()->notNull(), 
            'bulan_tahun'   => $this->date()->notNull(), 
            'keterangan'   => $this->text(), 
            'user_created'   => $this->integer()->notNull(), 
            'user_updated'   => $this->integer(), 
            'update_time'   => $this->dateTime()->notNull(), 
         ]);
+        
+        // add foreign key for table `semester`
+        $this->addForeignKey(
+            'fk-transaksi-semester_id',
+            'transaksi',
+            'semester_id',
+            'semester',
+            'id',
+            'CASCADE'
+        );
         
         $this->createIndex(
             'no_transaksi-index-transaksi',
