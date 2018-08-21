@@ -41,7 +41,7 @@
                         'icon' => 'database',
                         'url' => '#',
                         'items' => [
-                            ['label' => 'Tahun Ajaran', 'icon' => 'hourglass-3', 'url' => ['/tahunajaran'],],
+                            ['label' => 'Tahun Ajaran', 'icon' => 'hourglass-3', 'url' => ['/tahunajaran'], 'active' => Yii::$app->controller->id == 'tahunajaran'],
                             ['label' => 'Dosen', 'icon' => 'user', 'url' => ['/dosen'], 'active' => Yii::$app->controller->id == 'dosen'],
                             ['label' => 'Ruangan', 'icon' => 'building', 'url' => ['/ruangan'], 'active' => Yii::$app->controller->id == 'ruangan'],
                             ['label' => 'Fakultas', 'icon' => 'graduation-cap', 'url' => ['/fakultas'], 'active' => Yii::$app->controller->id == 'fakultas'],

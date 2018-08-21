@@ -46,6 +46,12 @@ if (Yii::$app->controller->action->id === 'login') {
                 View::POS_HEAD,
                 'my-global'
             );
+            $this->registerJs(
+                    "$(function () { $('[data-toggle=\"tooltip\"]').tooltip(); });"
+                    . "$(function () { $('[data-toggle=\"popover\"]').popover(); }); ",
+                View::POS_END,
+                'my-global-end'
+            );
         ?>
     </head>
     <body class="<?= \dmstr\helpers\AdminLteHelper::skinClass() ?>">

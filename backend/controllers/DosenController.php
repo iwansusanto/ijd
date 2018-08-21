@@ -197,4 +197,13 @@ class DosenController extends Controller
             'modelImport'   =>  $modelImport
         ]);
     }
+    
+    public function actionDownload(){
+        $path = Yii::getAlias('@webroot').'/template/dosen.xlsx';
+        
+        if(file_exists($path))
+            return Yii::$app->response->sendFile($path);
+        else
+            throw new CHttpException(404,'The requested file does not exists.');
+    }
 }

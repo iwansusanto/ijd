@@ -12,7 +12,14 @@ $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="jabatan-index">
 
-    <h1><?= Html::encode($this->title) ?></h1>
+    <h1><?= Html::encode($this->title).Html::tag('i', '', [
+                'class' =>  'fa fa-question-circle-o',
+                'aria-hidden'   => 'true',
+                'data-title'=>'Info',
+                'data-content'=>'Jabatan ini akan digunakan saat proses generate report sebagai pihak yang akan mengetahui',
+                'data-toggle'=>'popover',
+                'style'=>'margin-left: 10px; font-size: 20px; cursor:pointer;'
+            ]) ?></h1>
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
     <p>

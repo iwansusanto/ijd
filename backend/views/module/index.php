@@ -12,13 +12,21 @@ $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="module-index">
 
-    <h1><?= Html::encode($this->title) ?></h1>
+    <h1><?= Html::encode($this->title).Html::tag('i', '', [
+                'class' =>  'fa fa-question-circle-o',
+                'aria-hidden'   => 'true',
+                'data-title'=>'Info',
+                'data-content'=>'Untuk mengaktifkan modul agar dapat digunakan saat proses transaksi '
+                                . 'maka silahkan tentukan modul per semester melalui menu Tahun Ajaran -> Module dan Tahun Ajaran',
+                'data-toggle'=>'popover',
+                'style'=>'margin-left: 10px; font-size: 20px; cursor:pointer;'
+            ]) ?></h1>
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
     <p>
         <?= Html::a('Create Module', ['create'], ['class' => 'btn btn-success']) ?>
     </p>
-
+    
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
