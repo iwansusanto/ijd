@@ -29,6 +29,24 @@ use app\models\Dosen;
 class ExportController extends Controller {
     //put your code here
     
+    /**
+     * {@inheritdoc}
+     */
+    public function behaviors()
+    {
+        return [
+            'verbs' => [
+                'class' => VerbFilter::className(),
+                'actions' => [
+                    'delete' => ['POST'],
+                ],
+            ],
+            'access' => [
+                'class' => 'mdm\admin\components\AccessControl',
+            ]
+        ];
+    }
+    
     public function afterAction($action, $result) {
         Yii::$app->response->format = Response::FORMAT_RAW;
         Yii::$app->response->headers->add('Content-Type', 'application/pdf');

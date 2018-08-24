@@ -31,6 +31,9 @@ class DosenfakultasController extends Controller
                     'delete' => ['POST'],
                 ],
             ],
+            'access' => [
+                'class' => 'mdm\admin\components\AccessControl',
+            ]
         ];
     }
 

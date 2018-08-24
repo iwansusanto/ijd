@@ -1,3 +1,10 @@
+<?php
+
+use mdm\admin\components\Helper;
+use mdm\admin\components\MenuHelper;
+
+?>
+
 <aside class="main-sidebar">
 
     <section class="sidebar">
@@ -25,17 +32,28 @@
             </div>
         </form>
         <!-- /.search form -->
-
-        <?= dmstr\widgets\Menu::widget(
-            [
-                'options' => ['class' => 'sidebar-menu tree', 'data-widget'=> 'tree'],
-                'items' => [
+        <ul class="sidebar-menu tree" data-widget="tree">
+            <li class="header"><?= 'Tahun Ajaran '.Yii::$app->is->tahunAjaran()->periode; ?></li>
+        </ul>
+        <?php $menuItems = [
 //                    ['label' => 'Menu', 'options' => ['class' => 'header']],
-                    ['label' => 'Tahun Ajaran '.Yii::$app->is->tahunAjaran()->periode, 
-                     'options' => ['class' => 'header']],
-//                    ['label' => 'Gii', 'icon' => 'file-code-o', 'url' => ['/gii']],
+                    ['label' => 'Tahun Ajaran '.Yii::$app->is->tahunAjaran()->periode, 'options' => ['class' => 'header']],
 //                    ['label' => 'Debug', 'icon' => 'dashboard', 'url' => ['/debug']],
                     ['label' => 'Login', 'url' => ['site/login'], 'visible' => Yii::$app->user->isGuest],
+                    [
+                        'label' => 'Setting',
+                        'icon' => 'gears',
+                        'url' => '#',
+                        'items' => [
+                            ['label' => 'User', 'icon' => 'user-md', 'url' => ['/admin/user'], 'active' => (Yii::$app->controller->module->id == 'admin' && Yii::$app->controller->id == 'user')],
+                            ['label' => 'Assignment', 'icon' => 'american-sign-language-interpreting', 'url' => ['/admin/assignment'], 'active' => (Yii::$app->controller->module->id == 'admin' && Yii::$app->controller->id == 'assignment')],
+                            ['label' => 'Route', 'icon' => 'exchange', 'url' => ['/admin/route']],
+                            ['label' => 'Permission', 'icon' => 'handshake-o', 'url' => ['/admin/permission'], 'active' => (Yii::$app->controller->module->id == 'admin' && Yii::$app->controller->id == 'permission')],
+                            ['label' => 'Menu', 'icon' => 'bars', 'url' => ['/admin/menu'], 'active' => (Yii::$app->controller->module->id == 'admin' && Yii::$app->controller->id == 'menu')],
+                            ['label' => 'Role', 'icon' => 'unlock-alt', 'url' => ['/admin/role'], 'active' => (Yii::$app->controller->module->id == 'admin' && Yii::$app->controller->id == 'role')],
+                                ['label' => 'Gii', 'icon' => 'file-code-o', 'url' => ['/gii']]
+                        ],
+                    ],
                     [
                         'label' => 'Master',
                         'icon' => 'database',
@@ -83,33 +101,29 @@
                             ['label' => 'Pivot Module', 'icon' => 'file-o', 'url' => ['/report/pivotmodule'], 'active' => (Yii::$app->controller->id == 'report' && Yii::$app->controller->action->id == 'pivotmodule')],
                         ],
                     ],
-//                    [
-//                        'label' => 'Master',
-//                        'icon' => 'window-restore',
-//                        'url' => '#',
-//                        'items' => [
-//                            ['label' => 'Gii', 'icon' => 'file-code-o', 'url' => ['/gii'],],
-//                            ['label' => 'Debug', 'icon' => 'dashboard', 'url' => ['/debug'],],
-//                            [
-//                                'label' => 'Level One',
-//                                'icon' => 'circle-o',
-//                                'url' => '#',
-//                                'items' => [
-//                                    ['label' => 'Level Two', 'icon' => 'circle-o', 'url' => '#',],
-//                                    [
-//                                        'label' => 'Level Two',
-//                                        'icon' => 'circle-o',
-//                                        'url' => '#',
-//                                        'items' => [
-//                                            ['label' => 'Level Three', 'icon' => 'circle-o', 'url' => '#',],
-//                                            ['label' => 'Level Three', 'icon' => 'circle-o', 'url' => '#',],
-//                                        ],
-//                                    ],
-//                                ],
-//                            ],
-//                        ],
-//                    ],
-                ],
+                ];
+        
+//        $menuItems = Helper::filter($menuItems);
+//        echo '<pre>';        print_r($menuItems);die;
+        
+        $callback = function($menu){
+            $data = $menu['data'];
+            return [
+                'label' => $menu['name'],
+                'url' => [$menu['route']],
+                'icon' => $menu['data'], 
+                'items' => $menu['children']
+            ];
+        };
+//        echo '<pre>';print_r(MenuHelper::getAssignedMenu(Yii::$app->user->id, null, $callback, true));die;
+        $menuItemss = MenuHelper::getAssignedMenu(Yii::$app->user->id, null, $callback, true);
+        ?>
+        
+        <?= dmstr\widgets\Menu::widget(
+            [
+                'options' => ['class' => 'sidebar-menu tree', 'data-widget'=> 'tree'],
+//                'items' => $menuItems,
+                'items' => $menuItemss
             ]
         ) ?>
 
