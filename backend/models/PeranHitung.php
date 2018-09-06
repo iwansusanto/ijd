@@ -11,6 +11,7 @@ use Yii;
  * @property int $peran_id
  * @property int $module_tahun_ajaran_id
  * @property int $tahun_ajaran_id
+ * @property int $semester_id
  * @property int $bulan
  * @property int $tahun
  * @property int $jumlah_menit_hitung per jam(dalam satuan menit)
@@ -46,13 +47,14 @@ class PeranHitung extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['peran_id', 'tahun_ajaran_id', 'bulan', 'honor_menit_hitung'], 'required'],
-            [['peran_id', 'module_tahun_ajaran_id', 'tahun_ajaran_id', 'tahun', 'jumlah_menit_hitung', 'honor_menit_hitung', 'transport_hitung', 'volume_menit_pertemuan', 'user_created', 'user_updated'], 'integer'],
+            [['peran_id', 'tahun_ajaran_id', 'semester_id', 'module_tahun_ajaran_id', 'bulan', 'honor_menit_hitung'], 'required'],
+            [['peran_id', 'module_tahun_ajaran_id', 'tahun_ajaran_id', 'semester_id', 'tahun', 'jumlah_menit_hitung', 'honor_menit_hitung', 'transport_hitung', 'volume_menit_pertemuan', 'user_created', 'user_updated'], 'integer'],
             [['keterangan', 'bulan'], 'string'],
             [['update_time'], 'safe'],
             [['tahun_ajaran_id'], 'exist', 'skipOnError' => true, 'targetClass' => TahunAjaran::className(), 'targetAttribute' => ['tahun_ajaran_id' => 'id']],
 //            [['module_id'], 'exist', 'skipOnError' => true, 'targetClass' => Module::className(), 'targetAttribute' => ['module_id' => 'id']],
             [['peran_id'], 'exist', 'skipOnError' => true, 'targetClass' => Peran::className(), 'targetAttribute' => ['peran_id' => 'id']],
+            [['semester_id'], 'exist', 'skipOnError' => true, 'targetClass' => Semester::className(), 'targetAttribute' => ['semester_id' => 'id']],
 //            ['peran_id', 'unique', 'targetAttribute' => ['peran_id', 'module_id', 'tahun_ajaran_id'], 'comboNotUnique' => 'Peran already exist']
             ['peran_id', 'checkPeran']
         ];
@@ -69,6 +71,7 @@ class PeranHitung extends \yii\db\ActiveRecord
 //            'module_id' => 'Module',
             'module_tahun_ajaran_id'    =>  'Module',
             'tahun_ajaran_id' => 'Tahun Ajaran',
+            'semester_id' => 'Semester',
             'bulan' => 'Bulan Tahun',
             'tahun' => 'Tahun',
 //            'jumlah_sks' => 'Jumlah Sks',
@@ -89,7 +92,7 @@ class PeranHitung extends \yii\db\ActiveRecord
         if(!empty($this->attributes)){
             
             $condition = [
-//                'module_id = '.$this->module_id,
+                'semester_id = '.$this->semester_id,
                 'module_tahun_ajaran_id = '.$this->module_tahun_ajaran_id,
                 'tahun_ajaran_id = '.$this->tahun_ajaran_id,
                 'bulan = '.date('m', strtotime($this->bulan)),
@@ -143,6 +146,14 @@ class PeranHitung extends \yii\db\ActiveRecord
     public function getPeran()
     {
         return $this->hasOne(Peran::className(), ['id' => 'peran_id']);
+    }
+    
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getSemester()
+    {
+        return $this->hasOne(Semester::className(), ['id' => 'semester_id']);
     }
     
     public function beforeSave($insert) {

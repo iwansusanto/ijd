@@ -7,6 +7,7 @@ use app\models\TahunAjaran;
 use kartik\select2\Select2;
 use app\models\ModuleTahunAjaran;
 use app\models\Peran;
+use app\models\Semester;
 
 /* @var $this yii\web\View */
 /* @var $searchModel app\models\PeranHitungSearch */
@@ -39,6 +40,15 @@ $this->params['breadcrumbs'][] = $this->title;
                                 'attribute'      =>  'tahun_ajaran_id',
                                 'data'      =>  ArrayHelper::map(TahunAjaran::find()->asArray()->all(), 'id', 'periode'),
                                 'options'   =>  ['placeholder'  =>  'Select Tahun Ajaran'],
+                                'pluginOptions' =>  ['allowClear'    =>  true]])],
+            [
+                'attribute' => 'semester_id',
+                'value' => 'semester.nama',
+                'filter' => Select2::widget([
+                                'model' =>  $searchModel,
+                                'attribute'      =>  'semester_id',
+                                'data'      =>  ArrayHelper::map(Semester::find()->asArray()->all(), 'id', 'nama'),
+                                'options'   =>  ['placeholder'  =>  'Select Semester'],
                                 'pluginOptions' =>  ['allowClear'    =>  true]])],
             [
                 'attribute' => 'bulan',

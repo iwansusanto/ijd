@@ -18,7 +18,7 @@ class DosenfakultasSearch extends Dosenfakultas
     public function rules()
     {
         return [
-            [['id', 'dosen_id', 'fakultas_id', 'tahun_ajaran_id', 'user_created', 'user_updated'], 'integer'],
+            [['id', 'dosen_id', 'fakultas_id', 'semester_id', 'tahun_ajaran_id', 'user_created', 'user_updated'], 'integer'],
             [['update_time'], 'safe'],
         ];
     }
@@ -63,6 +63,7 @@ class DosenfakultasSearch extends Dosenfakultas
             'id' => $this->id,
             'dosen_id' => $this->dosen_id,
             'fakultas_id' => $this->fakultas_id,
+            'semester_id' => $this->semester_id,
             'tahun_ajaran_id' => $this->tahun_ajaran_id,
             'user_created' => $this->user_created,
             'user_updated' => $this->user_updated,

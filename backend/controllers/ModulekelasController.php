@@ -143,6 +143,7 @@ class ModulekelasController extends Controller
                         $moduleKelas->module_id = $request['module_id'];
                         $moduleKelas->kelas_id = $kls;
                         $moduleKelas->tahun_ajaran_id = $request['tahun_ajaran_id'];
+                        $moduleKelas->semester_id = $request['semester_id'];
 
                         if($moduleKelas->validate()){
                             $valid = true;

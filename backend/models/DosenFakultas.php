@@ -10,6 +10,7 @@ use Yii;
  * @property int $id
  * @property int $dosen_id
  * @property int $fakultas_id
+ * @property int $semester_id
  * @property int $tahun_ajaran_id
  * @property int $user_created
  * @property int $user_updated
@@ -42,11 +43,11 @@ class DosenFakultas extends \yii\db\ActiveRecord
     {
         return [
             [['dosen_id', 'fakultas_id'], 'required', 'on' => self::SCENARIOMULTIPLE],
-            [['dosen_id', 'fakultas_id', 'tahun_ajaran_id'], 'required', 'on' => self::SCENARIOCREATE],
-            [['dosen_id', 'fakultas_id', 'tahun_ajaran_id'], 'required', 'on' => self::SCENARIOUPDATE],
+            [['dosen_id', 'fakultas_id', 'semester_id', 'tahun_ajaran_id'], 'required', 'on' => self::SCENARIOCREATE],
+            [['dosen_id', 'fakultas_id', 'semester_id', 'tahun_ajaran_id'], 'required', 'on' => self::SCENARIOUPDATE],
 //            [['dosen_id', 'fakultas_id', 'tahun_ajaran_id'], 'required'],
             
-            [['dosen_id', 'fakultas_id', 'tahun_ajaran_id', 'user_created', 'user_updated'], 'integer'],
+            [['dosen_id', 'fakultas_id', 'semester_id', 'tahun_ajaran_id', 'user_created', 'user_updated'], 'integer'],
             [['update_time', 'checked'], 'safe'],
             [['tahun_ajaran_id'], 'exist', 'skipOnError' => true, 'targetClass' => TahunAjaran::className(), 'targetAttribute' => ['tahun_ajaran_id' => 'id']],
             [['dosen_id'], 'exist', 'skipOnError' => true, 'targetClass' => Dosen::className(), 'targetAttribute' => ['dosen_id' => 'id']],
@@ -64,6 +65,7 @@ class DosenFakultas extends \yii\db\ActiveRecord
             'id' => 'ID',
             'dosen_id' => 'Dosen',
             'fakultas_id' => 'Fakultas',
+            'semester_id' => 'Semester',
             'tahun_ajaran_id' => 'Tahun Ajaran',
             'user_created' => 'User Created',
             'user_updated' => 'User Updated',
@@ -93,6 +95,14 @@ class DosenFakultas extends \yii\db\ActiveRecord
     public function getFakultas()
     {
         return $this->hasOne(Fakultas::className(), ['id' => 'fakultas_id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getSemester()
+    {
+        return $this->hasOne(Semester::className(), ['id' => 'semester_id']);
     }
     
     public function beforeSave($insert) {

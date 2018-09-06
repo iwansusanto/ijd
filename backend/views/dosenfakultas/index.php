@@ -4,6 +4,7 @@ use yii\helpers\Html;
 use yii\grid\GridView;
 use app\models\Dosen;
 use app\models\TahunAjaran;
+use app\models\Semester;
 use app\models\Fakultas;
 use yii\helpers\ArrayHelper;
 use kartik\select2\Select2;
@@ -24,15 +25,16 @@ $this->params['breadcrumbs'][] = $this->title;
     <p>
         <?= Html::a('Create Dosenfakultas', ['create'], ['class' => 'btn btn-success']) ?>
         <?php 
-            if ($dataProvider->getTotalCount() === 0) { 
-                echo Html::button('Template Dosenfakultas', [
-                        'type'  =>  'button',
-                        'class' => 'btn btn-danger',
-                        'data-toggle'   =>  'modal',
-                        'data-target'    =>  '.bs-example-modal-lg',
-//                        'title' =>  'Template Berdasarkan Tahun Ajaran Terakhir'
-                    ]);
-            }; ?>
+//            if ($dataProvider->getTotalCount() === 0) { 
+//                echo Html::button('Template Dosenfakultas', [
+//                        'type'  =>  'button',
+//                        'class' => 'btn btn-danger',
+//                        'data-toggle'   =>  'modal',
+//                        'data-target'    =>  '.bs-example-modal-lg',
+////                        'title' =>  'Template Berdasarkan Tahun Ajaran Terakhir'
+//                    ]);
+//            };
+        ?>
     </p>
 
     <?= GridView::widget([
@@ -49,6 +51,15 @@ $this->params['breadcrumbs'][] = $this->title;
                                 'attribute'      =>  'tahun_ajaran_id',
                                 'data'      =>  ArrayHelper::map(TahunAjaran::find()->asArray()->all(), 'id', 'periode'),
                                 'options'   =>  ['placeholder'  =>  'Select Tahun Ajaran'],
+                                'pluginOptions' =>  ['allowClear'    =>  true]])],
+            [
+                'attribute' => 'semester_id',
+                'value' => 'semester.nama',
+                'filter' => Select2::widget([
+                                'model' =>  $searchModel,
+                                'attribute'      =>  'semester_id',
+                                'data'      =>  ArrayHelper::map(Semester::find()->asArray()->all(), 'id', 'nama'),
+                                'options'   =>  ['placeholder'  =>  'Select Semester'],
                                 'pluginOptions' =>  ['allowClear'    =>  true]])],
             [
                 'attribute' => 'dosen_id',
@@ -87,41 +98,91 @@ $this->params['breadcrumbs'][] = $this->title;
                 <h4 class="modal-title" id="myLargeModalLabel">Choose Template</h4> 
             </div> 
             <div class="modal-body">
-                <?= Html::label('Pilih Tahun Ajaran Sebagai Template', 'tahun_ajaran_id', []) ?>
-                <?= Select2::widget([
-                            'name' => 'tahun_ajaran_id',
-                            'data'      =>  ArrayHelper::map(TahunAjaran::find()->where('id<>:tahun_ajaran_id', [
-                                                    ':tahun_ajaran_id'  =>  Yii::$app->is->tahunAjaran()->id
-                                            ])->asArray()->all(), 'id', 'periode'),
+                <div class="row">
+                    <div class="col-md-12">
+                        <?= Html::label('Pilih Tahun Ajaran', 'tahun_ajaran_id', []) ?>
+                        <?= Select2::widget([
+                                    'name' => 'tahun_ajaran_id',
+                                    'data'      =>  ArrayHelper::map(TahunAjaran::find()->where('id<>:tahun_ajaran_id', [
+                                                            ':tahun_ajaran_id'  =>  Yii::$app->is->tahunAjaran()->id
+                                                    ])->asArray()->all(), 'id', 'periode'),
+//                                    'data'      =>  ArrayHelper::map(TahunAjaran::find()->asArray()->all(), 'id', 'periode'),    
+                                    'options'   =>  [
+                                        'placeholder'  =>  'Select Tahun Ajaran'],
+                                    'pluginOptions' =>  [
+                                        'allowClear'    =>  true
+                                    ],
+                                    'pluginEvents'  => [
+//                                        "select2:select"    =>  "function(data){
+//                                            console.log($(this).val());
+//                                            var datas = [];
+//                                            datas = {
+//                                                'id': $(this).val()};
+//                                            $.ajax({
+//                                                type    : \"POST\",
+//                                                url     : _baseUrl+\"/dosenfakultas/sessiontemplate\",
+//                                                data    : {TahunAjaran: datas},
+//                                                success : function(data){
+//                                                    console.log(data);
+//                                                    window.location.replace(data.url_redirect);
+//                                                },
+//                                                error   : function(data){
+//                                                    console.log(data);
+//                                                }
+//                                            });
+//                                        }"
+                                    ]]) ?>
+                    </div>
+                    <div class="col-md-12">
+                        <?= Html::label('Pilih Semester', 'semester_id', []) ?>
+                        <?= Select2::widget([
+                            'name' => 'semester_id',
+                            'data'      =>  ArrayHelper::map(Semester::find()->asArray()->all(), 'id', 'nama'),    
                             'options'   =>  [
-                                'placeholder'  =>  'Select Tahun Ajaran'],
+                                'placeholder'  =>  'Select Semester'],
                             'pluginOptions' =>  [
                                 'allowClear'    =>  true
                             ],
                             'pluginEvents'  => [
-                                "select2:select"    =>  "function(data){
-                                    console.log($(this).val());
-                                    var datas = [];
-                                    datas = {
-                                        'id': $(this).val()};
-                                    $.ajax({
-                                        type    : \"POST\",
-                                        url     : _baseUrl+\"/dosenfakultas/sessiontemplate\",
-                                        data    : {TahunAjaran: datas},
-                                        success : function(data){
-                                            console.log(data);
-                                            window.location.replace(data.url_redirect);
-                                        },
-                                        error   : function(data){
-                                            console.log(data);
-                                        }
-                                    });
-                                }"
+//                                "select2:select"    =>  "function(data){
+//                                    console.log($(this).val());
+//                                    var datas = [];
+//                                    datas = {
+//                                        'id': $(this).val()};
+//                                    $.ajax({
+//                                        type    : \"POST\",
+//                                        url     : _baseUrl+\"/dosenfakultas/sessiontemplate\",
+//                                        data    : {TahunAjaran: datas},
+//                                        success : function(data){
+//                                            console.log(data);
+//                                            window.location.replace(data.url_redirect);
+//                                        },
+//                                        error   : function(data){
+//                                            console.log(data);
+//                                        }
+//                                    });
+//                                }"
                             ]]) ?>
+                    </div>
+                </div>
+                
+                
+                
             </div> 
             <div class="modal-footer"> 
+                <button type="button" class="btn btn-success" id="btn-lanjut">Lanjut</button>
                 <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
             </div>
         </div> 
     </div> 
 </div>
+
+
+<?php
+
+$this->registerJsFile(
+    '@web/script/dosenfakultastemplate.js',
+    ['depends' => [\yii\web\JqueryAsset::className()]]
+);
+
+?>

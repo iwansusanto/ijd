@@ -1,16 +1,16 @@
 <?php
 
-namespace app\models;
+namespace backend\models;
 
 use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
-use app\models\ModuleTahunAjaran;
+use app\models\Semester;
 
 /**
- * ModuleTahunAjaranSearch represents the model behind the search form of `app\models\ModuleTahunAjaran`.
+ * SemesterSearch represents the model behind the search form of `app\models\Semester`.
  */
-class ModuleTahunAjaranSearch extends ModuleTahunAjaran
+class SemesterSearch extends Semester
 {
     /**
      * {@inheritdoc}
@@ -18,8 +18,8 @@ class ModuleTahunAjaranSearch extends ModuleTahunAjaran
     public function rules()
     {
         return [
-            [['id', 'module_id', 'tahun_ajaran_id', 'semester_id', 'jumlah_sks', 'jumlah_menit_per_sks', 'user_created', 'user_updated'], 'integer'],
-            [['nama', 'periode', 'update_time'], 'safe'],
+            [['id', 'user_created', 'user_updated'], 'integer'],
+            [['nama', 'keterangan', 'update_time'], 'safe'],
         ];
     }
 
@@ -41,13 +41,12 @@ class ModuleTahunAjaranSearch extends ModuleTahunAjaran
      */
     public function search($params)
     {
-        $query = ModuleTahunAjaran::find();
+        $query = Semester::find();
 
         // add conditions that should always apply here
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
-            'sort'=> ['defaultOrder' => ['id'=>SORT_DESC]]
         ]);
 
         $this->load($params);
@@ -61,18 +60,13 @@ class ModuleTahunAjaranSearch extends ModuleTahunAjaran
         // grid filtering conditions
         $query->andFilterWhere([
             'id' => $this->id,
-            'module_id' => $this->module_id,
-            'tahun_ajaran_id' => $this->tahun_ajaran_id,
-            'semester_id' => $this->semester_id,
-            'jumlah_sks' => $this->jumlah_sks,
-            'jumlah_menit_per_sks' => $this->jumlah_menit_per_sks,
             'user_created' => $this->user_created,
             'user_updated' => $this->user_updated,
             'update_time' => $this->update_time,
         ]);
 
         $query->andFilterWhere(['like', 'nama', $this->nama])
-            ->andFilterWhere(['like', 'periode', $this->periode]);
+            ->andFilterWhere(['like', 'keterangan', $this->keterangan]);
 
         return $dataProvider;
     }

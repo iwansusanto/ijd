@@ -5,6 +5,7 @@ namespace backend\controllers;
 use Yii;
 use app\models\Dosenfakultas;
 use app\models\TahunAjaran;
+use app\models\Semester;
 use app\models\Dosen;
 use app\models\Fakultas;
 use app\models\DosenfakultasSearch;
@@ -91,6 +92,7 @@ class DosenfakultasController extends Controller
         $session = Yii::$app->session;
         
         $tahunAjaran = TahunAjaran::findOne($session->get('template_tahun_ajaran_id'));
+        $semester = Semester::findOne($session->get('template_semester_id'));
         $dosen = Dosen::find()->asArray()->all();
         $fakultas = Fakultas::find()->asArray()->all();
         
@@ -131,8 +133,9 @@ class DosenfakultasController extends Controller
         }
         
         $model = \app\models\DosenFakultas::find()
-                    ->where('tahun_ajaran_id=:tahun_ajaran_id',[
-                        ':tahun_ajaran_id'  =>  $tahunAjaran->id
+                    ->where('tahun_ajaran_id=:tahun_ajaran_id AND semester_id=:semester_id',[
+                        ':tahun_ajaran_id'  =>  $tahunAjaran->id,
+                        ':semester_id'  =>  $semester->id
                     ])
                     ->all();
         
@@ -200,30 +203,33 @@ class DosenfakultasController extends Controller
         Yii::$app->response->format = Response::FORMAT_JSON;
         $result = [];
         
-        $model = new TahunAjaran();
+//        $model = new TahunAjaran();
         
         if(Yii::$app->request->isAjax){
             
-            if ($model->load(Yii::$app->request->post())) {
+//            if ($model->load(Yii::$app->request->post())) {
+            if (!empty(Yii::$app->request->post('semester_id')) && !empty(Yii::$app->request->post('tahun_ajaran_id'))) {
                 $session = Yii::$app->session;
+                $semester_id = Yii::$app->request->post('semester_id');
+                $tahun_ajaran_id = Yii::$app->request->post('tahun_ajaran_id');
                 
-                if(!empty($model->id)){
-                    $session['template_tahun_ajaran_id'] = $model->id;
-                    
-                    $result = [
-                                'success'   =>  true,
-                                'url_redirect'   => Url::to(['dosenfakultas/createtemplate'])
-                            ];
-                    
-                } else {
+//                if(!empty($model->id)){
+                $session['template_tahun_ajaran_id'] = $tahun_ajaran_id;
+                $session['template_semester_id'] = $semester_id;
+
+                $result = [
+                    'success' => true,
+                    'url_redirect' => Url::to(['dosenfakultas/createtemplate'])
+                ];
+                
+            } else {
+                die('exit');
                     Yii::$app->response->statusCode = 400;
                     $result = [
                         'success'   =>  false,
                         'url_redirect'   =>  false
                     ];
                 }
-                
-            }
         };
         
         return $result;

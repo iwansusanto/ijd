@@ -18,7 +18,7 @@ class PeranHitungSearch extends PeranHitung
     public function rules()
     {
         return [
-            [['id', 'peran_id', 'module_tahun_ajaran_id', 'tahun_ajaran_id', 'bulan', 'tahun', 'jumlah_menit_hitung', 'honor_menit_hitung', 'transport_hitung', 'volume_menit_pertemuan', 'user_created', 'user_updated'], 'integer'],
+            [['id', 'peran_id', 'module_tahun_ajaran_id', 'tahun_ajaran_id', 'semester_id', 'bulan', 'tahun', 'jumlah_menit_hitung', 'honor_menit_hitung', 'transport_hitung', 'volume_menit_pertemuan', 'user_created', 'user_updated'], 'integer'],
             [['keterangan', 'update_time'], 'safe'],
         ];
     }
@@ -68,6 +68,7 @@ class PeranHitungSearch extends PeranHitung
 //            'module_id' => $this->module_id,
             'module_tahun_ajaran_id' => $this->module_tahun_ajaran_id,
             'tahun_ajaran_id' => $this->tahun_ajaran_id,
+            'semester_id' => $this->semester_id,
             'bulan' => $this->bulan,
             'tahun' => $this->tahun,
 //            'jumlah_sks' => $this->jumlah_sks,

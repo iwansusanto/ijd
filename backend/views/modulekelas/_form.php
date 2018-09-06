@@ -7,6 +7,7 @@ use app\models\Module;
 use app\models\Kelas;
 use app\models\TahunAjaran;
 use kartik\select2\Select2;
+use app\models\Semester;
 
 /* @var $this yii\web\View */
 /* @var $model app\models\ModuleKelas */
@@ -25,6 +26,15 @@ use kartik\select2\Select2;
     <?= $form->field($model, 'tahun_ajaran_id')
                 ->hiddenInput(['value' => Yii::$app->is->tahunajaran()->id])->label(false); ?>
     
+    <?= $form->field($model, 'semester_id')
+                ->widget(Select2::className(), [
+                            'data'      =>  ArrayHelper::map(Semester::find()->asArray()->all(), 'id', 'nama'),
+                            'options'   =>  [
+                                'placeholder'  =>  'Select Semester'],
+                            'pluginOptions' =>  [
+                                'allowClear'    =>  true
+                            ]]) ?>
+
     <?= $form->field($model, 'module_id')
                 ->widget(Select2::className(), [
                             'data'      =>  ArrayHelper::map(Module::find()->asArray()->all(), 'id', 'nama'),

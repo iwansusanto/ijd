@@ -11,6 +11,7 @@ use Yii;
  * @property int $module_id
  * @property int $kelas_id
  * @property int $tahun_ajaran_id
+ * @property int $semester_id
  * @property int $user_created
  * @property int $user_updated
  * @property string $update_time
@@ -35,14 +36,14 @@ class ModuleKelas extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['module_id', 'kelas_id', 'tahun_ajaran_id'], 'required'],
-            [['module_id', 'tahun_ajaran_id', 'user_created', 'user_updated'], 'integer'],
+            [['module_id', 'kelas_id', 'tahun_ajaran_id', 'semester_id'], 'required'],
+            [['module_id', 'tahun_ajaran_id', 'semester_id', 'user_created', 'user_updated'], 'integer'],
 //            [['kelas_id'], 'unique', 'message' => 'Kelas has already been taken'],
             [['update_time'], 'safe'],
             [['tahun_ajaran_id'], 'exist', 'skipOnError' => true, 'targetClass' => TahunAjaran::className(), 'targetAttribute' => ['tahun_ajaran_id' => 'id']],
             [['kelas_id'], 'exist', 'skipOnError' => true, 'targetClass' => Kelas::className(), 'targetAttribute' => ['kelas_id' => 'id']],
             [['module_id'], 'exist', 'skipOnError' => true, 'targetClass' => Module::className(), 'targetAttribute' => ['module_id' => 'id']],
-            ['kelas_id', 'unique', 'targetAttribute' => ['kelas_id', 'module_id', 'tahun_ajaran_id'], 'comboNotUnique' => 'Kelas already exist']
+            ['kelas_id', 'unique', 'targetAttribute' => ['kelas_id', 'module_id', 'tahun_ajaran_id', 'semester_id'], 'comboNotUnique' => 'Kelas already exist']
         ];
     }
 
@@ -55,6 +56,7 @@ class ModuleKelas extends \yii\db\ActiveRecord
             'id' => 'ID',
             'module_id' => 'Module',
             'kelas_id' => 'Kelas',
+            'semester_id' => 'Semester',
             'tahun_ajaran_id' => 'Tahun Ajaran',
             'user_created' => 'User Created',
             'user_updated' => 'User Updated',
@@ -84,6 +86,14 @@ class ModuleKelas extends \yii\db\ActiveRecord
     public function getModule()
     {
         return $this->hasOne(Module::className(), ['id' => 'module_id']);
+    }
+    
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getSemester()
+    {
+        return $this->hasOne(Semester::className(), ['id' => 'semester_id']);
     }
     
     public function beforeSave($insert) {

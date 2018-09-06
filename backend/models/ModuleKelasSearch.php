@@ -18,7 +18,7 @@ class ModuleKelasSearch extends ModuleKelas
     public function rules()
     {
         return [
-            [['id', 'module_id', 'kelas_id', 'tahun_ajaran_id', 'user_created', 'user_updated'], 'integer'],
+            [['id', 'module_id', 'kelas_id', 'tahun_ajaran_id', 'semester_id', 'user_created', 'user_updated'], 'integer'],
             [['update_time'], 'safe'],
         ];
     }
@@ -67,6 +67,7 @@ class ModuleKelasSearch extends ModuleKelas
             'module_id' => $this->module_id,
             'kelas_id' => $this->kelas_id,
             'tahun_ajaran_id' => $this->tahun_ajaran_id,
+            'semester_id' => $this->semester_id,
             'user_created' => $this->user_created,
             'user_updated' => $this->user_updated,
             'update_time' => $this->update_time,

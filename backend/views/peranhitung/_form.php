@@ -11,6 +11,7 @@ use app\models\Peran;
 use app\models\ModuleTahunAjaran;
 use kartik\number\NumberControl;
 use kartik\touchspin\TouchSpin;
+use app\models\Semester;
 
 /* @var $this yii\web\View */
 /* @var $model app\models\PeranHitung */
@@ -42,12 +43,42 @@ use kartik\touchspin\TouchSpin;
                     ]
                 ]); ?>
             
+            <?= $form->field($model, 'semester_id')
+                ->widget(Select2::className(), [
+                            'data'      =>  ArrayHelper::map(Semester::find()->asArray()->all(), 'id', 'nama'),
+                            'options'   =>  [
+                                'placeholder'  =>  'Select Semester'],
+                            'pluginOptions' =>  [
+                                'allowClear'    =>  true
+                            ],
+                            'pluginEvents' => [
+                                "select2:select"    =>  "function(data){
+                                            console.log($(this).val());
+                                            var datas = [];
+                                            datas = {
+                                                'semester_id': $(this).val()};
+                                            $.ajax({
+                                                type    : \"POST\",
+                                                url     : _baseUrl+\"/peranhitung/lihatmodulebysemester\",
+                                                data    : {PeranHitung: datas},
+                                                success : function(data){
+                                                    console.log(data);
+                                                    $('select[name=\"PeranHitung[module_tahun_ajaran_id]\"]').html(data);
+                                                },
+                                                error   : function(data){
+                                                    console.log(data);
+                                                }
+                                            });
+                                        }"
+                            ]]) ?>
+            
             <?= $form->field($model, 'module_tahun_ajaran_id')
                 ->widget(Select2::className(), [
-                            'data'      =>  ArrayHelper::map(ModuleTahunAjaran::find()
-                                                    ->select(['module_tahun_ajaran.id', 'module.nama'])
-                                                    ->joinWith('module')
-                                                    ->asArray()->all(), 'id', 'nama'),
+//                            'data'      =>  ArrayHelper::map(ModuleTahunAjaran::find()
+//                                                    ->select(['module_tahun_ajaran.id', 'module.nama'])
+//                                                    ->joinWith('module')
+//                                                    ->asArray()->all(), 'id', 'nama'),
+                            'data'  =>  $data,
                             'options'   =>  [
                                 'placeholder'  =>  'Select Module'],
                             'pluginOptions' =>  [

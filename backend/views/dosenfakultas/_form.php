@@ -5,7 +5,7 @@ use yii\widgets\ActiveForm;
 use yii\helpers\ArrayHelper;
 use app\models\Dosen;
 use app\models\Fakultas;
-use app\models\TahunAjaran;
+use app\models\Semester;
 use kartik\select2\Select2;
 
 /* @var $this yii\web\View */
@@ -16,7 +16,16 @@ use kartik\select2\Select2;
 <div class="dosenfakultas-form">
 
     <?php $form = ActiveForm::begin(); ?>
-
+    
+    <?= $form->field($model, 'semester_id')
+                ->widget(Select2::className(), [
+                            'data'      =>  ArrayHelper::map(Semester::find()->asArray()->all(), 'id', 'nama'),
+                            'options'   =>  [
+                                'placeholder'  =>  'Select Semester'],
+                            'pluginOptions' =>  [
+                                'allowClear'    =>  true
+                            ]]) ?>
+    
     <?= $form->field($model, 'dosen_id')
                 ->widget(Select2::className(), [
                             'data'      =>  ArrayHelper::map(Dosen::find()->asArray()->all(), 'id', 'nama'),

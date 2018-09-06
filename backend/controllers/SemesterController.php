@@ -3,19 +3,19 @@
 namespace backend\controllers;
 
 use Yii;
-use app\models\Module;
-use app\models\ModuleSearch;
+use app\models\Semester;
+use backend\models\SemesterSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 
 /**
- * ModuleController implements the CRUD actions for Module model.
+ * SemesterController implements the CRUD actions for Semester model.
  */
-class ModuleController extends Controller
+class SemesterController extends Controller
 {
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function behaviors()
     {
@@ -26,19 +26,16 @@ class ModuleController extends Controller
                     'delete' => ['POST'],
                 ],
             ],
-            'access' => [
-                'class' => 'mdm\admin\components\AccessControl',
-            ]
         ];
     }
 
     /**
-     * Lists all Module models.
+     * Lists all Semester models.
      * @return mixed
      */
     public function actionIndex()
     {
-        $searchModel = new ModuleSearch();
+        $searchModel = new SemesterSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('index', [
@@ -48,7 +45,7 @@ class ModuleController extends Controller
     }
 
     /**
-     * Displays a single Module model.
+     * Displays a single Semester model.
      * @param integer $id
      * @return mixed
      * @throws NotFoundHttpException if the model cannot be found
@@ -61,16 +58,16 @@ class ModuleController extends Controller
     }
 
     /**
-     * Creates a new Module model.
+     * Creates a new Semester model.
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
     public function actionCreate()
     {
-        $model = new Module();
+        $model = new Semester();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['index']);
+            return $this->redirect(['view', 'id' => $model->id]);
         }
 
         return $this->render('create', [
@@ -79,7 +76,7 @@ class ModuleController extends Controller
     }
 
     /**
-     * Updates an existing Module model.
+     * Updates an existing Semester model.
      * If update is successful, the browser will be redirected to the 'view' page.
      * @param integer $id
      * @return mixed
@@ -99,7 +96,7 @@ class ModuleController extends Controller
     }
 
     /**
-     * Deletes an existing Module model.
+     * Deletes an existing Semester model.
      * If deletion is successful, the browser will be redirected to the 'index' page.
      * @param integer $id
      * @return mixed
@@ -113,15 +110,15 @@ class ModuleController extends Controller
     }
 
     /**
-     * Finds the Module model based on its primary key value.
+     * Finds the Semester model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
      * @param integer $id
-     * @return Module the loaded model
+     * @return Semester the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
     protected function findModel($id)
     {
-        if (($model = Module::findOne($id)) !== null) {
+        if (($model = Semester::findOne($id)) !== null) {
             return $model;
         }
 

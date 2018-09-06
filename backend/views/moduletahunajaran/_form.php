@@ -7,6 +7,7 @@ use yii\helpers\ArrayHelper;
 use app\models\Module;
 use kartik\select2\Select2;
 use kartik\touchspin\TouchSpin;
+use app\models\Semester;
 
 /* @var $this yii\web\View */
 /* @var $model app\models\ModuleTahunAjaran */
@@ -26,7 +27,14 @@ use kartik\touchspin\TouchSpin;
                         ['value' =>  Yii::$app->is->tahunajaran()->id]) ?>
     <?php endif; ?>
     
-    
+    <?= $form->field($model, 'semester_id')
+                ->widget(Select2::className(), [
+                            'data'      =>  ArrayHelper::map(Semester::find()->asArray()->all(), 'id', 'nama'),
+                            'options'   =>  [
+                                'placeholder'  =>  'Select Semester'],
+                            'pluginOptions' =>  [
+                                'allowClear'    =>  true
+                            ]]) ?>
     
     <?= $form->field($model, 'module_id')
                 ->widget(Select2::className(), [
@@ -44,8 +52,10 @@ use kartik\touchspin\TouchSpin;
                                    'max' => 150,
                                    'step' => 1,
                                    'verticalbuttons' => true,
-                                   'verticalupclass' => 'glyphicon glyphicon-plus',
-                                   'verticaldownclass' => 'glyphicon glyphicon-minus',
+                                   'verticalup' => '<small><i class="glyphicon glyphicon-plus"></i></small>',
+                                   'verticaldown' => '<small><i class="glyphicon glyphicon-minus"></i></small>'
+//                                   'verticalupclass' => 'glyphicon glyphicon-plus',
+//                                   'verticaldownclass' => 'glyphicon glyphicon-minus',
                                ]
             ]) ?>
     
@@ -56,8 +66,10 @@ use kartik\touchspin\TouchSpin;
                                    'max'    =>  3600,
                                    'step' => 10,
                                    'verticalbuttons' => true,
-                                   'verticalupclass' => 'glyphicon glyphicon-plus',
-                                   'verticaldownclass' => 'glyphicon glyphicon-minus',
+                                   'verticalup' => '<small><i class="glyphicon glyphicon-plus"></i></small>',
+                                   'verticaldown' => '<small><i class="glyphicon glyphicon-minus"></i></small>'
+//                                   'verticalupclass' => 'glyphicon glyphicon-plus',
+//                                   'verticaldownclass' => 'glyphicon glyphicon-minus',
                                ]
             ]) ?>
 

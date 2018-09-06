@@ -11,6 +11,7 @@ use Yii;
  * @property string $no_transaksi Ym/IJD/xxx
  * @property string $tgl_transaksi
  * @property int $tahun_ajaran_id
+ * @property int $semester_id
  * @property string $bulan_tahun
  * @property string $keterangan
  * @property int $user_created
@@ -35,10 +36,10 @@ class Transaksi extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['bulan_tahun'], 'required'],
+            [['bulan_tahun', 'semester_id'], 'required'],
             [['tgl_transaksi', 'bulan_tahun', 'update_time'], 'safe'],
             [['keterangan'], 'string'],
-            [['tahun_ajaran_id', 'user_created', 'user_updated'], 'integer'],
+            [['tahun_ajaran_id', 'semester_id', 'user_created', 'user_updated'], 'integer'],
             [['no_transaksi'], 'string', 'max' => 15],
             [['no_transaksi'], 'unique'],
 //            [['bulan_tahun'], 'unique'],
@@ -56,6 +57,7 @@ class Transaksi extends \yii\db\ActiveRecord
             'no_transaksi' => 'No Transaksi',
             'tgl_transaksi' => 'Tgl Transaksi',
             'tahun_ajaran_id' => 'Tahun Ajaran',
+            'semester_id'   =>  'Semester',
             'bulan_tahun' => 'Bulan Tahun',
             'keterangan' => 'Keterangan',
             'user_created' => 'User Created',
@@ -103,6 +105,22 @@ class Transaksi extends \yii\db\ActiveRecord
     public function getImbalJasas()
     {
         return $this->hasMany(ImbalJasa::className(), ['transaksi_id' => 'id']);
+    }
+    
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getTahunAjaran()
+    {
+        return $this->hasOne(TahunAjaran::className(), ['id' => 'tahun_ajaran_id']);
+    }
+    
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getSemester()
+    {
+        return $this->hasOne(Semester::className(), ['id' => 'semester_id']);
     }
     
     public function beforeSave($insert) {

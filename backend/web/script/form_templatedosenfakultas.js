@@ -20,7 +20,10 @@ var template = {
         $('.add-dosen').on('click', function(){
             var count_row = $('.wrapper-dosen').find('.row-dosen:last').data('count');
             var btn = $(this);
-                    
+            
+            if(typeof count_row === 'undefined')
+                count_row = 0;
+            
             $.ajax({
                 type: 'POST',
                 url: _baseUrl+"/dosenfakultas/adddosenrow",

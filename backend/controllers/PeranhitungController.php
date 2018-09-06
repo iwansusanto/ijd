@@ -8,6 +8,9 @@ use app\models\PeranHitungSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use yii\web\Response;
+use app\models\ModuleTahunAjaran;
+use yii\helpers\ArrayHelper;
 
 /**
  * PeranhitungController implements the CRUD actions for PeranHitung model.
@@ -72,11 +75,13 @@ class PeranhitungController extends Controller
     {
         $model = new PeranHitung();
         $model->bulan = date('Y-m');
-                
+        $data = [];
+        $moduleTahunAjaran = [];
+        
         if ($model->load(Yii::$app->request->post())) {
             
 //            $request = Yii::$app->request->post('PeranHitung');
-            
+
             if($model->save()){
 //                return $this->redirect(['view', 'id' => $model->id]);
                 return $this->redirect(['index']);
@@ -89,8 +94,24 @@ class PeranhitungController extends Controller
 //        $model->jumlah_menit_per_sks = PeranHitung::jumlah_menit_per_sks;
         $model->volume_menit_pertemuan = PeranHitung::volume_menit_pertemuan;
         
+        $moduleTahunAjaran = ModuleTahunAjaran::find()
+                                    ->select(['module_tahun_ajaran.id', 'module.nama'])
+                                    ->where('semester_id=:semester_id AND tahun_ajaran_id=:tahun_ajaran_id', [
+                                            ':semester_id' => $model->semester_id,
+                                            ':tahun_ajaran_id'   =>Yii::$app->is->tahunAjaran()->id])
+                                    ->joinWith('module')
+                                    ->orderBy('id DESC')
+                                    ->asArray()
+                                    ->all();
+        
+        if(!empty($moduleTahunAjaran)){
+            $data = ArrayHelper::map($moduleTahunAjaran, 'id', 'nama');
+        }
+        
+        
         return $this->render('create', [
             'model' => $model,
+            'data' =>  $data
         ]);
     }
 
@@ -106,6 +127,20 @@ class PeranhitungController extends Controller
         $model = $this->findModel($id);
         $model->bulan = date('Y-m', strtotime($model->tahun.'-'.$model->bulan));
         $model->volume_menit_pertemuan = $model->volume_menit_pertemuan/60;
+        
+        $moduleTahunAjaran = ModuleTahunAjaran::find()
+                                    ->select(['module_tahun_ajaran.id', 'module.nama'])
+                                    ->where('semester_id=:semester_id AND tahun_ajaran_id=:tahun_ajaran_id', [
+                                            ':semester_id' => $model->semester_id,
+                                            ':tahun_ajaran_id'   =>Yii::$app->is->tahunAjaran()->id])
+                                    ->joinWith('module')
+                                    ->orderBy('id DESC')
+                                    ->asArray()
+                                    ->all();
+        
+        if(!empty($moduleTahunAjaran)){
+            $data = ArrayHelper::map($moduleTahunAjaran, 'id', 'nama');
+        }
         
         if ($model->load(Yii::$app->request->post())) {
             
@@ -123,6 +158,7 @@ class PeranhitungController extends Controller
 //        print_r($model->bulan);die;
         return $this->render('update', [
             'model' => $model,
+            'data' =>  $data
         ]);
     }
 
@@ -154,5 +190,36 @@ class PeranhitungController extends Controller
         }
 
         throw new NotFoundHttpException('The requested page does not exist.');
+    }
+    
+    public function actionLihatmodulebysemester(){
+        
+        Yii::$app->response->format = Response::FORMAT_JSON;
+        $model = new PeranHitung();
+        $results = [];
+        
+        if(Yii::$app->request->isAjax){
+            
+            if ($model->load(Yii::$app->request->post())) {
+                
+                $moduleTahunAjaran = ModuleTahunAjaran::find()
+                                                    ->where('semester_id=:semester_id AND tahun_ajaran_id=:tahun_ajaran_id', [
+                                                            ':semester_id' => $model->semester_id,
+                                                            ':tahun_ajaran_id'   =>Yii::$app->is->tahunAjaran()->id])
+                                                    ->orderBy('id DESC')
+                                                    ->all();
+                
+                if (!empty($moduleTahunAjaran)) {
+                    foreach($moduleTahunAjaran as $data) {
+				$results[] = "<option value='".$data->id."'>".$data->nama."</option>";
+			}
+                } else {
+                    $results = "<option>-</option>";
+                }
+            }
+            
+            return $results;
+            
+        }
     }
 }
