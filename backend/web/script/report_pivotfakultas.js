@@ -26,11 +26,11 @@ var report = {
     formatDecimal: function(num){
         return this.addCommas(parseInt(num));																	
     },
-    exportPdf: function(start_date, end_date, nip){
+    exportPdf: function(start_date, end_date, fakultas_id){
         
         $("input[name='start_date']").val(start_date);
         $("input[name='end_date']").val(end_date);
-        $("input[name='nip']").val(nip);
+        $("input[name='dosen_fakultas_id']").val(fakultas_id);
         
         $("form#form-export-pdfpivotfakultas").submit();
     },
@@ -110,10 +110,10 @@ var dg = {
     },
     init: function(){
         
-        var start_date,	end_date, url_grid, url_combo_dosen, nip;	
+        var start_date,	end_date, url_grid, url_combo_fakultas, fakultas_id;	
         
         url_grid = _baseUrl+'/report/jsonreportpivotfakultas';
-        url_combo_dosen = _baseUrl+'/report/jsondosen';
+        url_combo_fakultas = _baseUrl+'/report/jsonfakultas';
         
         $('#filter-export').linkbutton('disable');
         
@@ -136,13 +136,13 @@ var dg = {
             }
         });
 
-        $('#dosen').combobox({
-            url: url_combo_dosen,
+        $('#fakultas').combobox({
+            url: url_combo_fakultas,
             mode: 'remote',
             method: 'get',
-            valueField:'nip',
-            textField:'nama_dosen',
-            label: 'Dosen :',
+            valueField:'dosen_fakultas_id',
+            textField:'nama_fakultas',
+            label: 'Fakultas :',
             readonly: true,
             labelPosition: 'left',
             editable:false
@@ -152,9 +152,9 @@ var dg = {
         $("#filter-report").on("click", function(){
             start_date = $('#start_date').datebox('getValue');
             end_date = $('#end_date').datebox('getValue');
-            nip = $('#dosen').combobox('getValue');
+            fakultas_id = $('#fakultas').combobox('getValue');
             
-            url_grid = _baseUrl+'/report/jsonreportpivotfakultas?start_date='+start_date+'&end_date='+end_date+'&nip='+nip;
+            url_grid = _baseUrl+'/report/jsonreportpivotfakultas?start_date='+start_date+'&end_date='+end_date+'&dosen_fakultas_id='+fakultas_id;
             
             dg.load(url_grid);
             
@@ -162,16 +162,16 @@ var dg = {
            
             $('#filter-export').linkbutton('enable');
             
-            // reload combobox dosen
-            $('#dosen').combobox({
+            // reload combobox fakultas
+            $('#fakultas').combobox({
                 onBeforeLoad: function(param){
                         param.start_date = start_date;
                         param.end_date = end_date;
-                        param.nip = nip;
+                        param.dosen_fakultas_id = fakultas_id;
                 },
                 onLoadSuccess: function(){
-                     $('#dosen').combobox('readonly', false);
-                     $('#dosen').combobox('setValue', nip);
+                     $('#fakultas').combobox('readonly', false);
+                     $('#fakultas').combobox('setValue', fakultas_id);
                 }
             });
         });
@@ -180,9 +180,9 @@ var dg = {
         $("#filter-export").on('click', function(){
             start_date = $('#start_date').datebox('getValue');
             end_date = $('#end_date').datebox('getValue');
-            nip = $('#dosen').combobox('getValue');
+            fakultas_id = $('#fakultas').combobox('getValue');
             
-            report.exportPdf(start_date, end_date, nip);
+            report.exportPdf(start_date, end_date, fakultas_id);
         });
     }
 };

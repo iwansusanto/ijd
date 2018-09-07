@@ -41,8 +41,11 @@ $session = Yii::$app->session;
                     <div class="col-md-2">
                         <input class="easyui-datebox" id="end_date" label="End Date:" labelPosition="left" style="width:100%;">
                     </div>
-                    <div class="col-md-4">
+<!--                    <div class="col-md-4">
                         <input id="dosen" name="dosen" style="width: 100%;">
+                    </div>-->
+                    <div class="col-md-4">
+                        <input id="fakultas" name="fakultas" style="width: 100%;">
                     </div>
                     <div class="col-md-2">
                         
@@ -53,7 +56,7 @@ $session = Yii::$app->session;
 
                             <?= Html::hiddenInput('start_date', '', []); ?>
                             <?= Html::hiddenInput('end_date', '', []); ?>
-                            <?= Html::hiddenInput('nip', '', []); ?>
+                            <?= Html::hiddenInput('dosen_fakultas_id', '', []); ?>
 
                             <a href="#" class="easyui-linkbutton" id="filter-report" data-options="iconCls:'icon-search'" style="width:80px">Filter</a>
                             <?= Html::submitButton('Export', [

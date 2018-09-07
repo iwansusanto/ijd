@@ -246,7 +246,7 @@ class ReportController extends Controller
             if(Yii::$app->request->isGet){
                 $start_date = Yii::$app->request->get('start_date');
                 $end_date = Yii::$app->request->get('end_date');
-                $nip = Yii::$app->request->get('nip');
+                $dosen_fakultas_id = Yii::$app->request->get('dosen_fakultas_id');
                 
                 if(!empty($start_date) && !empty($end_date)){
                     
@@ -273,8 +273,8 @@ class ReportController extends Controller
                                             [':start_date' => $start_date, ':end_date' => $end_date]);
                             
                     
-                            if(!empty($nip)){
-                                $query = $query->andWhere('ij.nip =:nip', [':nip' =>  $nip])
+                            if(!empty($dosen_fakultas_id)){
+                                $query = $query->andWhere('ij.dosen_fakultas_id =:dosen_fakultas_id', [':dosen_fakultas_id' =>  $dosen_fakultas_id])
                                         ->orderBy('ij.tgl_kegiatan ASC')
                                         ->createCommand();
                             } else {
@@ -467,6 +467,39 @@ class ReportController extends Controller
 
                             $results = $query->queryAll();
                             $results = array_merge([['nip'   =>  '','nama_dosen' =>  'Pilih Dosen']],$results);
+                };
+            }
+        }
+        
+        return $results;
+    }
+    
+    public function actionJsonfakultas(){
+        Yii::$app->response->format = Response::FORMAT_JSON;
+        
+        $results = [];
+        
+        if(Yii::$app->request->isAjax){
+            if(Yii::$app->request->isGet){
+                $start_date = Yii::$app->request->get('start_date');
+                $end_date = Yii::$app->request->get('end_date');
+                
+                if(!empty($start_date) && !empty($end_date)){
+                    
+                    $start_date = date('Y-m-d', strtotime($start_date));
+                    $end_date = date('Y-m-d', strtotime($end_date));
+                    
+                    $query = (new \yii\db\Query())
+                                ->select(['ij.dosen_fakultas_id', 'ij.nip', 'ij.nama_fakultas'])
+                                ->from('imbal_jasa ij')
+                                ->where('ij.tgl_kegiatan >=:start_date AND ij.tgl_kegiatan <=:end_date', 
+                                            [':start_date' => $start_date, ':end_date' => $end_date])
+                                ->orderBy('ij.dosen_fakultas_id ASC')
+                                ->groupBy('ij.dosen_fakultas_id')
+                                ->createCommand();
+
+                            $results = $query->queryAll();
+                            $results = array_merge([['dosen_fakultas_id'   =>  '','nama_fakultas' =>  'Pilih Fakultas']],$results);
                 };
             }
         }

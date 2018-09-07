@@ -20,6 +20,9 @@ use app\models\Noteijd;
 use app\models\Personijd;
 use kartik\mpdf\Pdf;
 use app\models\Dosen;
+use yii\filters\VerbFilter;
+use app\models\Fakultas;
+use app\models\DosenFakultas;
 
 /**
  * Description of ExportController
@@ -265,7 +268,7 @@ class ExportController extends Controller {
 //            $start_date = '09/01/2018';
             $end_date = $request->post('end_date');
 //            $end_date = '09/30/2018';
-            $nip = $request->post('nip');
+            $dosen_fakultas_id = $request->post('dosen_fakultas_id');
 //            $nip = '195302221982022001';
             
             if(!empty($start_date) && !empty($end_date)){
@@ -285,13 +288,17 @@ class ExportController extends Controller {
                             ->where('ij.tgl_kegiatan >=:start_date AND ij.tgl_kegiatan <=:end_date', 
                                             [':start_date' => $start_date, ':end_date' => $end_date]);
                 
-                if(!empty($nip)){
-                    $query = $query->andWhere('ij.nip =:nip', [':nip' =>  $nip]);
-                    $dosen = Dosen::find()
-                                ->where('nip=:nip',[
-                                    ':nip'  =>  $nip
+                if(!empty($dosen_fakultas_id)){
+                    $query = $query->andWhere('ij.dosen_fakultas_id =:dosen_fakultas_id', [':dosen_fakultas_id' =>  $dosen_fakultas_id]);
+                    $fakultas = (new \yii\db\Query())
+                                ->select(['df.id', 'df.dosen_id', 'df.fakultas_id', 'f.nama as fakultas'])
+                                ->from('dosen_fakultas df')
+                                ->leftJoin('fakultas f', 'df.fakultas_id = f.id')
+                                ->where('df.id=:dosen_fakultas_id',[
+                                    ':dosen_fakultas_id'  =>  $dosen_fakultas_id
                                 ])
-                                ->one();
+                                ->createCommand()
+                                ->queryOne();
                 };
             
                 $results = $query->orderBy('ij.tgl_kegiatan ASC')
@@ -308,7 +315,7 @@ class ExportController extends Controller {
                 endforeach;
             }
 //            print_r($start_date.'-'.$end_date.'-'.$nip);die;
-//            echo '<pre>';print_r($datas);die;
+//            echo '<pre>';print_r($fakultas);die;
             $contentHtml = $this->renderPartial('pdfpivotfakultas',[
                                             'datas'  =>  $datas
                 ]);
@@ -316,7 +323,7 @@ class ExportController extends Controller {
             $pdf->content = $contentHtml;
 
             $pdf->methods = [
-                'SetHeader'=>['<div class="header-ijd"><div class="blue_1">PIVOT FAKULTAS</div><div class="green-1">'.(!empty($nip) ? $dosen->nama : 'Semua Dosen').'</div></div>'], 
+                'SetHeader'=>['<div class="header-ijd"><div class="blue_1">PIVOT FAKULTAS</div><div class="green-1">'.(!empty($dosen_fakultas_id) ? $fakultas['fakultas'] : 'Semua Fakultas').'</div></div>'], 
                 'SetFooter'=>['|PAGE - {PAGENO}|'],
             ];
 
@@ -329,7 +336,7 @@ class ExportController extends Controller {
             $pdf->marginRight = 10;
             $pdf->marginTop = 20;
             $pdf->marginBottom = 15;
-            $pdf->filename = 'Pivot Fakultas '.(!empty($nip) ? $dosen->nama : 'Semua Dosen') . '_'.rand(1, 100).'.pdf';
+            $pdf->filename = 'Pivot Fakultas '.(!empty($dosen_fakultas_id) ? $fakultas->fakultas : 'Semua Fakultas') . '_'.rand(1, 100).'.pdf';
 
 
             return $pdf->render();
